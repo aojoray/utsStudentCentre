@@ -13,4 +13,13 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="please_choose_an_enquiry_type">Please Choose an Enquiry Type</string>
+    <string name="my_subject_enrolment">My Subject Enrolment</string>
+    <string name="my_study_plan">My Study Plan</string>
+    <string name="my_uts_documents">My UTS Documents</string>
+    <string name="general_enquiry">General Enquiry</string>
+    <string name="my_class_timetable">My Class Timetable</string>
+    <string name="exams_and_assessment">Exams and Assessment</string>
+    <string name="my_graduation">My Graduation</string>
+    <string name="it_support">IT Support</string>
 </resources>

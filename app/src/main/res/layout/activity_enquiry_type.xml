@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Please Choose an Enquiry Type"
+        android:text="@string/please_choose_an_enquiry_type"
         android:layout_gravity="center_horizontal"
         android:textAlignment="center"
         android:textSize="20sp"
@@ -19,54 +19,68 @@
         android:textColor="@color/input_login"
         android:layout_margin="10dp"/>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/enqBtn01"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="My Subject Enrolment" />
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/enqBtn02"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="My Study Plan"/>
-        <Button
-            android:id="@+id/enqBtn03"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="My UTS Documents" />
-        <Button
-            android:id="@+id/enqBtn04"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="General Enquiry" />
-        <Button
-            android:id="@+id/enqBtn05"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="My Class Timetable" />
-        <Button
-            android:id="@+id/enqBtn06"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Exams and Assessment"/>
-        <Button
-            android:id="@+id/enqBtn07"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="My Graduation"/>
-        <Button
-            android:id="@+id/enqBtn08"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="IT Support"/>
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_action_name"
-        android:layout_gravity="center_horizontal"/>
+            <Button
+                android:id="@+id/enqBtn01"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/my_subject_enrolment" />
+
+            <Button
+                android:id="@+id/enqBtn02"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/my_study_plan"/>
+            <Button
+                android:id="@+id/enqBtn03"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/my_uts_documents" />
+            <Button
+                android:id="@+id/enqBtn04"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/general_enquiry" />
+            <Button
+                android:id="@+id/enqBtn05"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/my_class_timetable" />
+            <Button
+                android:id="@+id/enqBtn06"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/exams_and_assessment"/>
+            <Button
+                android:id="@+id/enqBtn07"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/my_graduation"/>
+            <Button
+                android:id="@+id/enqBtn08"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/it_support"/>
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_action_name"
+                android:layout_gravity="center_horizontal"/>
+        </LinearLayout>
+
+
+    </ScrollView>
+
 
 
 
