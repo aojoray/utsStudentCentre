@@ -1,8 +1,5 @@
 package com.mad.utsstudcentre.Model;
 
-/**
- * Created by noche on 24/08/2017.
- */
 
 public class Booking {
 
@@ -20,6 +17,14 @@ public class Booking {
 
     public final String CENTRE01 = "Building 10";
     public final String CENTRE02 = "Building 05";
+    public final String ENQTYPE01 = "My Subject Enrolment";
+    public final String ENQTYPE02 = "My Study Plan";
+    public final String ENQTYPE03 = "My UTS Document";
+    public final String ENQTYPE04 = "General Enquiry";
+    public final String ENQTYPE05 = "My Class Timetable";
+    public final String ENQTYPE06 = "Exams and Assessment";
+    public final String ENQTYPE07 = "My graduation";
+    public final String ENQTYPE08 = "IT Support";
 
 
     public void setBookingID(long mBookingID) {
