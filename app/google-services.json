@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "785350384988",
+    "firebase_url": "https://uts-student-centre-app.firebaseio.com",
+    "project_id": "uts-student-centre-app",
+    "storage_bucket": "uts-student-centre-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:785350384988:android:f1245899ea96b363",
+        "android_client_info": {
+          "package_name": "com.mad.utsstudcentre"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "785350384988-5p47r0scvjh9t32gec0sr8h37r4ba4s5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mad.utsstudcentre",
+            "certificate_hash": "1c0c85258875d493fb14859909af7b5bb9191887"
+          }
+        },
+        {
+          "client_id": "785350384988-eh64e11cvceep55gse5d25djbng4d6am.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyUBOt9YwGIiWkVon0JNib4YN4_TSbMXk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "785350384988-eh64e11cvceep55gse5d25djbng4d6am.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
