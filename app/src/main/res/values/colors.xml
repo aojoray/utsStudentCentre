@@ -4,10 +4,17 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="colorUts">#02a9d2</color>
+    <color name="colorUtsSingle">#d6d6d6</color>
+    <color name="colorUtsLoginBox">#f7f7f7</color>
+    <color name="btn_UtsLogin">#029acc</color>
+
+
     <color name="bg_login">#26ae90</color>
     <color name="bg_register">#2e3237</color>
     <color name="bg_main">#428bca</color>
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
     <color name="input_login">#222222</color>
     <color name="input_login_hint">#999999</color>
     <color name="input_register">#888888</color>
@@ -17,6 +24,8 @@
     <color name="btn_login_bg">#eceef1</color>
     <color name="lbl_name">#333333</color>
     <color name="btn_logut_bg">#ff6861</color>
+    <color name="btn_new_booking">#428bca</color>
+    <color name="text_new_booking">#ffffff</color>
     <color name="btn_enq">#428bca</color>
     <color name="btn_enq_txt">#ffffff</color>
 </resources>
