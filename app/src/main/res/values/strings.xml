@@ -22,4 +22,6 @@
     <string name="exams_and_assessment">Exams and Assessment</string>
     <string name="my_graduation">My Graduation</string>
     <string name="it_support">IT Support</string>
+    <string name="welcome">Welcome,</string>
+    <string name="new_booking_btn">New Booking</string>
 </resources>
