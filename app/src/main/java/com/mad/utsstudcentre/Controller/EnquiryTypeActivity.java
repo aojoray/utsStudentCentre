@@ -1,16 +1,25 @@
 package com.mad.utsstudcentre.Controller;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.mad.utsstudcentre.R;
 
+import static android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_CLOSE;
+import static android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE;
+
 public class EnquiryTypeActivity extends AppCompatActivity {
 
+    private static final String SUB_ENQUIRY_FRAGMENT = "Sub-enquiry fragment";
+    private static final String TAG = "EnquiryTypeActivity_TAG";
     private Button mEnqBtn01;
     private Button mEnqBtn02;
     private Button mEnqBtn03;
@@ -20,6 +29,7 @@ public class EnquiryTypeActivity extends AppCompatActivity {
     private Button mEnqBtn07;
     private Button mEnqBtn08;
     private ImageButton mHelpBtn;
+    private FrameLayout mFrame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +46,8 @@ public class EnquiryTypeActivity extends AppCompatActivity {
         mEnqBtn07 = (Button) findViewById(R.id.enqBtn07);
         mEnqBtn08 = (Button) findViewById(R.id.enqBtn08);
         mHelpBtn = (ImageButton) findViewById(R.id.enqHelpBtn);
+        // Connect Fragment container
+        mFrame = (FrameLayout) findViewById(R.id.container);
 
         //Set OnclickListeners for buttons
         // My subject enrolment btn
@@ -43,6 +55,14 @@ public class EnquiryTypeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "My subject enrolment", Toast.LENGTH_SHORT).show();
+                // let FrameLayout for Fragment visible
+                mFrame.setVisibility(View.VISIBLE);
+                // instantiate the fragment and commit to open
+                SubEnqFragment subEnqFragment = new SubEnqFragment();
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
+                        .replace(R.id.container, subEnqFragment, SUB_ENQUIRY_FRAGMENT).commit();
+
             }
         });
 
@@ -119,5 +139,19 @@ public class EnquiryTypeActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    /**
+     * Overridden OnBackPressed
+     * changes the visibility of FrameLayout for Fragments
+     */
+    @Override
+    public void onBackPressed() {
+
+        Log.d(TAG, "COUNT: "+getSupportFragmentManager().getBackStackEntryCount());
+        if(getSupportFragmentManager().getBackStackEntryCount() == 1){
+            mFrame.setVisibility(View.GONE);
+        }
+        super.onBackPressed();
     }
 }

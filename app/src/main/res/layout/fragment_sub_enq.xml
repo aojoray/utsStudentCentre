@@ -1,19 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="20dp"
     android:orientation="vertical"
-    tools:context="com.mad.utsstudcentre.Controller.EnquiryTypeActivity">
-
-    <FrameLayout
-        android:id="@+id/container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
-    </FrameLayout>
+    tools:context="com.mad.utsstudcentre.Controller.SubEnqFragment">
 
     <TextView
         android:layout_width="match_parent"
@@ -36,79 +26,79 @@
             android:orientation="vertical">
 
             <Button
-                android:id="@+id/enqBtn01"
+                android:id="@+id/sub_enqBtn01"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@color/btn_enq"
-                android:text="@string/my_subject_enrolment"
+                android:text="@string/enrolment_assistance"
                 android:textColor="@color/btn_enq_txt" />
 
             <Button
-                android:id="@+id/enqBtn02"
+                android:id="@+id/sub_enqBtn02"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@color/btn_enq"
-                android:text="@string/my_study_plan"
+                android:text="@string/full_subject"
                 android:textColor="@color/btn_enq_txt" />
 
             <Button
-                android:id="@+id/enqBtn03"
+                android:id="@+id/sub_enqBtn03"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@color/btn_enq"
-                android:text="@string/my_uts_documents"
+                android:text="@string/pre_requisite"
                 android:textColor="@color/btn_enq_txt" />
 
             <Button
-                android:id="@+id/enqBtn04"
+                android:id="@+id/sub_enqBtn04"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@color/btn_enq"
-                android:text="@string/general_enquiry"
+                android:visibility="gone"
                 android:textColor="@color/btn_enq_txt" />
 
             <Button
-                android:id="@+id/enqBtn05"
+                android:id="@+id/sub_enqBtn05"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@color/btn_enq"
-                android:text="@string/my_class_timetable"
+                android:visibility="gone"
                 android:textColor="@color/btn_enq_txt" />
 
             <Button
-                android:id="@+id/enqBtn06"
+                android:id="@+id/sub_enqBtn06"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@color/btn_enq"
-                android:text="@string/exams_and_assessment"
+                android:visibility="gone"
                 android:textColor="@color/btn_enq_txt" />
 
             <Button
-                android:id="@+id/enqBtn07"
+                android:id="@+id/sub_enqBtn07"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@color/btn_enq"
-                android:text="@string/my_graduation"
+                android:visibility="gone"
                 android:textColor="@color/btn_enq_txt" />
 
             <Button
-                android:id="@+id/enqBtn08"
+                android:id="@+id/sub_enqBtn08"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@color/btn_enq"
-                android:text="@string/it_support"
+                android:visibility="gone"
                 android:textColor="@color/btn_enq_txt" />
 
             <ImageButton
-                android:id="@+id/enqHelpBtn"
+                android:id="@+id/sub_enqHelpBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
@@ -119,6 +109,5 @@
 
 
     </ScrollView>
-
 
 </LinearLayout>

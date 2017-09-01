@@ -24,4 +24,10 @@
     <string name="it_support">IT Support</string>
     <string name="welcome">Welcome,</string>
     <string name="new_booking_btn">New Booking</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="pre_requisite">Pre-Requisite</string>
+    <string name="full_subject">Full Subject</string>
+    <string name="enrolment_assistance">Enrolment Assistance</string>
 </resources>
