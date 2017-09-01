@@ -1,9 +1,8 @@
 package com.mad.utsstudcentre.Controller;
 
-import android.support.v4.app.Fragment;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,13 +12,14 @@ import android.widget.Toast;
 
 import com.mad.utsstudcentre.R;
 
-import static android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_CLOSE;
 import static android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE;
 
 public class EnquiryTypeActivity extends AppCompatActivity {
 
     private static final String SUB_ENQUIRY_FRAGMENT = "Sub-enquiry fragment";
     private static final String TAG = "EnquiryTypeActivity_TAG";
+    public static final String HELP_ENQUIRY_FRAGMENT = "help enquiry fragment";
+    public static final String CODE_ENQ_TYPE = "EnquiryTypeActivity";
     private Button mEnqBtn01;
     private Button mEnqBtn02;
     private Button mEnqBtn03;
@@ -58,7 +58,7 @@ public class EnquiryTypeActivity extends AppCompatActivity {
                 // let FrameLayout for Fragment visible
                 mFrame.setVisibility(View.VISIBLE);
                 // instantiate the fragment and commit to open
-                SubEnqFragment subEnqFragment = new SubEnqFragment();
+                SubEnqFragment subEnqFragment = SubEnqFragment.newInstance(1);
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
                         .replace(R.id.container, subEnqFragment, SUB_ENQUIRY_FRAGMENT).commit();
@@ -134,6 +134,14 @@ public class EnquiryTypeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), "Help", Toast.LENGTH_SHORT).show();
+                // let FrameLayout for Fragment visible
+                mFrame.setVisibility(View.VISIBLE);
+                // instantiate the fragment and commit to open
+                HelpEnqFragment helpEnqFragment = HelpEnqFragment.newInstance(CODE_ENQ_TYPE);
+
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
+                        .replace(R.id.container, helpEnqFragment, HELP_ENQUIRY_FRAGMENT).commit();
 
             }
         });
