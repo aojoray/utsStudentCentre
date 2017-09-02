@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.mad.utsstudcentre.R;
 
@@ -29,6 +30,7 @@ public class SubEnqFragment extends Fragment {
     private ImageButton mHelpBtn;
     private LinearLayout mSubEnqBtnLayout;
     private String[] mItems;
+    private int mType;
 
 
     public SubEnqFragment() {
@@ -72,14 +74,14 @@ public class SubEnqFragment extends Fragment {
 
         // Populate Buttons dynamically
         mSubEnqBtnLayout= (LinearLayout) v.findViewById(R.id.sub_enq_btn_layout);
-        int type = getArguments().getInt(TYPE);
+        mType = getArguments().getInt(TYPE);
 
-        switch(type){
+        switch(mType){
             case TYPE_SUbJ_ENROL:
                 mItems = getResources().getStringArray(R.array.sub_enrol_title_01);
                 for(String item : mItems){
                     // Dynamically generated views
-                    Button subEnqBtn = (Button) inflater.inflate(R.layout.attribute_enq_btn, null);
+                    final Button subEnqBtn = (Button) inflater.inflate(R.layout.attribute_enq_btn, null);
 
                     // set Text and Style
                     subEnqBtn.setText(item);
@@ -89,6 +91,14 @@ public class SubEnqFragment extends Fragment {
                     );
                     params.setMargins(20, 20, 20, 20);
                     subEnqBtn.setLayoutParams(params);
+
+                    //setOnclickListener
+                    subEnqBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            onOptionClick(v, subEnqBtn.getText());
+                        }
+                    });
 
                     // Add views to the layout
                     mSubEnqBtnLayout.addView(subEnqBtn);
@@ -114,4 +124,9 @@ public class SubEnqFragment extends Fragment {
 
         return v;
     }
+
+    private void onOptionClick(View v, CharSequence text) {
+        Toast.makeText(getContext(), "selected: " + text, Toast.LENGTH_SHORT).show();
+    }
+
 }
