@@ -76,7 +76,7 @@ public class SubEnqFragment extends Fragment {
 
         switch(type){
             case TYPE_SUbJ_ENROL:
-                mItems = getResources().getStringArray(R.array.sub_q_title_01);
+                mItems = getResources().getStringArray(R.array.sub_enrol_title_01);
                 for(String item : mItems){
                     // Dynamically generated views
                     Button subEnqBtn = (Button) inflater.inflate(R.layout.attribute_enq_btn, null);

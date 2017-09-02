@@ -35,13 +35,13 @@
         dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
         sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
 
-    <string-array name="sub_q_title_01">
+    <string-array name="sub_enrol_title_01">
         <item>Enrolment Assistance</item>
         <item>Full Subject</item>
         <item>Pre-Requisite</item>
     </string-array>
 
-    <string-array name="sub_q_text_01">
+    <string-array name="sub_enrol_text_01">
         <item>Enrolment Assistance - eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis</item>
         <item>Full Subject - nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure</item>
         <item>Pre-Requisite - sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</item>

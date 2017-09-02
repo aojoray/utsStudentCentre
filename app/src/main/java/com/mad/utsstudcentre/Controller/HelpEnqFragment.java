@@ -89,8 +89,8 @@ public class HelpEnqFragment extends Fragment {
                 int type = getArguments().getInt(TYPE);
                 switch(type){
                     case 1:
-                        String[] items = getResources().getStringArray(R.array.sub_q_title_01);
-                        String[] contents = getResources().getStringArray(R.array.sub_q_text_01);
+                        String[] items = getResources().getStringArray(R.array.sub_enrol_title_01);
+                        String[] contents = getResources().getStringArray(R.array.sub_enrol_text_01);
                         for(int i = 0; i < items.length ; i++){
                             // Dynamically generated views
                             TextView titleTv = new TextView(getActivity());
