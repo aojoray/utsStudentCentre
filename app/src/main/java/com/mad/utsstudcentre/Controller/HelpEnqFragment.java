@@ -1,7 +1,6 @@
 package com.mad.utsstudcentre.Controller;
 
 
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -27,6 +26,7 @@ public class HelpEnqFragment extends Fragment {
     private TextView mHelpTitleTv01;
     private TextView mHelpTv01;
     private LinearLayout mHelpLayout;
+    private LinearLayout mHelpContentLayout;
 
     public HelpEnqFragment() {
         // Required empty public constructor
@@ -73,34 +73,36 @@ public class HelpEnqFragment extends Fragment {
         }
 
         mHelpLayout = (LinearLayout) v.findViewById(R.id.help_layout);
+        mHelpContentLayout = (LinearLayout) v.findViewById(R.id.enq_help_content_layout);
         mHelpTitleTv01= (TextView) v.findViewById(R.id.enq_help_title_1);
         mHelpTv01 = (TextView) v.findViewById(R.id.enq_help_tv_1);
 
         // check the caller then dynamically generate view accordingly
         String code = getArguments().getString(CODE);
         switch(code){
-            case CODE_ENQ_TYPE:
-                mHelpTitleTv01.setVisibility(View.VISIBLE);
-                mHelpTv01.setVisibility(View.VISIBLE);
+            case CODE_ENQ_TYPE:  //call from EnquiryActivity
+                mHelpContentLayout.setVisibility(View.VISIBLE);
                 mHelpTitleTv01.setText(getString(R.string.general_enquiry));
                 mHelpTv01.setText(getString(R.string.help_general));
                 break;
-            case CODE_SUB_ENQ:
+            case CODE_SUB_ENQ:   //call from SubEnquiryFragment
                 int type = getArguments().getInt(TYPE);
                 switch(type){
                     case 1:
                         String[] items = getResources().getStringArray(R.array.sub_q_title_01);
                         String[] contents = getResources().getStringArray(R.array.sub_q_text_01);
                         for(int i = 0; i < items.length ; i++){
-                            // Dynamically adding views
+                            // Dynamically generated views
                             TextView titleTv = new TextView(getActivity());
                             TextView contentTv = new TextView(getActivity());
 
+                            // set Text and Style
                             titleTv.setText(items[i]);
-                            titleTv.setTextSize(20);
-                            titleTv.setTypeface(Typeface.DEFAULT_BOLD);
+                            titleTv.setTextAppearance(getContext(), R.style.Help_title);
                             contentTv.setText(contents[i]);
+                            contentTv.setTextAppearance(getContext(), R.style.Help_content);
 
+                            // Add views to the layout
                             mHelpLayout.addView(titleTv);
                             mHelpLayout.addView(contentTv);
                         }

@@ -30,6 +30,14 @@ public class EnquiryTypeActivity extends AppCompatActivity {
     private Button mEnqBtn08;
     private ImageButton mHelpBtn;
     private FrameLayout mFrame;
+    public static final int TYPE_SUbJ_ENROL = 1;
+    public static final int TYPE_STUDY_PLAN = 2;
+    public static final int TYPE_UTS_DOC = 3;
+    public static final int TYPE_GENERAL = 4;
+    public static final int TYPE_TIMETABLE = 5;
+    public static final int TYPE_ASSESSMENT = 6;
+    public static final int TYPE_GRADUATION = 7;
+    public static final int TYPE_IT_SUPPORT = 8;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +66,7 @@ public class EnquiryTypeActivity extends AppCompatActivity {
                 // let FrameLayout for Fragment visible
                 mFrame.setVisibility(View.VISIBLE);
                 // instantiate the fragment and commit to open
-                SubEnqFragment subEnqFragment = SubEnqFragment.newInstance(1);
+                SubEnqFragment subEnqFragment = SubEnqFragment.newInstance(TYPE_SUbJ_ENROL);
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
                         .replace(R.id.container, subEnqFragment, SUB_ENQUIRY_FRAGMENT).commit();

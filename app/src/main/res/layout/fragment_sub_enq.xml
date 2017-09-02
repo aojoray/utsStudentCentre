@@ -21,93 +21,94 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
+            android:id="@+id/sub_enq_btn_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingBottom="10dp"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/sub_enqBtn01"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/btn_enq"
-                android:text="@string/enrolment_assistance"
-                android:textColor="@color/btn_enq_txt" />
+            <!--<Button-->
+            <!--android:id="@+id/sub_enqBtn01"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:background="@color/btn_enq"-->
+            <!--android:text="@string/enrolment_assistance"-->
+            <!--android:textColor="@color/btn_enq_txt" />-->
 
-            <Button
-                android:id="@+id/sub_enqBtn02"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/btn_enq"
-                android:text="@string/full_subject"
-                android:textColor="@color/btn_enq_txt" />
+            <!--<Button-->
+            <!--android:id="@+id/sub_enqBtn02"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:background="@color/btn_enq"-->
+            <!--android:text="@string/full_subject"-->
+            <!--android:textColor="@color/btn_enq_txt" />-->
 
-            <Button
-                android:id="@+id/sub_enqBtn03"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/btn_enq"
-                android:text="@string/pre_requisite"
-                android:textColor="@color/btn_enq_txt" />
+            <!--<Button-->
+            <!--android:id="@+id/sub_enqBtn03"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:background="@color/btn_enq"-->
+            <!--android:text="@string/pre_requisite"-->
+            <!--android:textColor="@color/btn_enq_txt" />-->
 
-            <Button
-                android:id="@+id/sub_enqBtn04"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/btn_enq"
-                android:visibility="gone"
-                android:textColor="@color/btn_enq_txt" />
+            <!--<Button-->
+            <!--android:id="@+id/sub_enqBtn04"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:background="@color/btn_enq"-->
+            <!--android:visibility="gone"-->
+            <!--android:textColor="@color/btn_enq_txt" />-->
 
-            <Button
-                android:id="@+id/sub_enqBtn05"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/btn_enq"
-                android:visibility="gone"
-                android:textColor="@color/btn_enq_txt" />
+            <!--<Button-->
+            <!--android:id="@+id/sub_enqBtn05"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:background="@color/btn_enq"-->
+            <!--android:visibility="gone"-->
+            <!--android:textColor="@color/btn_enq_txt" />-->
 
-            <Button
-                android:id="@+id/sub_enqBtn06"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/btn_enq"
-                android:visibility="gone"
-                android:textColor="@color/btn_enq_txt" />
+            <!--<Button-->
+            <!--android:id="@+id/sub_enqBtn06"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:background="@color/btn_enq"-->
+            <!--android:visibility="gone"-->
+            <!--android:textColor="@color/btn_enq_txt" />-->
 
-            <Button
-                android:id="@+id/sub_enqBtn07"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/btn_enq"
-                android:visibility="gone"
-                android:textColor="@color/btn_enq_txt" />
+            <!--<Button-->
+            <!--android:id="@+id/sub_enqBtn07"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:background="@color/btn_enq"-->
+            <!--android:visibility="gone"-->
+            <!--android:textColor="@color/btn_enq_txt" />-->
 
-            <Button
-                android:id="@+id/sub_enqBtn08"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:background="@color/btn_enq"
-                android:visibility="gone"
-                android:textColor="@color/btn_enq_txt" />
+            <!--<Button-->
+            <!--android:id="@+id/sub_enqBtn08"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_margin="10dp"-->
+            <!--android:background="@color/btn_enq"-->
+            <!--android:visibility="gone"-->
+            <!--android:textColor="@color/btn_enq_txt" />-->
 
-            <ImageButton
-                android:id="@+id/sub_enqHelpBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="10dp"
-                android:background="@android:color/transparent"
-                android:src="@drawable/ic_action_name" />
         </LinearLayout>
-
 
     </ScrollView>
 
+    <ImageButton
+        android:id="@+id/sub_enqHelpBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:background="@android:color/transparent"
+        android:src="@drawable/ic_action_name" />
 </LinearLayout>
