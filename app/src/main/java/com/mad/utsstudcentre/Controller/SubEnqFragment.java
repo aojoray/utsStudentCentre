@@ -21,7 +21,8 @@ import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.*;
 import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.HELP_ENQUIRY_FRAGMENT;
 
 /**
- * A simple {@link Fragment} subclass.
+ * SubEnqFragment is loaded when the parent enquiry has subtypes.
+ * This class will generate options dynamically.
  */
 public class SubEnqFragment extends Fragment {
 
@@ -38,6 +39,12 @@ public class SubEnqFragment extends Fragment {
     }
 
 
+    /**
+     * New instance of fragment.
+     * Type of the parent enquiry will be passed as an argument used for building UI
+     * @param type
+     * @return
+     */
     public static SubEnqFragment newInstance(int type) {
         Bundle args = new Bundle();
         args.putInt(TYPE, type);
@@ -47,6 +54,13 @@ public class SubEnqFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Creating / Binding to the UI elements
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,6 +88,7 @@ public class SubEnqFragment extends Fragment {
 
         // Populate Buttons dynamically
         mSubEnqBtnLayout= (LinearLayout) v.findViewById(R.id.sub_enq_btn_layout);
+        // type of Parent Enquiry
         mType = getArguments().getInt(TYPE);
 
         switch(mType){
@@ -125,6 +140,11 @@ public class SubEnqFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Handles the onclick event of each sub-enquiries.
+     * @param v
+     * @param text
+     */
     private void onOptionClick(View v, CharSequence text) {
         Toast.makeText(getContext(), "selected: " + text, Toast.LENGTH_SHORT).show();
     }

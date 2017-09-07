@@ -17,7 +17,9 @@ import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.CODE_ENQ_TYPE
 import static com.mad.utsstudcentre.Controller.SubEnqFragment.CODE_SUB_ENQ;
 
 /**
- * A simple {@link Fragment} subclass.
+ * HelpEnqFragment is providing Help page to the user.
+ * This can be called by both EnquiryTypeActivity and SubEnqFragment
+ * Depending on the caller's code, this will generate the view dynamically
  */
 public class HelpEnqFragment extends Fragment {
 
@@ -63,6 +65,13 @@ public class HelpEnqFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Creating / binding to the view dynamically depending on the caller.
+     * @param inflater
+     * @param container
+     * @param savedInstanceState
+     * @return
+     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

@@ -14,6 +14,12 @@ import com.mad.utsstudcentre.R;
 
 import static android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE;
 
+/**
+ * EnquiryTypeActivity is the activity launched first when user make a new booking.
+ * User can select the enquiry type or get some help about the possible options
+ * Some Enquiries have subenquiry types.
+ * In that case, SunEnqFragment will be loaded.
+ */
 public class EnquiryTypeActivity extends AppCompatActivity {
 
     private static final String SUB_ENQUIRY_FRAGMENT = "Sub-enquiry fragment";
