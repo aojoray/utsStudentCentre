@@ -38,7 +38,26 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initialise();
 
+//        mUserName = getIntent().getStringExtra(USERNAME);
+//        mUserNameTv = (TextView) findViewById(R.id.userNameTv);
+//        mUserNameTv.setText(" " + mUserName);
+//
+//
+//        Button newBookingBtn = (Button) findViewById(R.id.new_booking_btn);
+//        newBookingBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                startActivity(new Intent(v.getContext(), EnquiryTypeActivity.class));
+//                Intent intent = new Intent(MainActivity.this, EnquiryTypeActivity.class);
+//                startActivityForResult(intent, BOOKING_REQUEST);
+//            }
+//        });
+
+    }
+
+    private void initialise() {
         mUserName = getIntent().getStringExtra(USERNAME);
         mUserNameTv = (TextView) findViewById(R.id.userNameTv);
         mUserNameTv.setText(" " + mUserName);
@@ -89,5 +108,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         mLayout = (LinearLayout) findViewById(R.id.main_layout);
         Snackbar.make(mLayout, R.string.booking_cancel_msg, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
+        initialise();
     }
 }
