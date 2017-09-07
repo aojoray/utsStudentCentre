@@ -17,12 +17,18 @@ import android.view.ViewGroup;
 import com.mad.utsstudcentre.R;
 
 /**
- * A simple {@link Fragment} subclass.
+ * ConfirmDialogue shows user the booking details and let user to check the detail again and confirm booking
  */
 public class ConfirmDialogue extends DialogFragment {
 
     private ConfDialogListener mHost;
 
+    /**
+     * Building the dialogue
+     * Connect view and set the title / buttons
+     * @param savedInstanceState
+     * @return
+     */
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -51,13 +57,20 @@ public class ConfirmDialogue extends DialogFragment {
         return builder.create();
     }
 
+    /**
+     * Binds listener
+     * @param context
+     */
     @Override
     public void onAttach(Context context) {
         mHost= (ConfDialogListener) context;
         super.onAttach(context);
     }
 
+    /**
+     * Interface for Listener
+     */
     public interface ConfDialogListener {
-        public void onOkayClick(android.support.v4.app.DialogFragment dlg);
+        void onOkayClick(android.support.v4.app.DialogFragment dlg);
     }
 }
