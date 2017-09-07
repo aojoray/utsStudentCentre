@@ -2,12 +2,15 @@ package com.mad.utsstudcentre.Controller;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.mad.utsstudcentre.Dialogue.ConfirmDialogue;
 import com.mad.utsstudcentre.R;
 
 import org.w3c.dom.Text;
@@ -20,7 +23,7 @@ import static com.mad.utsstudcentre.Controller.LoginActivity.USERNAME;
  * User can either make a new booking or view their existing booking details
  *
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     private static final String TAG = "MainActivity_TAG";
     private static final int BOOKING_REQUEST = 1001;
@@ -56,4 +59,5 @@ public class MainActivity extends AppCompatActivity {
             Log.d(TAG, "RESULT OKAY! ");
         }
     }
+
 }

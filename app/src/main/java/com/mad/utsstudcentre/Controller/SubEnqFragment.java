@@ -28,10 +28,23 @@ public class SubEnqFragment extends Fragment {
 
     public static final String CODE_SUB_ENQ = "SubEnqFragment";
     private static final String TYPE = "Enq_Type";
+    private static final String CENTRE_FRAGMENT = "Centre fragment";
+    private static final String SUB_TYPE = "sub-type code";
     private ImageButton mHelpBtn;
     private LinearLayout mSubEnqBtnLayout;
     private String[] mItems;
     private int mType;
+    public static final int SUB_SUbJ_ENR_ASSISTANCE = 1001;
+    public static final int SUB_SUbJ_FULL_SUBJ = 1002;
+    public static final int SUB_SUbJ_PRE_REQS = 1003;
+//    public static final int TYPE_STUDY_PLAN = 2;
+//    public static final int TYPE_UTS_DOC = 3;
+//    public static final int TYPE_GENERAL = 4;
+//    public static final int TYPE_TIMETABLE = 5;
+//    public static final int TYPE_ASSESSMENT = 6;
+//    public static final int TYPE_GRADUATION = 7;
+//    public static final int TYPE_IT_SUPPORT = 8;
+
 
 
     public SubEnqFragment() {
@@ -147,6 +160,11 @@ public class SubEnqFragment extends Fragment {
      */
     private void onOptionClick(View v, CharSequence text) {
         Toast.makeText(getContext(), "selected: " + text, Toast.LENGTH_SHORT).show();
+        // instantiate the fragment and commit to open
+        CentreFragment subEnqFragment = CentreFragment.newInstance(text);
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
+                .replace(R.id.container, subEnqFragment, CENTRE_FRAGMENT).commit();
     }
 
 }

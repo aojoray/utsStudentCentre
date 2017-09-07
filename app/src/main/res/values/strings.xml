@@ -47,4 +47,12 @@
         <item>Pre-Requisite - sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</item>
     </string-array>
 
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="centre_greeting">Please Choose a Centre</string>
+    <string name="centre_1_name">Building 5</string>
+    <string name="centre_2_name">Building 10</string>
+    <string name="waiting">Waiting</string>
+    <string name="est_time">Est.Time</string>
+
 </resources>

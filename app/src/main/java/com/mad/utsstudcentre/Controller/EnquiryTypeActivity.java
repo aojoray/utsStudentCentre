@@ -1,6 +1,7 @@
 package com.mad.utsstudcentre.Controller;
 
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.mad.utsstudcentre.Dialogue.ConfirmDialogue;
 import com.mad.utsstudcentre.R;
 
 import static android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE;
@@ -20,7 +22,7 @@ import static android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE;
  * Some Enquiries have subenquiry types.
  * In that case, SunEnqFragment will be loaded.
  */
-public class EnquiryTypeActivity extends AppCompatActivity {
+public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDialogue.ConfDialogListener {
 
     private static final String SUB_ENQUIRY_FRAGMENT = "Sub-enquiry fragment";
     private static final String TAG = "EnquiryTypeActivity_TAG";
@@ -175,5 +177,12 @@ public class EnquiryTypeActivity extends AppCompatActivity {
             mFrame.setVisibility(View.GONE);
         }
         super.onBackPressed();
+    }
+
+
+    @Override
+    public void onOkayClick(DialogFragment dlg) {
+        Toast.makeText(getApplicationContext(), "Okay clicked!", Toast.LENGTH_SHORT).show();
+
     }
 }

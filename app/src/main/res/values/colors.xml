@@ -28,4 +28,6 @@
     <color name="text_new_booking">#ffffff</color>
     <color name="btn_enq">#428bca</color>
     <color name="btn_enq_txt">#ffffff</color>
+    <color name="btn_centre_bg">#8f7ea9cf</color>
+    <color name="btn_centre_txt">#000</color>
 </resources>
