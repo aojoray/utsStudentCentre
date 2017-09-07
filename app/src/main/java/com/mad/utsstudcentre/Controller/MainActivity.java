@@ -16,9 +16,10 @@ import static com.mad.utsstudcentre.Controller.LoginActivity.DATABDL;
 import static com.mad.utsstudcentre.Controller.LoginActivity.USERNAME;
 
 /**
- * Created by HP on 24/08/2017.
+ * MainActivity is a launching activity after the login.
+ * User can either make a new booking or view their existing booking details
+ *
  */
-
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity_TAG";
