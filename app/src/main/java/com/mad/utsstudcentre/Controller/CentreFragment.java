@@ -1,6 +1,7 @@
 package com.mad.utsstudcentre.Controller;
 
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -23,6 +24,8 @@ public class CentreFragment extends Fragment {
 
 
     private static final String FINAL_TYPE = "Final Type";
+    public static final int CENTRE_01 = 10;
+    public static final int CENTRE_02 = 20;
     private String mFinalType;
 
     // UI elements
@@ -66,7 +69,7 @@ public class CentreFragment extends Fragment {
         mWait_01Tv = (TextView) v.findViewById(R.id.waiting_bd5_tv);
         mWait_02Tv = (TextView) v.findViewById(R.id.waiting_bd10_tv);
 
-        //TODO: setText method required
+        //TODO: setText method required --> need a method to generate number for either est.time or wait
         mFinalTypeTv.setText(mFinalType);
 
         mCentre01Layout = (LinearLayout) v.findViewById(R.id.centre_01_layout);
@@ -78,6 +81,8 @@ public class CentreFragment extends Fragment {
             public void onClick(View v) {
                 ConfirmDialogue cfmDialogue = new ConfirmDialogue();
                 cfmDialogue.show(getFragmentManager(), "ConfirmDialogue");
+
+                //TODO: need to call a method / Asynctask etc. to generate the ref. number (need to pass Enq. type)
             }
         });
 
@@ -89,5 +94,39 @@ public class CentreFragment extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void onStart() {
+        CentreInfoGenerator async = new CentreInfoGenerator(mFinalType);
+        super.onStart();
+    }
+
+    /**
+     * generate random number for Ref. number and Waiting list of each Student Centre
+     */
+    private class CentreInfoGenerator extends AsyncTask<String, String, String> {
+
+        private String mType;
+
+
+        public CentreInfoGenerator(String type){
+            mType = type;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+        }
     }
 }

@@ -55,5 +55,8 @@
     <string name="waiting">Waiting</string>
     <string name="est_time">Est.Time</string>
     <string name="booking_cancel_msg">Your booking has been canceled</string>
+    <string name="cancel_dialog_title">Do you want to cancel?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 </resources>

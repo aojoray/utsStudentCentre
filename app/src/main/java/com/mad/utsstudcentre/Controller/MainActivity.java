@@ -102,6 +102,11 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         }
     }
 
+    /**
+     * Handles booking cancellation
+     * Initialise the view
+     * @param dlg
+     */
     @Override
     public void onCancelConfirmClick(DialogFragment dlg) {
         setContentView(R.layout.activity_main);
