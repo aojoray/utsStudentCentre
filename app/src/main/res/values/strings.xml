@@ -54,5 +54,6 @@
     <string name="centre_2_name">Building 10</string>
     <string name="waiting">Waiting</string>
     <string name="est_time">Est.Time</string>
+    <string name="booking_cancel_msg">Your booking has been canceled</string>
 
 </resources>

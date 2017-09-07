@@ -183,8 +183,6 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
 
     @Override
     public void onOkayClick(DialogFragment dlg) {
-        Toast.makeText(getApplicationContext(), "Okay clicked!", Toast.LENGTH_SHORT).show();
-
         // set Result OK and call back MainActivity
         Intent intent = new Intent();
         setResult(RESULT_OK, intent);

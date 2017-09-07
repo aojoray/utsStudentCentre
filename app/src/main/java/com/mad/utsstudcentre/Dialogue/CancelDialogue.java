@@ -40,7 +40,7 @@ public class CancelDialogue extends DialogFragment {
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mHost.onCancelClick(CancelDialogue.this);
+                        mHost.onCancelConfirmClick(CancelDialogue.this);
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -68,6 +68,6 @@ public class CancelDialogue extends DialogFragment {
      * Interface for Listener
      */
     public interface CancelDialogueListener {
-        void onCancelClick(DialogFragment dlg);
+        void onCancelConfirmClick(DialogFragment dlg);
     }
 }
