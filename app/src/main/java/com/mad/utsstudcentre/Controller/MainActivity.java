@@ -52,11 +52,20 @@ public class MainActivity extends AppCompatActivity  {
 
     }
 
+    /**
+     * Handles Booking result
+     * Once User confirms the booking, this method will be called.
+     * @param requestCode
+     * @param resultCode
+     * @param data
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode==RESULT_OK){
             Log.d(TAG, "RESULT OKAY! ");
+            setContentView(R.layout.activity_main_booked);
+
         }
     }
 

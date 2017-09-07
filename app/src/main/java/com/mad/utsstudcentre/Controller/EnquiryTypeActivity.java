@@ -1,5 +1,6 @@
 package com.mad.utsstudcentre.Controller;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -183,6 +184,11 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
     @Override
     public void onOkayClick(DialogFragment dlg) {
         Toast.makeText(getApplicationContext(), "Okay clicked!", Toast.LENGTH_SHORT).show();
+
+        // set Result OK and call back MainActivity
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        finish();
 
     }
 }
