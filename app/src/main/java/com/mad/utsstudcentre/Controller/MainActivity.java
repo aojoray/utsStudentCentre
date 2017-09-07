@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.mad.utsstudcentre.Dialogue.CancelDialogue;
 import com.mad.utsstudcentre.Dialogue.ConfirmDialogue;
 import com.mad.utsstudcentre.R;
 
@@ -23,12 +24,13 @@ import static com.mad.utsstudcentre.Controller.LoginActivity.USERNAME;
  * User can either make a new booking or view their existing booking details
  *
  */
-public class MainActivity extends AppCompatActivity  {
+public class MainActivity extends AppCompatActivity implements CancelDialogue.CancelDialogueListener {
 
     private static final String TAG = "MainActivity_TAG";
     private static final int BOOKING_REQUEST = 1001;
     private String mUserName;
     private TextView mUserNameTv;
+    private Button mCancelBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +67,21 @@ public class MainActivity extends AppCompatActivity  {
         if(resultCode==RESULT_OK){
             Log.d(TAG, "RESULT OKAY! ");
             setContentView(R.layout.activity_main_booked);
+            mCancelBtn = (Button) findViewById(R.id.cancelBtn_main);
+
+            mCancelBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    CancelDialogue cancelDialogue = new CancelDialogue();
+                    cancelDialogue.show(getSupportFragmentManager(), "CancelDialogue");
+                }
+            });
 
         }
     }
 
+    @Override
+    public void onCancelClick(DialogFragment dlg) {
+
+    }
 }
