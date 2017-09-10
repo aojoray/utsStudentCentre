@@ -127,13 +127,13 @@ public class CentreFragment extends Fragment {
         String est02 = "";
 
         if (estTime01 > 60) {
-            est01 = estTime01 / 60 + " hour" + estTime01 % 60 + " min";
+            est01 = estTime01 / 60 + " hour " + estTime01 % 60 + " min";
         } else {
             est01 = estTime01 + " min";
         }
 
-        if (estTime02 >= 60) {
-            est02 = estTime02 / 60 + " hour" + estTime02 % 60;
+        if (estTime02 > 60) {
+            est02 = estTime02 / 60 + " hour " + estTime02 % 60 + " min";
         } else {
             est02 = estTime02 + " min";
         }
