@@ -10,15 +10,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mad.utsstudcentre.Dialogue.CancelDialogue;
-import com.mad.utsstudcentre.Dialogue.ConfirmDialogue;
 import com.mad.utsstudcentre.R;
 
-import org.w3c.dom.Text;
-
-import static com.mad.utsstudcentre.Controller.LoginActivity.DATABDL;
 import static com.mad.utsstudcentre.Controller.LoginActivity.USERNAME;
 
 /**
@@ -39,22 +34,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initialise();
-
-//        mUserName = getIntent().getStringExtra(USERNAME);
-//        mUserNameTv = (TextView) findViewById(R.id.userNameTv);
-//        mUserNameTv.setText(" " + mUserName);
-//
-//
-//        Button newBookingBtn = (Button) findViewById(R.id.new_booking_btn);
-//        newBookingBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                startActivity(new Intent(v.getContext(), EnquiryTypeActivity.class));
-//                Intent intent = new Intent(MainActivity.this, EnquiryTypeActivity.class);
-//                startActivityForResult(intent, BOOKING_REQUEST);
-//            }
-//        });
-
     }
 
     private void initialise() {
@@ -62,17 +41,14 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         mUserNameTv = (TextView) findViewById(R.id.userNameTv);
         mUserNameTv.setText(" " + mUserName);
 
-
         Button newBookingBtn = (Button) findViewById(R.id.new_booking_btn);
         newBookingBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                startActivity(new Intent(v.getContext(), EnquiryTypeActivity.class));
                 Intent intent = new Intent(MainActivity.this, EnquiryTypeActivity.class);
                 startActivityForResult(intent, BOOKING_REQUEST);
             }
         });
-
     }
 
     /**
@@ -105,6 +81,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     /**
      * Handles booking cancellation
      * Initialise the view
+     *
      * @param dlg
      */
     @Override
