@@ -27,6 +27,20 @@ public class HelpEnqFragment extends Fragment {
     private static final String TYPE = "SubEnq Type";
     private TextView mHelpTitleTv01;
     private TextView mHelpTv01;
+    private TextView mHelpTitleTv02;
+    private TextView mHelpTv02;
+    private TextView mHelpTitleTv03;
+    private TextView mHelpTv03;
+    private TextView mHelpTitleTv04;
+    private TextView mHelpTv04;
+    private TextView mHelpTitleTv05;
+    private TextView mHelpTv05;
+    private TextView mHelpTitleTv06;
+    private TextView mHelpTv06;
+    private TextView mHelpTitleTv07;
+    private TextView mHelpTv07;
+    private TextView mHelpTitleTv08;
+    private TextView mHelpTv08;
     private LinearLayout mHelpLayout;
     private LinearLayout mHelpContentLayout;
 
@@ -83,16 +97,30 @@ public class HelpEnqFragment extends Fragment {
 
         mHelpLayout = (LinearLayout) v.findViewById(R.id.help_layout);
         mHelpContentLayout = (LinearLayout) v.findViewById(R.id.enq_help_content_layout);
-        mHelpTitleTv01= (TextView) v.findViewById(R.id.enq_help_title_1);
-        mHelpTv01 = (TextView) v.findViewById(R.id.enq_help_tv_1);
 
         // check the caller then dynamically generate view accordingly
         String code = getArguments().getString(CODE);
         switch(code){
             case CODE_ENQ_TYPE:  //call from EnquiryActivity
+//                mHelpTitleTv01= (TextView) v.findViewById(R.id.enq_help_title_1);
+//                mHelpTv01 = (TextView) v.findViewById(R.id.enq_help_tv_1);
+//                mHelpTitleTv02= (TextView) v.findViewById(R.id.enq_help_title_2);
+//                mHelpTv02 = (TextView) v.findViewById(R.id.enq_help_tv_2);
+//                mHelpTitleTv03= (TextView) v.findViewById(R.id.enq_help_title_3);
+//                mHelpTv03 = (TextView) v.findViewById(R.id.enq_help_tv_3);
+//                mHelpTitleTv04= (TextView) v.findViewById(R.id.enq_help_title_4);
+//                mHelpTv04 = (TextView) v.findViewById(R.id.enq_help_tv_4);
+//                mHelpTitleTv05 = (TextView) v.findViewById(R.id.enq_help_title_5);
+//                mHelpTv05 = (TextView) v.findViewById(R.id.enq_help_tv_5);
+//                mHelpTitleTv06= (TextView) v.findViewById(R.id.enq_help_title_6);
+//                mHelpTv06 = (TextView) v.findViewById(R.id.enq_help_tv_6);
+//                mHelpTitleTv07= (TextView) v.findViewById(R.id.enq_help_title_7);
+//                mHelpTv07 = (TextView) v.findViewById(R.id.enq_help_tv_7);
+//                mHelpTitleTv08= (TextView) v.findViewById(R.id.enq_help_title_8);
+//                mHelpTv08 = (TextView) v.findViewById(R.id.enq_help_tv_8);
+
                 mHelpContentLayout.setVisibility(View.VISIBLE);
-                mHelpTitleTv01.setText(getString(R.string.general_enquiry));
-                mHelpTv01.setText(getString(R.string.help_general));
+
                 break;
             case CODE_SUB_ENQ:   //call from SubEnquiryFragment
                 int type = getArguments().getInt(TYPE);

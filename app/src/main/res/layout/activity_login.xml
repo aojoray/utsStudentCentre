@@ -43,6 +43,7 @@
                 android:layout_height="wrap_content"
                 android:text="Single Sign On"
                 android:textColor="@color/colorUtsSingle"
+                android:layout_marginBottom="20dp"
                 android:textSize="30sp"
                 android:textStyle="bold"
                 android:textAlignment="center"/>
