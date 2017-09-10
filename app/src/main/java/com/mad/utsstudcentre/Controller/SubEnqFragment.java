@@ -99,20 +99,23 @@ public class SubEnqFragment extends Fragment {
             }
         });
 
-        // Populate Buttons dynamically
+        // layout where the sub-enquiry types will be placed
         mSubEnqBtnLayout= (LinearLayout) v.findViewById(R.id.sub_enq_btn_layout);
+
         // type of Parent Enquiry
         mType = getArguments().getInt(TYPE);
 
+        // Populate Sub-enquiry type Buttons dynamically
         switch(mType){
             case TYPE_SUbJ_ENROL:
                 mItems = getResources().getStringArray(R.array.sub_enrol_title_01);
-                for(String item : mItems){
+                for(int i = 0; i < mItems.length ; i++){
+
                     // Dynamically generated views
                     final Button subEnqBtn = (Button) inflater.inflate(R.layout.attribute_enq_btn, null);
 
                     // set Text and Style
-                    subEnqBtn.setText(item);
+                    subEnqBtn.setText(mItems[i]);
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT
@@ -120,11 +123,14 @@ public class SubEnqFragment extends Fragment {
                     params.setMargins(20, 20, 20, 20);
                     subEnqBtn.setLayoutParams(params);
 
+                    // index of the item in the array
+                    final int index =  1001 + i;
+
                     //setOnclickListener
                     subEnqBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            onOptionClick(v, subEnqBtn.getText());
+                            onOptionClick(v, subEnqBtn.getText(), index);
                         }
                     });
 
@@ -156,12 +162,12 @@ public class SubEnqFragment extends Fragment {
     /**
      * Handles the onclick event of each sub-enquiries.
      * @param v
-     * @param text
+     * @param type
      */
-    private void onOptionClick(View v, CharSequence text) {
-        Toast.makeText(getContext(), "selected: " + text, Toast.LENGTH_SHORT).show();
+    private void onOptionClick(View v, CharSequence type, int index) {
+        Toast.makeText(getContext(), "selected: " + type, Toast.LENGTH_SHORT).show();
         // instantiate the fragment and commit to open
-        CentreFragment subEnqFragment = CentreFragment.newInstance(text);
+        CentreFragment subEnqFragment = CentreFragment.newInstance(type, index);
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, subEnqFragment, CENTRE_FRAGMENT).commit();

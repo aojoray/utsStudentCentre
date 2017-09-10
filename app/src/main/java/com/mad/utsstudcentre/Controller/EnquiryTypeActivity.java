@@ -16,6 +16,9 @@ import com.mad.utsstudcentre.Dialogue.ConfirmDialogue;
 import com.mad.utsstudcentre.R;
 
 import static android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE;
+import static com.mad.utsstudcentre.Controller.CentreFragment.CENTRE_TYPE;
+import static com.mad.utsstudcentre.Controller.CentreFragment.FINAL_TYPE;
+import static com.mad.utsstudcentre.Controller.CentreFragment.REF_NUMBER;
 
 /**
  * EnquiryTypeActivity is the activity launched first when user make a new booking.
@@ -181,12 +184,21 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
     }
 
 
+    /**
+     * If the booking is confirmed, this callback message will finish the intent and pass the reference number to MainActivity
+     * @param dlg
+     * @param refNumber
+     * @param centre
+     * @param enqType
+     */
     @Override
-    public void onOkayClick(DialogFragment dlg) {
+    public void onOkayClick(DialogFragment dlg, String refNumber, String centre, String enqType) {
         // set Result OK and call back MainActivity
         Intent intent = new Intent();
+        intent.putExtra(REF_NUMBER, refNumber);
+        intent.putExtra(CENTRE_TYPE, centre);
+        intent.putExtra(FINAL_TYPE, enqType);
         setResult(RESULT_OK, intent);
         finish();
-
     }
 }
