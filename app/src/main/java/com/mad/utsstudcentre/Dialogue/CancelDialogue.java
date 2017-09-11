@@ -36,14 +36,14 @@ public class CancelDialogue extends DialogFragment {
         View v = inflater.inflate(R.layout.fragment_confirm_dialogue, null);
 
         // Build the dialog
-        builder.setTitle("Do you want to cancel?")
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        builder.setTitle(R.string.cancel_dialog_title)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mHost.onCancelConfirmClick(CancelDialogue.this);
                     }
                 })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
 

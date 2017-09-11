@@ -5,23 +5,31 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.mad.utsstudcentre.R;
+
+import static com.mad.utsstudcentre.Controller.CentreFragment.CENTRE_TYPE;
+import static com.mad.utsstudcentre.Controller.CentreFragment.FINAL_TYPE;
+import static com.mad.utsstudcentre.Controller.CentreFragment.REF_NUMBER;
 
 /**
  * ConfirmDialogue shows user the booking details and let user to check the detail again and confirm booking
  */
 public class ConfirmDialogue extends DialogFragment {
 
+    private static final String TAG = "ConfirmDialogue_TAG";
     private ConfDialogListener mHost;
+    private TextView mSidTv;
+    private TextView mNameTv;
+    private TextView mTypeTv;
+    private TextView mCentreTv;
+
 
     /**
      * Building the dialogue
@@ -38,12 +46,22 @@ public class ConfirmDialogue extends DialogFragment {
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.fragment_confirm_dialogue, null);
 
+        mSidTv = (TextView) v.findViewById(R.id.dia_sidTv);
+        mNameTv = (TextView) v.findViewById(R.id.dia_nameTv);
+        mTypeTv = (TextView) v.findViewById(R.id.dia_typeTv);
+        mCentreTv = (TextView) v.findViewById(R.id.dia_centreTv);
+
+        //TODO: set Text by user data (need to pass from the prev. activities)
+//        mSidTv.setText(getArguments().getString());
+
         // Build the dialog
         builder.setTitle("Do you want to proceed?")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mHost.onOkayClick(ConfirmDialogue.this);
+//                        Log.d(TAG, "RefNum @ Dialogue: " + getArguments().getString(REF_NUMBER));
+                        mHost.onOkayClick(ConfirmDialogue.this, getArguments().getString(REF_NUMBER),
+                                getArguments().getString(CENTRE_TYPE), getArguments().getString(FINAL_TYPE));
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -71,6 +89,6 @@ public class ConfirmDialogue extends DialogFragment {
      * Interface for Listener
      */
     public interface ConfDialogListener {
-        void onOkayClick(android.support.v4.app.DialogFragment dlg);
+        void onOkayClick(DialogFragment dlg, String string1, String s, String string);
     }
 }

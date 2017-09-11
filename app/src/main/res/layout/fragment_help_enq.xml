@@ -3,41 +3,157 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/help_layout"
     tools:context="com.mad.utsstudcentre.Controller.HelpEnqFragment">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:textSize="30sp"
         android:gravity="center_horizontal"
-        android:text="HELP" />
+        android:text="HELP"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 
-    <LinearLayout
-        android:id="@+id/enq_help_content_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:visibility="gone">
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/enq_help_title_1"
+        <LinearLayout
+            android:id="@+id/help_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/general_enquiry"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/enq_help_tv_1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/help_general"
-            android:textSize="15sp" />
+            <LinearLayout
+                android:id="@+id/enq_help_content_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="gone">
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/enq_help_title_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/my_subject_enrolment"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
+                <TextView
+                    android:id="@+id/enq_help_tv_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/help_general"
+                    android:textSize="15sp" />
 
+                <TextView
+                    android:id="@+id/enq_help_title_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/my_study_plan"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/enq_help_tv_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/help_study_plan"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/enq_help_title_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/my_uts_documents"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/enq_help_tv_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/help_uts_documents"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/enq_help_title_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/general_enquiry"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/enq_help_tv_4"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/help_general"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/enq_help_title_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/my_class_timetable"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/enq_help_tv_5"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/help_class_timetable"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/enq_help_title_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/exams_and_assessment"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/enq_help_tv_6"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/help_exams_and_assessment"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/enq_help_title_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/my_graduation"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/enq_help_tv_7"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/help_graduation"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/enq_help_title_8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/it_support"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/enq_help_tv_8"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/help_it_support"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>

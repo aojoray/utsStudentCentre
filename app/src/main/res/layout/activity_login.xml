@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
     <ScrollView
         android:id="@+id/loginForm"
@@ -29,30 +29,62 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_horizontal"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:src="@drawable/uts_logo"/>-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="StudentCentre"-->
+                    <!--android:layout_marginRight="10dp"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:textColor="@color/colorUts"-->
+                    <!--android:textSize="30sp"-->
+                    <!--android:textStyle="bold" />-->
+
+            <!--</LinearLayout>-->
+
+            <ImageView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="UTS: StudentCentre"
-                android:textColor="@color/colorUts"
-                android:textSize="30sp"
-                android:textStyle="bold"
-                android:textAlignment="center"/>
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="10dp"
+                android:src="@drawable/uts_logo"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="UTS: StudentCentre"
+                android:textAlignment="center"
+                android:textColor="@color/colorUts"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:text="Single Sign On"
+                android:textAlignment="center"
                 android:textColor="@color/colorUtsSingle"
                 android:textSize="30sp"
-                android:textStyle="bold"
-                android:textAlignment="center"/>
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/colorUtsLoginBox"
-                android:padding="25dp"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="30dp">
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -63,7 +95,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="UTS Student ID"
-                        android:inputType="number"/>
+                        android:inputType="number" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -76,7 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Password"
-                        android:inputType="textPassword"/>
+                        android:inputType="textPassword" />
 
                 </android.support.design.widget.TextInputLayout>
 
@@ -86,10 +118,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
-                    android:text="Login"
                     android:background="@color/btn_UtsLogin"
+                    android:text="Login"
                     android:textColor="@color/white"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
             </LinearLayout>
 
 

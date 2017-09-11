@@ -32,11 +32,12 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/dia_sidTv"
                     android:layout_width="0dp"
                     android:layout_marginRight="10sp"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:text="123"/>
+                    android:text="123" />
 
             </TableRow>
 
@@ -54,11 +55,12 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/dia_nameTv"
                     android:layout_width="0dp"
                     android:layout_marginRight="10sp"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:text="John Doe"/>
+                    android:text="John Doe" />
 
             </TableRow>
 
@@ -76,11 +78,12 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/dia_typeTv"
                     android:layout_width="0dp"
                     android:layout_marginRight="10sp"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:text="Enrollment"/>
+                    android:text="Enrollment" />
 
             </TableRow>
 
@@ -98,11 +101,12 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/dia_centreTv"
                     android:layout_width="0dp"
                     android:layout_marginRight="10sp"
                     android:layout_weight="1"
                     android:gravity="right"
-                    android:text="Building 5"/>
+                    android:text="Building 5" />
 
             </TableRow>
 
