@@ -173,7 +173,7 @@ public class CentreFragment extends Fragment {
 
         @Override
         protected String doInBackground(Nullable... params) {
-            String refNum = "D";
+            String refNum = "";
             int num;
             Random random = new Random();
 
@@ -182,6 +182,7 @@ public class CentreFragment extends Fragment {
                 case 1001:
                 case 1002:
                 case 1003:
+                    refNum = "D";
                     num = random.nextInt(9999) + 1;
                     // add leading 0s to the ref.number
                     if (num < 10) {
