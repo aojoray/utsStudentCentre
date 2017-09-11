@@ -13,6 +13,7 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="logout">Logout</string>
     <string name="please_choose_an_enquiry_type">Please Choose an Enquiry Type</string>
     <string name="my_subject_enrolment">My Subject Enrolment</string>
     <string name="my_study_plan">My Study Plan</string>

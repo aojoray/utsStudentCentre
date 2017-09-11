@@ -17,6 +17,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.mad.utsstudcentre.R;
+import com.mad.utsstudcentre.Util.SaveSharedPreference;
 import com.mad.utsstudcentre.Util.SessionManager;
 import com.mad.utsstudcentre.Util.Values;
 
@@ -61,9 +62,11 @@ public class LoginActivity extends AppCompatActivity {
                                 SessionManager.registerSession(getApplicationContext(), userId);mProgress.hide();
                                 Bundle bdl = new Bundle();
                                 bdl.putString(USERNAME, userId);
+                                SaveSharedPreference.setUserName(LoginActivity.this, userId);
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.putExtra(USERNAME, userId);
                                 startActivity(intent);
+                                finish();
                             } else {
                                 mProgress.hide();
                                 Snackbar.make(v, "Error! Wrong ID or password", Snackbar.LENGTH_LONG)

@@ -45,4 +45,13 @@
         android:textColor="@color/text_new_booking"
         android:text="@string/new_booking_btn" />
 
+    <Button
+        android:id="@+id/logout_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:background="@color/btn_logut_bg"
+        android:textColor="@color/black"
+        android:text="@string/logout" />
+
 </LinearLayout>

@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.mad.utsstudcentre.Dialogue.CancelDialogue;
 import com.mad.utsstudcentre.Dialogue.ConfirmDialogue;
 import com.mad.utsstudcentre.R;
+import com.mad.utsstudcentre.Util.SaveSharedPreference;
 
 import org.w3c.dom.Text;
 
@@ -58,20 +59,38 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     }
 
     private void initialise() {
-        mUserName = getIntent().getStringExtra(USERNAME);
-        mUserNameTv = (TextView) findViewById(R.id.userNameTv);
-        mUserNameTv.setText(" " + mUserName);
+        if(SaveSharedPreference.getUserName(MainActivity.this).length() == 0){
+            Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(loginIntent);
+        }
+        else{
+            mUserName = SaveSharedPreference.getUserName(MainActivity.this);
+            mUserNameTv = (TextView) findViewById(R.id.userNameTv);
+            mUserNameTv.setText(" "+mUserName);
 
 
-        Button newBookingBtn = (Button) findViewById(R.id.new_booking_btn);
-        newBookingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            Button newBookingBtn = (Button) findViewById(R.id.new_booking_btn);
+            newBookingBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 //                startActivity(new Intent(v.getContext(), EnquiryTypeActivity.class));
-                Intent intent = new Intent(MainActivity.this, EnquiryTypeActivity.class);
-                startActivityForResult(intent, BOOKING_REQUEST);
-            }
-        });
+                    Intent intent = new Intent(MainActivity.this, EnquiryTypeActivity.class);
+                    startActivityForResult(intent, BOOKING_REQUEST);
+                }
+            });
+
+            Button logoutBtn = (Button) findViewById(R.id.logout_btn);
+            logoutBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SaveSharedPreference.clearUserName(MainActivity.this);
+                    Intent logoutIntent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(logoutIntent);
+                    finish();
+                }
+
+            });
+        }
 
     }
 
