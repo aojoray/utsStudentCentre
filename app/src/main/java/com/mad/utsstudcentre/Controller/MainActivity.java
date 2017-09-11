@@ -10,16 +10,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mad.utsstudcentre.Dialogue.CancelDialogue;
-import com.mad.utsstudcentre.Dialogue.ConfirmDialogue;
 import com.mad.utsstudcentre.R;
 import com.mad.utsstudcentre.Util.SaveSharedPreference;
 
-import org.w3c.dom.Text;
-
-import static com.mad.utsstudcentre.Controller.LoginActivity.DATABDL;
+import static com.mad.utsstudcentre.Controller.CentreFragment.CENTRE_TYPE;
+import static com.mad.utsstudcentre.Controller.CentreFragment.FINAL_TYPE;
+import static com.mad.utsstudcentre.Controller.CentreFragment.REF_NUMBER;
 import static com.mad.utsstudcentre.Controller.LoginActivity.USERNAME;
 
 /**
@@ -29,11 +27,21 @@ import static com.mad.utsstudcentre.Controller.LoginActivity.USERNAME;
 public class MainActivity extends AppCompatActivity implements CancelDialogue.CancelDialogueListener {
 
     private static final String TAG = "MainActivity_TAG";
-    private static final int BOOKING_REQUEST = 1001;
-    private String mUserName;
-    private TextView mUserNameTv;
+    private static final int BOOKING_REQUEST = 1111;
+
+    // Initial data field
+    private String mUserSid;
+    private TextView mUserSidTv;
     private Button mCancelBtn;
     private LinearLayout mLayout;
+
+    // Data filed after confirming a booking
+    private TextView mRefNumTv;
+    private TextView mBookedSidTv;
+    private TextView mBookedUserNameTv;
+    private TextView mBookedTypeTv;
+    private TextView mBookedCentreTv;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,20 +49,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         setContentView(R.layout.activity_main);
         initialise();
 
-//        mUserName = getIntent().getStringExtra(USERNAME);
-//        mUserNameTv = (TextView) findViewById(R.id.userNameTv);
-//        mUserNameTv.setText(" " + mUserName);
-//
-//
-//        Button newBookingBtn = (Button) findViewById(R.id.new_booking_btn);
-//        newBookingBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-////                startActivity(new Intent(v.getContext(), EnquiryTypeActivity.class));
-//                Intent intent = new Intent(MainActivity.this, EnquiryTypeActivity.class);
-//                startActivityForResult(intent, BOOKING_REQUEST);
-//            }
-//        });
 
     }
 
@@ -64,16 +58,15 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             startActivity(loginIntent);
         }
         else{
-            mUserName = SaveSharedPreference.getUserName(MainActivity.this);
-            mUserNameTv = (TextView) findViewById(R.id.userNameTv);
-            mUserNameTv.setText(" "+mUserName);
+            mUserSid = getIntent().getStringExtra(USERNAME);
+            mUserSidTv = (TextView) findViewById(R.id.userSidTv);
+            mUserSidTv.setText(" " + mUserSid);
 
 
             Button newBookingBtn = (Button) findViewById(R.id.new_booking_btn);
             newBookingBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                startActivity(new Intent(v.getContext(), EnquiryTypeActivity.class));
                     Intent intent = new Intent(MainActivity.this, EnquiryTypeActivity.class);
                     startActivityForResult(intent, BOOKING_REQUEST);
                 }
@@ -108,7 +101,21 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         if (resultCode == RESULT_OK) {
             Log.d(TAG, "RESULT OKAY! ");
             setContentView(R.layout.activity_main_booked);
+
+            mRefNumTv = (TextView) findViewById(R.id.refNumTv);
+            mBookedSidTv = (TextView) findViewById(R.id.booked_sidTv);
+            mBookedUserNameTv = (TextView) findViewById(R.id.booked_nameTv);
+            mBookedTypeTv = (TextView) findViewById(R.id.booked_enqTypeTv);
+            mBookedCentreTv = (TextView) findViewById(R.id.booked_centreTv);
+
             mCancelBtn = (Button) findViewById(R.id.cancelBtn_main);
+
+            // setText with booking information
+            mRefNumTv.setText(data.getStringExtra(REF_NUMBER));
+            mBookedSidTv.setText(mUserSid);
+//            mBookedUserNameTv.setText(mUserSid);
+            mBookedTypeTv.setText(data.getStringExtra(FINAL_TYPE));
+            mBookedCentreTv.setText(data.getStringExtra(CENTRE_TYPE));
 
             mCancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
