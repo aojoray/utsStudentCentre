@@ -103,5 +103,9 @@
     <string name="cancel_dialog_title">Do you want to cancel?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="single_sign_on">Single Sign On</string>
+    <string name="uts_student_id">UTS Student ID</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
 
 </resources>
