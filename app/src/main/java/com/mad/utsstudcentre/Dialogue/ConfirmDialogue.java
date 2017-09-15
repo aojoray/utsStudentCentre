@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.mad.utsstudcentre.R;
 
 import static com.mad.utsstudcentre.Controller.CentreFragment.CENTRE_TYPE;
+import static com.mad.utsstudcentre.Controller.CentreFragment.EST_TIME;
 import static com.mad.utsstudcentre.Controller.CentreFragment.FINAL_TYPE;
 import static com.mad.utsstudcentre.Controller.CentreFragment.REF_NUMBER;
 
@@ -61,7 +62,7 @@ public class ConfirmDialogue extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
 //                        Log.d(TAG, "RefNum @ Dialogue: " + getArguments().getString(REF_NUMBER));
                         mHost.onOkayClick(ConfirmDialogue.this, getArguments().getString(REF_NUMBER),
-                                getArguments().getString(CENTRE_TYPE), getArguments().getString(FINAL_TYPE));
+                                getArguments().getString(CENTRE_TYPE), getArguments().getString(FINAL_TYPE), getArguments().getInt(EST_TIME));
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -76,7 +77,7 @@ public class ConfirmDialogue extends DialogFragment {
     }
 
     /**
-     * Binds listener
+     * Binds listener to the object
      * @param context
      */
     @Override
@@ -86,9 +87,9 @@ public class ConfirmDialogue extends DialogFragment {
     }
 
     /**
-     * Interface for Listener
+     * Interface for confirmation dialogue Listener
      */
     public interface ConfDialogListener {
-        void onOkayClick(DialogFragment dlg, String string1, String s, String string);
+        void onOkayClick(DialogFragment dlg, String string1, String s, String string, int estTime);
     }
 }

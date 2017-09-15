@@ -17,6 +17,7 @@ import com.mad.utsstudcentre.R;
 
 import static android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE;
 import static com.mad.utsstudcentre.Controller.CentreFragment.CENTRE_TYPE;
+import static com.mad.utsstudcentre.Controller.CentreFragment.EST_TIME;
 import static com.mad.utsstudcentre.Controller.CentreFragment.FINAL_TYPE;
 import static com.mad.utsstudcentre.Controller.CentreFragment.REF_NUMBER;
 
@@ -190,14 +191,16 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
      * @param refNumber
      * @param centre
      * @param enqType
+     * @param estTime
      */
     @Override
-    public void onOkayClick(DialogFragment dlg, String refNumber, String centre, String enqType) {
+    public void onOkayClick(DialogFragment dlg, String refNumber, String centre, String enqType, int estTime) {
         // set Result OK and call back MainActivity
         Intent intent = new Intent();
         intent.putExtra(REF_NUMBER, refNumber);
         intent.putExtra(CENTRE_TYPE, centre);
         intent.putExtra(FINAL_TYPE, enqType);
+        intent.putExtra(EST_TIME, estTime);
         setResult(RESULT_OK, intent);
         finish();
     }

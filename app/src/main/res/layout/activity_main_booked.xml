@@ -1,142 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <TextView
+    <data>
+
+        <variable
+            name="time"
+            type="com.mad.utsstudcentre.Controller.MainActivity" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="20dp"
-        android:text="Your Reference Number"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:textSize="20sp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/refNumTv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        android:text="D101"
-        android:textAlignment="center"
-        android:textSize="80sp" />
-
-    <TableLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="20dp"
-        android:paddingBottom="5dp">
-
-        <TableRow
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:weightSum="2">
+            android:layout_marginTop="20dp"
+            android:text="Your Reference Number"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="20sp" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:text="SID"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/booked_sidTv"
-                android:layout_width="0dp"
-                android:layout_marginRight="10sp"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="123" />
-
-        </TableRow>
-
-        <TableRow
+        <TextView
+            android:id="@+id/refNumTv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginBottom="10dp"
-            android:weightSum="2">
+            android:layout_marginTop="10dp"
+            android:text="D101"
+            android:textAlignment="center"
+            android:textColor="@color/colorUts"
+            android:textSize="80sp" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:text="Name"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/booked_nameTv"
-                android:layout_width="0dp"
-                android:layout_marginRight="10sp"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="John Doe" />
-
-        </TableRow>
-
-        <TableRow
+        <TableLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:weightSum="2">
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="20dp"
+            android:paddingBottom="5dp">
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:text="Enquiry Type"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:weightSum="2">
 
-            <TextView
-                android:id="@+id/booked_enqTypeTv"
-                android:layout_width="0dp"
-                android:layout_marginRight="10sp"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="Enrollment" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="SID"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
 
-        </TableRow>
+                <TextView
+                    android:id="@+id/booked_sidTv"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="123" />
 
-        <TableRow
-            android:layout_width="match_parent"
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Name"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/booked_nameTv"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="John Doe" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Enquiry Type"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/booked_enqTypeTv"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="Enrollment" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Centre"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/booked_centreTv"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="Building 5" />
+
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:weightSum="2">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="Estimated Time"
+                    android:textColor="@color/black"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/booked_estTv"
+                    android:layout_width="0dp"
+                    android:layout_marginRight="10sp"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@{String.valueOf(time.time)}" />
+
+            </TableRow>
+
+            <!--<TableRow-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:weightSum="2">-->
+
+            <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="Current Waitings"-->
+            <!--android:textColor="@color/black"-->
+            <!--android:textStyle="bold" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/booked_watingTv"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_marginRight="10sp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:gravity="right"-->
+            <!--android:text="3 people" />-->
+
+            <!--</TableRow>-->
+
+        </TableLayout>
+
+        <Button
+            android:id="@+id/cancelBtn_main"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:weightSum="2">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:text="Centre"
-                android:textColor="@color/black"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/booked_centreTv"
-                android:layout_width="0dp"
-                android:layout_marginRight="10sp"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="Building 5" />
-
-        </TableRow>
-
-    </TableLayout>
-
-    <Button
-        android:id="@+id/cancelBtn_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@color/btn_cancel"
-        android:textColor="@color/btn_cancel_txt"
-        android:textStyle="bold"
-        android:layout_marginTop="20dp"
-        android:text="Cancel"/>
-
-</LinearLayout>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="20dp"
+            android:background="@color/btn_cancel"
+            android:text="Cancel"
+            android:textColor="@color/btn_cancel_txt"
+            android:textStyle="bold" />
+    </LinearLayout>
+</layout>

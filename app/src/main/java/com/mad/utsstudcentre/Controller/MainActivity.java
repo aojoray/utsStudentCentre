@@ -16,6 +16,7 @@ import com.mad.utsstudcentre.R;
 import com.mad.utsstudcentre.Util.SaveSharedPreference;
 
 import static com.mad.utsstudcentre.Controller.CentreFragment.CENTRE_TYPE;
+import static com.mad.utsstudcentre.Controller.CentreFragment.EST_TIME;
 import static com.mad.utsstudcentre.Controller.CentreFragment.FINAL_TYPE;
 import static com.mad.utsstudcentre.Controller.CentreFragment.REF_NUMBER;
 import static com.mad.utsstudcentre.Controller.LoginActivity.USERNAME;
@@ -35,12 +36,18 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private Button mCancelBtn;
     private LinearLayout mLayout;
 
+
     // Data filed after confirming a booking
-    private TextView mRefNumTv;
     private TextView mBookedSidTv;
     private TextView mBookedUserNameTv;
     private TextView mBookedTypeTv;
     private TextView mBookedCentreTv;
+    private TextView mBookedEstTv;
+    //    private TextView mBookedWaitingTv;
+    public int time;
+    private int mDelay = 60; // The initial delay between operate() calls is 60 seconds (1 minute).
+    private TextView mRefNumTv;
+    private OperationThread mThread;
 
 
     @Override
@@ -48,16 +55,16 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initialise();
+    }
 
-
+    private void updateTime() {
     }
 
     private void initialise() {
-        if(SaveSharedPreference.getUserName(MainActivity.this).length() == 0){
+        if (SaveSharedPreference.getUserName(MainActivity.this).length() == 0) {
             Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(loginIntent);
-        }
-        else{
+        } else {
             mUserSid = getIntent().getStringExtra(USERNAME);
             mUserSidTv = (TextView) findViewById(R.id.userSidTv);
             mUserSidTv.setText(" " + mUserSid);
@@ -107,6 +114,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             mBookedUserNameTv = (TextView) findViewById(R.id.booked_nameTv);
             mBookedTypeTv = (TextView) findViewById(R.id.booked_enqTypeTv);
             mBookedCentreTv = (TextView) findViewById(R.id.booked_centreTv);
+            mBookedEstTv = (TextView) findViewById(R.id.booked_estTv);
 
             mCancelBtn = (Button) findViewById(R.id.cancelBtn_main);
 
@@ -116,6 +124,12 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 //            mBookedUserNameTv.setText(mUserSid);
             mBookedTypeTv.setText(data.getStringExtra(FINAL_TYPE));
             mBookedCentreTv.setText(data.getStringExtra(CENTRE_TYPE));
+
+            // set the estimated time of waiting
+            time = data.getIntExtra(EST_TIME, 0);
+            mBookedEstTv.setText(time + " min");
+
+            startup(); // start the Thread for count
 
             mCancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -128,6 +142,13 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         }
     }
 
+    public synchronized void startup() {
+        if (mThread == null) {
+            mThread = new OperationThread();
+            mThread.start();
+        }
+    }
+
     @Override
     public void onCancelConfirmClick(DialogFragment dlg) {
         setContentView(R.layout.activity_main);
@@ -136,4 +157,53 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                 .setAction("Action", null).show();
         initialise();
     }
+
+//    public int getDelay() {
+//        return mDelay;
+//    }
+
+    public synchronized void shutdown() {
+        if (mThread != null) {
+            mThread.shutdown();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        shutdown();
+    }
+
+    /**
+     * OperationThread is used for counting the remained time and change the view accordingly
+     * The interval is manipulated by mDelay (if mDelay = 6 -> interval = 60 seconds)
+     */
+    private class OperationThread extends Thread {
+        private boolean running = true;
+
+        @Override
+        public void run() {
+            while (time > 0) {
+                try {
+                    Thread.sleep(mDelay * 1000); // delay * 1000 milliseconds
+                    time--;
+                    MainActivity.this.runOnUiThread(new Runnable() {
+                        public void run() {
+                            mBookedEstTv.setText(time + " min");
+                        }
+                    });
+
+                } catch (InterruptedException e) {
+                    // Happens when requested to shut down
+                }
+            }
+            shutdown();
+        }
+
+        public void shutdown() {
+            running = false;
+            interrupt();
+        }
+    }
+
 }

@@ -30,6 +30,7 @@ public class CentreFragment extends Fragment {
     public static final String FINAL_TYPE = "Final Type";
     private static final String TYPE_INDEX = "Final type index";
     public static final String REF_NUMBER = "Reference Number";
+    public static final String EST_TIME = "Estimated time";
     public static final String CENTRE_TYPE = "Centre type";
     public static final String CENTRE_01 = "Building 5";
     public static final String CENTRE_02 = "Building 10";
@@ -39,6 +40,8 @@ public class CentreFragment extends Fragment {
     private String mFinalType;
     private int mFinalTypeIndex;
     private String mRefNumber;
+    int mEstTime01;
+    int mEstTime02;
 
     // UI elements
     private LinearLayout mCentre01Layout;
@@ -98,6 +101,7 @@ public class CentreFragment extends Fragment {
                 bdl.putString(REF_NUMBER, mRefNumber);
                 bdl.putString(FINAL_TYPE, mFinalType);
                 bdl.putString(CENTRE_TYPE, CENTRE_01);
+                bdl.putInt(EST_TIME, mEstTime01);
                 Log.d(TAG, "RefNum @ Centre: " + mRefNumber);
 
                 cfmDialogue.setArguments(bdl);
@@ -127,23 +131,23 @@ public class CentreFragment extends Fragment {
         int wait01 = random.nextInt(20);
         int wait02 = random.nextInt(20);
 
-        int estTime01 = wait01 * 5;
-        int estTime02 = wait02 * 5;
+        mEstTime01 = wait01 * 5;
+        mEstTime02 = wait02 * 5;
 
 
         String est01 = "";
         String est02 = "";
 
-        if (estTime01 > 60) {
-            est01 = estTime01 / 60 + " hour " + estTime01 % 60 + " min";
+        if (mEstTime01 > 60) {
+            est01 = mEstTime01 / 60 + " hour " + mEstTime01 % 60 + " min";
         } else {
-            est01 = estTime01 + " min";
+            est01 = mEstTime01 + " min";
         }
 
-        if (estTime02 > 60) {
-            est02 = estTime02 / 60 + " hour " + estTime02 % 60 + " min";
+        if (mEstTime02 > 60) {
+            est02 = mEstTime02 / 60 + " hour " + mEstTime02 % 60 + " min";
         } else {
-            est02 = estTime02 + " min";
+            est02 = mEstTime02 + " min";
         }
 
         mEst_01Tv.setText(est01);
