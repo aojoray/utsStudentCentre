@@ -16,10 +16,6 @@ import com.mad.utsstudcentre.Dialogue.ConfirmDialogue;
 import com.mad.utsstudcentre.R;
 
 import static android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE;
-import static com.mad.utsstudcentre.Controller.CentreFragment.CENTRE_TYPE;
-import static com.mad.utsstudcentre.Controller.CentreFragment.EST_TIME;
-import static com.mad.utsstudcentre.Controller.CentreFragment.FINAL_TYPE;
-import static com.mad.utsstudcentre.Controller.CentreFragment.REF_NUMBER;
 
 /**
  * EnquiryTypeActivity is the activity launched first when user make a new booking.
@@ -57,6 +53,7 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enquiry_type);
 
+
         // Connect buttons to controller
         mEnqBtn01 = (Button) findViewById(R.id.enqBtn01);
         mEnqBtn02 = (Button) findViewById(R.id.enqBtn02);
@@ -75,7 +72,7 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
         mEnqBtn01.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "My subject enrolment", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "My subject enrolment", Toast.LENGTH_SHORT).show();
                 // let FrameLayout for Fragment visible
                 mFrame.setVisibility(View.VISIBLE);
                 // instantiate the fragment and commit to open
@@ -184,23 +181,13 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
         super.onBackPressed();
     }
 
-
     /**
      * If the booking is confirmed, this callback message will finish the intent and pass the reference number to MainActivity
      * @param dlg
-     * @param refNumber
-     * @param centre
-     * @param enqType
-     * @param estTime
      */
     @Override
-    public void onOkayClick(DialogFragment dlg, String refNumber, String centre, String enqType, int estTime) {
-        // set Result OK and call back MainActivity
+    public void onOkayClick(DialogFragment dlg) {
         Intent intent = new Intent();
-        intent.putExtra(REF_NUMBER, refNumber);
-        intent.putExtra(CENTRE_TYPE, centre);
-        intent.putExtra(FINAL_TYPE, enqType);
-        intent.putExtra(EST_TIME, estTime);
         setResult(RESULT_OK, intent);
         finish();
     }

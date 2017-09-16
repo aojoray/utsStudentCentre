@@ -4,19 +4,17 @@ package com.mad.utsstudcentre.Model;
 public class Booking {
 
     private long mBookingID;
+    private String mRefNumber;
     private String mEnquiryType;
-    private String mStudentCentre;
+    private StudentCentre mStudentCentre;
     private String mDate;
-    private long mStudentID;
-    private String mStudentName;
+    private Student mStudent;
     public long getBookingID() {
         return mBookingID;
     }
 
     private boolean mIsProcessed;
 
-    public final String CENTRE01 = "Building 10";
-    public final String CENTRE02 = "Building 05";
     public final String ENQTYPE01 = "My Subject Enrolment";
     public final String ENQTYPE02 = "My Study Plan";
     public final String ENQTYPE03 = "My UTS Document";
@@ -39,11 +37,11 @@ public class Booking {
         this.mEnquiryType = mEnquiryType;
     }
 
-    public String getStudentCentre() {
+    public StudentCentre getStudentCentre() {
         return mStudentCentre;
     }
 
-    public void setStudentCentre(String mStudentCentre) {
+    public void setStudentCentre(StudentCentre mStudentCentre) {
         this.mStudentCentre = mStudentCentre;
     }
 
@@ -55,27 +53,27 @@ public class Booking {
         this.mDate = mDate;
     }
 
-    public long getStudentID() {
-        return mStudentID;
-    }
-
-    public void setStudentID(long mStudentID) {
-        this.mStudentID = mStudentID;
-    }
-
-    public String getStudentName() {
-        return mStudentName;
-    }
-
-    public void setStudentName(String mStudentName) {
-        this.mStudentName = mStudentName;
-    }
-
     public boolean isIsProcessed() {
         return mIsProcessed;
     }
 
     public void setIsProcessed(boolean mIsProcessed) {
         this.mIsProcessed = mIsProcessed;
+    }
+
+    public String getRefNumber() {
+        return mRefNumber;
+    }
+
+    public void setRefNumber(String mRefNumber) {
+        this.mRefNumber = mRefNumber;
+    }
+
+    public Student getStudent() {
+        return mStudent;
+    }
+
+    public void setStudent(Student student) {
+        this.mStudent = student;
     }
 }

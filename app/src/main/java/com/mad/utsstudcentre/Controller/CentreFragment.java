@@ -13,11 +13,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mad.utsstudcentre.Dialogue.ConfirmDialogue;
+import com.mad.utsstudcentre.Model.Booking;
+import com.mad.utsstudcentre.Model.StudentCentre;
 import com.mad.utsstudcentre.R;
 
 import java.util.Random;
 
 import butterknife.ButterKnife;
+
+import static com.mad.utsstudcentre.Controller.MainActivity.getCentre;
+import static com.mad.utsstudcentre.Model.StudentCentre.CENTRE_01;
+import static com.mad.utsstudcentre.Model.StudentCentre.CENTRE_01_ID;
 
 /**
  * CentreFragment is loaded when user selects the Enquiry/sub-enquiry type.
@@ -32,11 +38,8 @@ public class CentreFragment extends Fragment {
     public static final String REF_NUMBER = "Reference Number";
     public static final String EST_TIME = "Estimated time";
     public static final String CENTRE_TYPE = "Centre type";
-    public static final String CENTRE_01 = "Building 5";
-    public static final String CENTRE_02 = "Building 10";
-//    public static final int CENTRE_01 = 10;
-//    public static final int CENTRE_02 = 20;
     private static final String TAG = "CentreFragment_TAG";
+    private Booking mBooking;
     private String mFinalType;
     private int mFinalTypeIndex;
     private String mRefNumber;
@@ -97,14 +100,15 @@ public class CentreFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 ConfirmDialogue cfmDialogue = new ConfirmDialogue();
-                Bundle bdl = new Bundle();
-                bdl.putString(REF_NUMBER, mRefNumber);
-                bdl.putString(FINAL_TYPE, mFinalType);
-                bdl.putString(CENTRE_TYPE, CENTRE_01);
-                bdl.putInt(EST_TIME, mEstTime01);
-                Log.d(TAG, "RefNum @ Centre: " + mRefNumber);
 
-                cfmDialogue.setArguments(bdl);
+                StudentCentre centre = getCentre();
+
+                centre.setID(CENTRE_01_ID);
+                centre.setName(CENTRE_01);
+                centre.setEstTime(mEstTime01);
+                mBooking.setEnquiryType(mFinalType);
+                mBooking.setStudentCentre(centre);
+
                 cfmDialogue.show(getFragmentManager(), "ConfirmDialogue");
             }
         });
@@ -131,7 +135,7 @@ public class CentreFragment extends Fragment {
         int wait01 = random.nextInt(20);
         int wait02 = random.nextInt(20);
 
-        mEstTime01 = wait01 * 5;
+        mEstTime01 = wait01 * 5; // 5 minutes average time per booking
         mEstTime02 = wait02 * 5;
 
 
@@ -157,16 +161,23 @@ public class CentreFragment extends Fragment {
 
     }
 
-    @Override
-    public void onStart() {
-        RefNumberAsyncTask async = new RefNumberAsyncTask();
-        async.execute();
-//        initialiseData();
-        super.onStart();
-    }
-
+    /**
+     * setRefNumber after RefNumberAsyncTask generate the reference number
+     * @param refNumber
+     */
     public void setRefNumber(String refNumber) {
         this.mRefNumber = refNumber;
+    }
+
+    /**
+     * Overriden onStart method initialise the models and execute AsyncTask to generate Booking reference number
+     */
+    @Override
+    public void onStart() {
+        mBooking = MainActivity.getBooking();
+        RefNumberAsyncTask async = new RefNumberAsyncTask();
+        async.execute();
+        super.onStart();
     }
 
     /**
@@ -202,6 +213,8 @@ public class CentreFragment extends Fragment {
                 default:
                     break;
             }
+
+            mBooking.setRefNumber(refNum);
 
             return refNum;
         }

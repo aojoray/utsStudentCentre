@@ -12,14 +12,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.mad.utsstudcentre.Dialogue.CancelDialogue;
+import com.mad.utsstudcentre.Model.Booking;
+import com.mad.utsstudcentre.Model.Student;
+import com.mad.utsstudcentre.Model.StudentCentre;
 import com.mad.utsstudcentre.R;
 import com.mad.utsstudcentre.Util.SaveSharedPreference;
 
-import static com.mad.utsstudcentre.Controller.CentreFragment.CENTRE_TYPE;
-import static com.mad.utsstudcentre.Controller.CentreFragment.EST_TIME;
-import static com.mad.utsstudcentre.Controller.CentreFragment.FINAL_TYPE;
-import static com.mad.utsstudcentre.Controller.CentreFragment.REF_NUMBER;
-import static com.mad.utsstudcentre.Controller.LoginActivity.USERNAME;
+import java.util.Date;
+
+import static com.mad.utsstudcentre.Controller.LoginActivity.USERSID;
 
 /**
  * MainActivity is a launching activity after the login.
@@ -29,6 +30,10 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
     private static final String TAG = "MainActivity_TAG";
     private static final int BOOKING_REQUEST = 1111;
+
+    private static Student sStudent;
+    private static Booking sBooking;
+    private static StudentCentre sCentre;
 
     // Initial data field
     private String mUserSid;
@@ -49,15 +54,26 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private TextView mRefNumTv;
     private OperationThread mThread;
 
+    // getters for static objects
+    public static Booking getBooking() {
+        return sBooking;
+    }
+
+    public static StudentCentre getCentre() {
+        return sCentre;
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        sStudent = new Student();
+        sBooking = new Booking();
+        sCentre = new StudentCentre();
+        sBooking.setStudent(sStudent);
+        sBooking.setStudentCentre(sCentre);
         initialise();
-    }
-
-    private void updateTime() {
     }
 
     private void initialise() {
@@ -65,9 +81,18 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(loginIntent);
         } else {
-            mUserSid = getIntent().getStringExtra(USERNAME);
+
+            sStudent.setName("Jone");
+            sStudent.setId(getIntent().getStringExtra(USERSID));
+
+
+            mUserSid = sStudent.getId();
             mUserSidTv = (TextView) findViewById(R.id.userSidTv);
             mUserSidTv.setText(" " + mUserSid);
+
+            sBooking.setStudent(sStudent);
+            Log.d(TAG, "Name -- > " + getBooking().getStudent().getName());
+            sBooking.setStudentCentre(sCentre);
 
 
             Button newBookingBtn = (Button) findViewById(R.id.new_booking_btn);
@@ -119,15 +144,18 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             mCancelBtn = (Button) findViewById(R.id.cancelBtn_main);
 
             // setText with booking information
-            mRefNumTv.setText(data.getStringExtra(REF_NUMBER));
+            mRefNumTv.setText(sBooking.getRefNumber());
             mBookedSidTv.setText(mUserSid);
-//            mBookedUserNameTv.setText(mUserSid);
-            mBookedTypeTv.setText(data.getStringExtra(FINAL_TYPE));
-            mBookedCentreTv.setText(data.getStringExtra(CENTRE_TYPE));
+//            mBookedUserNameTv.setText(mUserName);
+            mBookedTypeTv.setText(sBooking.getEnquiryType());
+            mBookedCentreTv.setText(sCentre.getName());
 
             // set the estimated time of waiting
-            time = data.getIntExtra(EST_TIME, 0);
+            time = sCentre.getEstTime();
             mBookedEstTv.setText(time + " min");
+
+            //TODO: booking time may need change in logic
+            sBooking.setDate(new Date().toLocaleString());
 
             startup(); // start the Thread for count
 
@@ -142,6 +170,9 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         }
     }
 
+    /**
+     * Start the new thread for counter
+     */
     public synchronized void startup() {
         if (mThread == null) {
             mThread = new OperationThread();
@@ -149,23 +180,28 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         }
     }
 
+    /**
+     * Shut down the counter thread
+     */
+    public synchronized void shutdown() {
+        if (mThread != null) {
+            mThread.shutdown();
+        }
+    }
+
+    /**
+     * Handles the booking cancel event.
+     * Once the user confirms to cancel the booking, this method will be called and initialise the view and fields
+     * @param dlg
+     */
     @Override
     public void onCancelConfirmClick(DialogFragment dlg) {
+        //TODO: thread sleep may be required
         setContentView(R.layout.activity_main);
         mLayout = (LinearLayout) findViewById(R.id.main_layout);
         Snackbar.make(mLayout, R.string.booking_cancel_msg, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
         initialise();
-    }
-
-//    public int getDelay() {
-//        return mDelay;
-//    }
-
-    public synchronized void shutdown() {
-        if (mThread != null) {
-            mThread.shutdown();
-        }
     }
 
     @Override

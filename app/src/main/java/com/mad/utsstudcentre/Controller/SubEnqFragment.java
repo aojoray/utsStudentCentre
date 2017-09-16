@@ -17,8 +17,15 @@ import com.mad.utsstudcentre.R;
 import butterknife.ButterKnife;
 
 import static android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE;
-import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.*;
 import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.HELP_ENQUIRY_FRAGMENT;
+import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_ASSESSMENT;
+import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_GENERAL;
+import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_GRADUATION;
+import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_IT_SUPPORT;
+import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_STUDY_PLAN;
+import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_SUbJ_ENROL;
+import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_TIMETABLE;
+import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_UTS_DOC;
 
 /**
  * SubEnqFragment is loaded when the parent enquiry has subtypes.
@@ -30,6 +37,7 @@ public class SubEnqFragment extends Fragment {
     private static final String TYPE = "Enq_Type";
     private static final String CENTRE_FRAGMENT = "Centre fragment";
     private static final String SUB_TYPE = "sub-type code";
+    private static final String TAG = "SubEnqFragment_TAG";
     private ImageButton mHelpBtn;
     private LinearLayout mSubEnqBtnLayout;
     private String[] mItems;

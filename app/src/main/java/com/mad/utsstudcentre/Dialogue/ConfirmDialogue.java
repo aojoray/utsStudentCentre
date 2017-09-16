@@ -12,12 +12,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.mad.utsstudcentre.Controller.MainActivity;
+import com.mad.utsstudcentre.Model.Booking;
+import com.mad.utsstudcentre.Model.Student;
 import com.mad.utsstudcentre.R;
-
-import static com.mad.utsstudcentre.Controller.CentreFragment.CENTRE_TYPE;
-import static com.mad.utsstudcentre.Controller.CentreFragment.EST_TIME;
-import static com.mad.utsstudcentre.Controller.CentreFragment.FINAL_TYPE;
-import static com.mad.utsstudcentre.Controller.CentreFragment.REF_NUMBER;
 
 /**
  * ConfirmDialogue shows user the booking details and let user to check the detail again and confirm booking
@@ -52,17 +50,20 @@ public class ConfirmDialogue extends DialogFragment {
         mTypeTv = (TextView) v.findViewById(R.id.dia_typeTv);
         mCentreTv = (TextView) v.findViewById(R.id.dia_centreTv);
 
-        //TODO: set Text by user data (need to pass from the prev. activities)
-//        mSidTv.setText(getArguments().getString());
+        // populate fields with Booking and Student objects
+        Booking booking = MainActivity.getBooking();
+        Student student =  booking.getStudent();
+        mSidTv.setText(student.getId());
+        mNameTv.setText(student.getName());
+        mTypeTv.setText(booking.getEnquiryType());
+        mCentreTv.setText(booking.getStudentCentre().getName());
 
         // Build the dialog
         builder.setTitle("Do you want to proceed?")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-//                        Log.d(TAG, "RefNum @ Dialogue: " + getArguments().getString(REF_NUMBER));
-                        mHost.onOkayClick(ConfirmDialogue.this, getArguments().getString(REF_NUMBER),
-                                getArguments().getString(CENTRE_TYPE), getArguments().getString(FINAL_TYPE), getArguments().getInt(EST_TIME));
+                        mHost.onOkayClick(ConfirmDialogue.this);
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -90,6 +91,7 @@ public class ConfirmDialogue extends DialogFragment {
      * Interface for confirmation dialogue Listener
      */
     public interface ConfDialogListener {
-        void onOkayClick(DialogFragment dlg, String string1, String s, String string, int estTime);
+//        void onOkayClick(DialogFragment dlg, String string1, String s, String string, int estTime);
+        void onOkayClick(DialogFragment dlg);
     }
 }

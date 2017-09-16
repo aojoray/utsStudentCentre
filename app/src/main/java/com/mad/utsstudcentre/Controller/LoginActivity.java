@@ -23,7 +23,7 @@ import com.mad.utsstudcentre.Util.Values;
 
 public class LoginActivity extends AppCompatActivity {
 
-    public static final String USERNAME = "user ID";
+    public static final String USERSID = "user ID";
     public static final String DATABDL = "data";
     private Button mLoginButton;
     private EditText mIdInput;
@@ -61,10 +61,10 @@ public class LoginActivity extends AppCompatActivity {
                             if (dataSnapshot.hasChild(userId) && dataSnapshot.child(userId).child("password").getValue().toString().equals(userPassword)) {
                                 SessionManager.registerSession(getApplicationContext(), userId);mProgress.hide();
                                 Bundle bdl = new Bundle();
-                                bdl.putString(USERNAME, userId);
+                                bdl.putString(USERSID, userId);
                                 SaveSharedPreference.setUserName(LoginActivity.this, userId);
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                intent.putExtra(USERNAME, userId);
+                                intent.putExtra(USERSID, userId);
                                 startActivity(intent);
                                 finish();
                             } else {
