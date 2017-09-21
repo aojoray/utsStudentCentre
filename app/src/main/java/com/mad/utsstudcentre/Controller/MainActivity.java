@@ -85,8 +85,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             sStudent.setName("Jone");
             sStudent.setId(getIntent().getStringExtra(USERSID));
 
-
-            mUserSid = sStudent.getId();
+            mUserSid = SaveSharedPreference.getUserName(MainActivity.this);
             mUserSidTv = (TextView) findViewById(R.id.userSidTv);
             mUserSidTv.setText(" " + mUserSid);
 
