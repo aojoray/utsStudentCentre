@@ -60,9 +60,12 @@ public class LoginActivity extends AppCompatActivity {
 
                             if (dataSnapshot.hasChild(userId) && dataSnapshot.child(userId).child("password").getValue().toString().equals(userPassword)) {
                                 SessionManager.registerSession(getApplicationContext(), userId);mProgress.hide();
-                                Bundle bdl = new Bundle();
-                                bdl.putString(USERSID, userId);
+//                                Bundle bdl = new Bundle();
+//                                bdl.putString(USERSID, userId);
+                                String firstName = dataSnapshot.child(userId).child("firstName").getValue().toString();
+
                                 SaveSharedPreference.setUserName(LoginActivity.this, userId);
+                                SaveSharedPreference.setFirstName(LoginActivity.this, firstName);
                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                 intent.putExtra(USERSID, userId);
                                 startActivity(intent);
