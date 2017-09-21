@@ -145,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             // setText with booking information
             mRefNumTv.setText(sBooking.getRefNumber());
             mBookedSidTv.setText(mUserSid);
-//            mBookedUserNameTv.setText(mUserName);
+            mBookedUserNameTv.setText(sBooking.getStudent().getName());
             mBookedTypeTv.setText(sBooking.getEnquiryType());
             mBookedCentreTv.setText(sCentre.getName());
 
@@ -155,6 +155,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
             //TODO: booking time may need change in logic
             sBooking.setDate(new Date().toLocaleString());
+            Log.d(TAG, "Booking Date: " + sBooking.getDate());
 
             startup(); // start the Thread for count
 
