@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.mad.utsstudcentre.Dialogue.CancelDialogue;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private static final String TAG = "MainActivity_TAG";
     private static final int BOOKING_REQUEST = 1111;
 
+    // Models
     private static Student sStudent;
     private static Booking sBooking;
     private static StudentCentre sCentre;
@@ -48,11 +50,16 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private TextView mBookedTypeTv;
     private TextView mBookedCentreTv;
     private TextView mBookedEstTv;
-    //    private TextView mBookedWaitingTv;
+
+    // private TextView mBookedWaitingTv;
     public int time;
     private int mDelay = 60; // The initial delay between operate() calls is 60 seconds (1 minute).
     private TextView mRefNumTv;
     private OperationThread mThread;
+    private CancelThread mCancelThread;
+
+    // Progressbar on Cancel
+    private ProgressBar mCancelPb;
 
     // getters for static objects
     public static Booking getBooking() {
@@ -73,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         sCentre = new StudentCentre();
         sBooking.setStudent(sStudent);
         sBooking.setStudentCentre(sCentre);
+        mCancelPb = (ProgressBar) findViewById(R.id.cancel_pb);
         initialise();
     }
 
@@ -157,7 +165,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             sBooking.setDate(new Date().toLocaleString());
             Log.d(TAG, "Booking Date: " + sBooking.getDate());
 
-            startup(); // start the Thread for count
+            startup();   // start the Thread for count
 
             mCancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -190,18 +198,32 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     }
 
     /**
+     * Start the new thread for emulating process on cnacelation
+     */
+    public synchronized void startCancelThread() {
+        if (mCancelThread == null) {
+            mCancelThread = new CancelThread();
+            mCancelThread.start();
+        }
+    }
+
+    /**
      * Handles the booking cancel event.
      * Once the user confirms to cancel the booking, this method will be called and initialise the view and fields
+     *
      * @param dlg
      */
     @Override
     public void onCancelConfirmClick(DialogFragment dlg) {
         //TODO: thread sleep may be required
         setContentView(R.layout.activity_main);
+        mCancelPb.setVisibility(View.VISIBLE);
         mLayout = (LinearLayout) findViewById(R.id.main_layout);
+        mLayout.setVisibility(View.INVISIBLE);
         Snackbar.make(mLayout, R.string.booking_cancel_msg, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
-        initialise();
+        //TODO: thread
+        startCancelThread();
     }
 
     @Override
@@ -229,6 +251,10 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                         }
                     });
 
+                    if(time ==10) {
+                        //TODO: send notification
+                    }
+
                 } catch (InterruptedException e) {
                     // Happens when requested to shut down
                 }
@@ -238,6 +264,32 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
         public void shutdown() {
             running = false;
+            interrupt();
+        }
+    }
+
+    /**
+     * CancelThread is used for emulate the cancellation process
+     */
+    private class CancelThread extends Thread {
+
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(1000); // 1000 milliseconds
+                shutdown();
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    public void run() {
+                        mCancelPb.setVisibility(View.INVISIBLE);
+                        initialise();
+                    }
+                });
+            } catch (InterruptedException e) {
+                // Happens when requested to shut down
+            }
+        }
+
+        public void shutdown() {
             interrupt();
         }
     }

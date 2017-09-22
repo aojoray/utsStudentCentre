@@ -28,7 +28,7 @@
     <color name="btn_login_bg">#eceef1</color>
     <color name="lbl_name">#333333</color>
     <!--<color name="btn_logut_bg">#ff6861</color>-->
-    <color name="btn_logut_bg">#b1b1b1</color>
+    <color name="btn_logout_bg">#b1b1b1</color>
     <!--<color name="btn_new_booking">#428bca</color>-->
     <color name="btn_new_booking">#114ceb</color>
     <color name="text_new_booking">#ffffff</color>

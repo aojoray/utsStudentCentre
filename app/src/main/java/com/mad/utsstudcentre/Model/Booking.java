@@ -9,6 +9,7 @@ public class Booking {
     private StudentCentre mStudentCentre;
     private String mDate;
     private Student mStudent;
+
     public long getBookingID() {
         return mBookingID;
     }
