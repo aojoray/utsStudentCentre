@@ -42,7 +42,7 @@
                     android:id="@+id/enq_help_tv_1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/help_general"
+                    android:text="@string/help_subject_enrolment"
                     android:textSize="15sp" />
 
                 <TextView

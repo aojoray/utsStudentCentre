@@ -34,53 +34,21 @@
     <string name="enrolment_assistance">Enrolment Assistance</string>
 
     <!--Help contents -->
-    <string name="help_subject_enrolment">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="help_subject_enrolment">Enquiry regarding Enrolment Assistance, Full Subject or Pre-Requisite subjects.</string>
 
-    <string name="help_study_plan">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="help_study_plan">Enquiry regarding your planned or current study plan.</string>
 
-    <string name="help_uts_documents">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="help_uts_documents">Enquiry regarding your official documents, such as enrolment form.</string>
 
-    <string name="help_general">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="help_general">Other general enquiry not classified in the other options.</string>
 
-    <string name="help_class_timetable">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="help_class_timetable">Enquiry regarding your class timetable.</string>
 
-    <string name="help_exams_and_assessment">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="help_exams_and_assessment">Enquiry regarding your exams and assessments</string>
 
-    <string name="help_graduation">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="help_graduation">Enquiry regarding your graduation information and documents such as official transcript and invitation letter.</string>
 
-    <string name="help_it_support">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-        eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-        nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure
-        dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-        sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</string>
+    <string name="help_it_support">Enquiry about IT technical support or your UTS account.</string>
 
     <string-array name="sub_enrol_title_01">
         <item>Enrolment Assistance</item>
@@ -89,9 +57,9 @@
     </string-array>
 
     <string-array name="sub_enrol_text_01">
-        <item>Enrolment Assistance - eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis</item>
-        <item>Full Subject - nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure</item>
-        <item>Pre-Requisite - sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</item>
+        <item>Enrolment Assistance - advice, instruction or explanation about enrolment into subjects.</item>
+        <item>Full Subject - subject capacity is full.</item>
+        <item>Pre-Requisite - advice or information regarding subject pre-requisites.</item>
     </string-array>
 
     <string name="centre_greeting">Please Choose a Centre for</string>
