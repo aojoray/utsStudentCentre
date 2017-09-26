@@ -16,6 +16,7 @@ import com.mad.utsstudcentre.Controller.MainActivity;
 import com.mad.utsstudcentre.Model.Booking;
 import com.mad.utsstudcentre.Model.Student;
 import com.mad.utsstudcentre.R;
+import com.mad.utsstudcentre.Util.SaveSharedPreference;
 
 /**
  * ConfirmDialogue shows user the booking details and let user to check the detail again and confirm booking

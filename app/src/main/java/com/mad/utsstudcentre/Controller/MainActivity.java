@@ -36,8 +36,9 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private static StudentCentre sCentre;
 
     // Initial data field
+    private String mUserSName;
     private String mUserSid;
-    private TextView mUserSidTv;
+    private TextView mUserSNameTv;
     private Button mCancelBtn;
     private LinearLayout mLayout;
 
@@ -82,12 +83,16 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             startActivity(loginIntent);
         } else {
 
-            sStudent.setName("Jone");
-            sStudent.setId(getIntent().getStringExtra(USERSID));
+            //Populate data stored in the login activity from SaveSharedPreference
+            mUserSName = SaveSharedPreference.getFirstName(MainActivity.this);
+            mUserSid = SaveSharedPreference.getUserName(MainActivity.this);
 
-            mUserSid = SaveSharedPreference.getFirstName(MainActivity.this);
-            mUserSidTv = (TextView) findViewById(R.id.userSidTv);
-            mUserSidTv.setText(" " + mUserSid);
+            sStudent.setName(mUserSName);
+            sStudent.setId(mUserSid);
+
+            mUserSName = SaveSharedPreference.getFirstName(MainActivity.this);
+            mUserSNameTv = (TextView) findViewById(R.id.userSidTv);
+            mUserSNameTv.setText(" " + mUserSName);
 
             sBooking.setStudent(sStudent);
             Log.d(TAG, "Name -- > " + getBooking().getStudent().getName());
