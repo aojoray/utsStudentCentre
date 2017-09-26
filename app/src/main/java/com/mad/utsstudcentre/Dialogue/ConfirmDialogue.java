@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.mad.utsstudcentre.Controller.MainActivity;
 import com.mad.utsstudcentre.Model.Booking;
 import com.mad.utsstudcentre.Model.Student;
@@ -52,8 +54,8 @@ public class ConfirmDialogue extends DialogFragment {
         mCentreTv = (TextView) v.findViewById(R.id.dia_centreTv);
 
         // populate fields with Booking and Student objects
-        Booking booking = MainActivity.getBooking();
-        Student student =  booking.getStudent();
+        final Booking booking = MainActivity.getBooking();
+        final Student student =  booking.getStudent();
         mSidTv.setText(student.getId());
         mNameTv.setText(student.getName());
         mTypeTv.setText(booking.getEnquiryType());
@@ -65,6 +67,8 @@ public class ConfirmDialogue extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mHost.onOkayClick(ConfirmDialogue.this);
+                        DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
+                        mDatabase.child("students").child(student.getId()).push().setValue(booking.getEnquiryType());
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
