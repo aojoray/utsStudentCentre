@@ -12,6 +12,11 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mad.utsstudcentre.Dialogue.ConfirmDialogue;
 import com.mad.utsstudcentre.R;
 
@@ -47,12 +52,24 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
     public static final int TYPE_ASSESSMENT = 6;
     public static final int TYPE_GRADUATION = 7;
     public static final int TYPE_IT_SUPPORT = 8;
+    private String enq01;
+    private String enq02;
+    private String enq03;
+    private String enq04;
+    private String enq05;
+    private String enq06;
+    private String enq07;
+    private String enq08;
+
+    private DatabaseReference mDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enquiry_type);
+        setupFirebase();
 
+        enq01 = "lol";
 
         // Connect buttons to controller
         mEnqBtn01 = (Button) findViewById(R.id.enqBtn01);
@@ -66,6 +83,33 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
         mHelpBtn = (ImageButton) findViewById(R.id.enqHelpBtn);
         // Connect Fragment container
         mFrame = (FrameLayout) findViewById(R.id.container);
+
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                enq01 = dataSnapshot.child("bookings").child("1").child("bookingName").getValue().toString();
+                enq02 = dataSnapshot.child("bookings").child("2").child("bookingName").getValue().toString();
+                enq03 = dataSnapshot.child("bookings").child("3").child("bookingName").getValue().toString();
+                enq04 = dataSnapshot.child("bookings").child("4").child("bookingName").getValue().toString();
+                enq05 = dataSnapshot.child("bookings").child("5").child("bookingName").getValue().toString();
+                enq06 = dataSnapshot.child("bookings").child("6").child("bookingName").getValue().toString();
+                enq07 = dataSnapshot.child("bookings").child("7").child("bookingName").getValue().toString();
+                enq08 = dataSnapshot.child("bookings").child("8").child("bookingName").getValue().toString();
+                mEnqBtn01.setText(enq01);
+                mEnqBtn02.setText(enq02);
+                mEnqBtn03.setText(enq03);
+                mEnqBtn04.setText(enq04);
+                mEnqBtn05.setText(enq05);
+                mEnqBtn06.setText(enq06);
+                mEnqBtn07.setText(enq07);
+                mEnqBtn08.setText(enq08);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         //Set OnclickListeners for buttons
         // My subject enrolment btn
@@ -191,4 +235,29 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
         setResult(RESULT_OK, intent);
         finish();
     }
+
+    public void setupFirebase(){
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+    }
+//
+//    public void populateData(){
+//        mDatabase.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                enq01 = dataSnapshot.child("bookings").child("1").getValue().toString();
+//                enq02 = dataSnapshot.child("bookings").child("2").getValue().toString();
+//                enq03 = dataSnapshot.child("bookings").child("3").getValue().toString();
+//                enq04 = dataSnapshot.child("bookings").child("4").getValue().toString();
+//                enq05 = dataSnapshot.child("bookings").child("5").getValue().toString();
+//                enq06 = dataSnapshot.child("bookings").child("6").getValue().toString();
+//                enq07 = dataSnapshot.child("bookings").child("7").getValue().toString();
+//                enq08 = dataSnapshot.child("bookings").child("8").getValue().toString();
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
+//    }
 }

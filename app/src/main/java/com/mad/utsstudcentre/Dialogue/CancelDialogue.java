@@ -6,11 +6,17 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.mad.utsstudcentre.Controller.MainActivity;
+import com.mad.utsstudcentre.Model.Booking;
+import com.mad.utsstudcentre.Model.Student;
 import com.mad.utsstudcentre.R;
 
 /**
@@ -19,6 +25,10 @@ import com.mad.utsstudcentre.R;
 public class CancelDialogue extends DialogFragment {
 
     private CancelDialogueListener mHost;
+    private DatabaseReference mDatabase;
+
+    private Booking mBooking;
+    private Student mStudent;
 
     /**
      * Building the dialogue
@@ -26,9 +36,13 @@ public class CancelDialogue extends DialogFragment {
      * @param savedInstanceState
      * @return
      */
+
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        mBooking = MainActivity.getBooking();
+        mStudent = mBooking.getStudent();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         // Create the custom layout using the LayoutInflater class
@@ -41,6 +55,8 @@ public class CancelDialogue extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mHost.onCancelConfirmClick(CancelDialogue.this);
+                        mDatabase.child("futureBooking").child(mBooking.getEnquiryType())
+                                .child("refNumber" + mStudent.getId()).removeValue();
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

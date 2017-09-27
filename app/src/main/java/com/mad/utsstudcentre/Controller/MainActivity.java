@@ -145,6 +145,9 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             Log.d(TAG, "RESULT OKAY! ");
             setContentView(R.layout.activity_main_booked);
 
+            final Booking mBooking = MainActivity.getBooking();
+            final Student mStudent = mBooking.getStudent();
+
             mDatabase = FirebaseDatabase.getInstance().getReference();
 
             mRefNumTv = (TextView) findViewById(R.id.refNumTv);
@@ -166,21 +169,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             // set the estimated time of waiting
             time = sCentre.getEstTime();
             mBookedEstTv.setText(time + " min");
-
-            // set if the booking is confirmed, the layout will be changed
-            mDatabase.child("students").child(mUserSid).addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    if(dataSnapshot.hasChild("bookingConfirmation") && dataSnapshot.child("bookingConfirmation").getValue().equals("true")){
-                        mRefNumTv.setText("success");
-                    }
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });
 
             //TODO: booking time may need change in logic
             sBooking.setDate(new Date().toLocaleString());

@@ -68,7 +68,8 @@ public class ConfirmDialogue extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         mHost.onOkayClick(ConfirmDialogue.this);
                         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-                        mDatabase.child("students").child(student.getId()).push().setValue(booking.getEnquiryType());
+                        mDatabase.child("futureBooking").child(booking.getEnquiryType())
+                                .child("refNumber" + student.getId()).setValue(booking.getRefNumber());
                         mDatabase.child("students").child(student.getId()).child("bookingConfirmation").setValue("false");
                     }
                 })
