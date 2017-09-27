@@ -11,12 +11,18 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mad.utsstudcentre.Dialogue.CancelDialogue;
 import com.mad.utsstudcentre.Model.Booking;
 import com.mad.utsstudcentre.Model.Student;
 import com.mad.utsstudcentre.Model.StudentCentre;
 import com.mad.utsstudcentre.R;
 import com.mad.utsstudcentre.Util.SaveSharedPreference;
+import com.simplealertdialog.SimpleAlertDialogFragment;
 
 import java.util.Date;
 
@@ -30,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
     private static final String TAG = "MainActivity_TAG";
     private static final int BOOKING_REQUEST = 1111;
+
+    private DatabaseReference mDatabase;
 
     private static Student sStudent;
     private static Booking sBooking;
@@ -82,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(loginIntent);
         } else {
-
             //Populate data stored in the login activity from SaveSharedPreference
             mUserSName = SaveSharedPreference.getFirstName(MainActivity.this);
             mUserSid = SaveSharedPreference.getUserName(MainActivity.this);
@@ -138,6 +145,8 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             Log.d(TAG, "RESULT OKAY! ");
             setContentView(R.layout.activity_main_booked);
 
+            mDatabase = FirebaseDatabase.getInstance().getReference();
+
             mRefNumTv = (TextView) findViewById(R.id.refNumTv);
             mBookedSidTv = (TextView) findViewById(R.id.booked_sidTv);
             mBookedUserNameTv = (TextView) findViewById(R.id.booked_nameTv);
@@ -157,6 +166,21 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             // set the estimated time of waiting
             time = sCentre.getEstTime();
             mBookedEstTv.setText(time + " min");
+
+            // set if the booking is confirmed, the layout will be changed
+            mDatabase.child("students").child(mUserSid).addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    if(dataSnapshot.hasChild("bookingConfirmation") && dataSnapshot.child("bookingConfirmation").getValue().equals("true")){
+                        mRefNumTv.setText("success");
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+
+                }
+            });
 
             //TODO: booking time may need change in logic
             sBooking.setDate(new Date().toLocaleString());

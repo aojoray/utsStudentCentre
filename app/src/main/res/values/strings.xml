@@ -17,6 +17,7 @@
     <string name="please_choose_an_enquiry_type">Please Choose an Enquiry Type</string>
     <string name="welcome">Welcome,</string>
     <string name="new_booking_btn">New Booking</string>
+    <string name="current_booking_btn">Current Booking</string>
 
     <!--Enquiry Types-->
     <string name="my_subject_enrolment">My Subject Enrolment</string>

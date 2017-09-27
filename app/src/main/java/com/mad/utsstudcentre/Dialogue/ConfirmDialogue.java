@@ -69,6 +69,7 @@ public class ConfirmDialogue extends DialogFragment {
                         mHost.onOkayClick(ConfirmDialogue.this);
                         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
                         mDatabase.child("students").child(student.getId()).push().setValue(booking.getEnquiryType());
+                        mDatabase.child("students").child(student.getId()).child("bookingConfirmation").setValue("false");
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
