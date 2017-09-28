@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     // Initial data field
     private String mUserSName;
     private String mUserSid;
-    private TextView mUserSidTv;
+    private TextView mUserSNameTv;
     private Button mCancelBtn;
     private LinearLayout mLayout;
 
@@ -213,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
                         R.mipmap.ic_launcher))
                 .setContentTitle("10 minutes left!")
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Your Booking will be proceeded shortly!"))
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("Your Booking will be processed shortly!"))
                 .setContentText("Your Booking will be proceeded shortly!");
         sendNotification();
     }
