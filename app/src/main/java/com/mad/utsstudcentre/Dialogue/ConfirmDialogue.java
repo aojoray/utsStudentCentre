@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -68,9 +69,14 @@ public class ConfirmDialogue extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         mHost.onOkayClick(ConfirmDialogue.this);
                         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
-                        mDatabase.child("futureBooking").child(booking.getEnquiryType())
-                                .child("refNumber" + student.getId()).setValue(booking.getRefNumber());
-                        mDatabase.child("students").child(student.getId()).child("bookingConfirmation").setValue("false");
+                        DatabaseReference futureBookingChild = mDatabase.child("futureBooking")
+                                .child(booking.getEnquiryType())
+                                .child(student.getId());
+                        futureBookingChild.child("refNumber").setValue(booking.getRefNumber());
+                        futureBookingChild.child("studentId").setValue(student.getId());
+                        futureBookingChild.child("studentName").setValue(student.getName());
+                        futureBookingChild.child("studentCentre").setValue(booking.getStudentCentre());
+                        futureBookingChild.child("bookingConfirmation").setValue("false");
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
