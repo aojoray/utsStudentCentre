@@ -1,9 +1,15 @@
 package com.mad.utsstudcentre.Controller;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -50,6 +56,10 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private Button mCancelBtn;
     private LinearLayout mLayout;
 
+    // Push Notification builder
+    private NotificationCompat.Builder mNotificationBuilder;
+    private NotificationManager mNotificationManager;
+
 
     // Data filed after confirming a booking
     private TextView mBookedSidTv;
@@ -59,15 +69,14 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private TextView mBookedEstTv;
     //    private TextView mBookedWaitingTv;
     public int time;
-    private int mDelay = 60; // The initial delay between operate() calls is 60 seconds (1 minute).
+    private int mDelay = 1;//60; // The initial delay between operate() calls is 60 seconds (1 minute).
     private TextView mRefNumTv;
     private OperationThread mThread;
 
-    // getters for static objects
+    // getters for static objects Booking and Student Centre
     public static Booking getBooking() {
         return sBooking;
     }
-
     public static StudentCentre getCentre() {
         return sCentre;
     }
@@ -184,7 +193,32 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                 }
             });
 
+            mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+
+
         }
+    }
+
+
+    private void setPushNotification() {
+        mNotificationBuilder = new NotificationCompat.Builder(this)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
+                        R.mipmap.ic_launcher))
+                .setContentTitle("10 minutes left!")
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("Your Booking will be proceeded shortly!"))
+                .setContentText("Your Booking will be proceeded shortly!");
+        sendNotification();
+    }
+
+    private void sendNotification() {
+        Intent notificationIntent = new Intent(this, MainActivity.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mNotificationBuilder.setContentIntent(contentIntent);
+        Notification notification = mNotificationBuilder.build();
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        mNotificationManager.notify(1001, notification);
     }
 
     /**
@@ -245,6 +279,13 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                             mBookedEstTv.setText(time + " min");
                         }
                     });
+                    if (time <= 10) {
+                        MainActivity.this.runOnUiThread(new Runnable() {
+                            public void run() {
+                                setPushNotification();
+                            }
+                        });
+                    }
 
                 } catch (InterruptedException e) {
                     // Happens when requested to shut down
