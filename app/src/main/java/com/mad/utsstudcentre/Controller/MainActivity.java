@@ -1,5 +1,6 @@
 package com.mad.utsstudcentre.Controller;
 
+import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -27,9 +29,11 @@ import com.mad.utsstudcentre.Model.Booking;
 import com.mad.utsstudcentre.Model.Student;
 import com.mad.utsstudcentre.Model.StudentCentre;
 import com.mad.utsstudcentre.R;
+import com.mad.utsstudcentre.Util.AlarmReceiver;
 import com.mad.utsstudcentre.Util.SaveSharedPreference;
 import com.simplealertdialog.SimpleAlertDialogFragment;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import static com.mad.utsstudcentre.Controller.LoginActivity.USERSID;
@@ -60,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     // Push Notification builder
     private NotificationCompat.Builder mNotificationBuilder;
     private NotificationManager mNotificationManager;
+
+    private PendingIntent pendingIntent;
 
 
     // Data filed after confirming a booking
@@ -202,8 +208,52 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
             mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-
+            /* Retrieve a PendingIntent that will perform a broadcast */
+            Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+            pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
+            start();
         }
+    }
+
+    /**
+     * Starting the alarm service.
+     */
+    public void start() {
+
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        int interval = 1000 * 60 * mDelay; // mDelay minutes interval
+
+        /* Set the alarm to start at 10:30 AM */
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        Log.d(TAG, "Time = " + Calendar.getInstance().getTimeInMillis());
+        Log.d(TAG, "CurTime-Time = " + (Calendar.getInstance().getTimeInMillis() - (time*1000)));
+//        int targetHr = ;
+//        int targetMin= 0;
+        calendar.set(Calendar.HOUR_OF_DAY, 10);
+        calendar.set(Calendar.MINUTE, 30);
+
+        /* Repeating on every mDelay minutes interval */
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                1000 * 60 * mDelay, pendingIntent);
+
+        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
+
+//        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+//        int interval = 8000;
+//
+//        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
+//        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
+    }
+
+    /**
+     * Method to cancel the alarm service
+     * //TODO: Need to be called at some point when user fianlly confirms the booking
+     */
+    public void cancel() {
+        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        manager.cancel(pendingIntent);
+        Toast.makeText(this, "Alarm Canceled", Toast.LENGTH_SHORT).show();
     }
 
 
@@ -216,6 +266,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                 .setStyle(new NotificationCompat.BigTextStyle().bigText("Your Booking will be processed shortly!"))
                 .setContentText("Your Booking will be proceeded shortly!");
         sendNotification();
+        Log.d(TAG, "Notification sent!!! ");
     }
 
     private void sendNotification() {
@@ -296,10 +347,12 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                             mBookedEstTv.setText(time + " min");
                         }
                     });
-                    if (time <= 10) {
+                    Log.d(TAG, "Thread time: " + time);
+                    if (time == 10) {
                         MainActivity.this.runOnUiThread(new Runnable() {
                             public void run() {
                                 setPushNotification();
+                                Log.d(TAG, "Time to send notification!!");
                             }
                         });
                     }

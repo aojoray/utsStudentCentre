@@ -3,6 +3,8 @@
     package="com.mad.utsstudcentre">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <!-- Permission to start Alarm on device reboot -->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:allowBackup="true"
@@ -27,6 +29,20 @@
         <activity
             android:name=".Controller.EnquiryTypeActivity">
         </activity>
+
+        <receiver android:name=".Util.AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
+
+        <!-- Will not be called unless the application explicitly enables it -->
+        <receiver android:name=".Util.DeviceBootReceiver"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
