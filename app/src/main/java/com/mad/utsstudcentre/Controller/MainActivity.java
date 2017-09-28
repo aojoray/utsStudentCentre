@@ -227,15 +227,18 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
         Log.d(TAG, "Time = " + Calendar.getInstance().getTimeInMillis());
-        Log.d(TAG, "CurTime-Time = " + (Calendar.getInstance().getTimeInMillis() - (time*1000)));
+        Log.d(TAG, "CurTime-Time = " + (Calendar.getInstance().getTimeInMillis() + (time*1000)));
+        Log.d(TAG, "CurTime-Time in minute " + (Calendar.getInstance().getTimeInMillis() + (time*1000))/60000);
+
 //        int targetHr = ;
 //        int targetMin= 0;
-        calendar.set(Calendar.HOUR_OF_DAY, 10);
-        calendar.set(Calendar.MINUTE, 30);
+//        calendar.set(Calendar.HOUR_OF_DAY, 10);
+//        calendar.set(Calendar.MINUTE, 30);
 
         /* Repeating on every mDelay minutes interval */
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                1000 * 60 * mDelay, pendingIntent);
+        // TODO: replace 2nd with --> (Calendar.getInstance().getTimeInMillis() + (time*1000))
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, (Calendar.getInstance().getTimeInMillis() + 60000),
+                1000 * 60 * 0, pendingIntent);
 
         Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
 
@@ -351,8 +354,8 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                     if (time == 10) {
                         MainActivity.this.runOnUiThread(new Runnable() {
                             public void run() {
-                                setPushNotification();
                                 Log.d(TAG, "Time to send notification!!");
+                                setPushNotification();
                             }
                         });
                     }
