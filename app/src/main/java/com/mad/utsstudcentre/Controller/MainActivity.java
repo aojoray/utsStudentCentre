@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
     private DatabaseReference mDatabase;
 
+    // Models
     private static Student sStudent;
     private static Booking sBooking;
     private static StudentCentre sCentre;
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     // Initial data field
     private String mUserSName;
     private String mUserSid;
-    private TextView mUserSNameTv;
+    private TextView mUserSidTv;
     private Button mCancelBtn;
     private LinearLayout mLayout;
 
@@ -67,16 +68,22 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private TextView mBookedTypeTv;
     private TextView mBookedCentreTv;
     private TextView mBookedEstTv;
-    //    private TextView mBookedWaitingTv;
+
+    // private TextView mBookedWaitingTv;
     public int time;
     private int mDelay = 1;//60; // The initial delay between operate() calls is 60 seconds (1 minute).
     private TextView mRefNumTv;
     private OperationThread mThread;
+//    private CancelThread mCancelThread;
+
+    // Progressbar on Cancel
+//    private ProgressBar mCancelPb;
 
     // getters for static objects Booking and Student Centre
     public static Booking getBooking() {
         return sBooking;
     }
+
     public static StudentCentre getCentre() {
         return sCentre;
     }
@@ -183,7 +190,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             sBooking.setDate(new Date().toLocaleString());
             Log.d(TAG, "Booking Date: " + sBooking.getDate());
 
-            startup(); // start the Thread for count
+            startup();   // start the Thread for count
 
             mCancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -239,6 +246,16 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             mThread.shutdown();
         }
     }
+
+//    /**
+//     * Start the new thread for emulating process on cnacelation
+//     */
+//    public synchronized void startCancelThread() {
+//        if (mCancelThread == null) {
+//            mCancelThread = new CancelThread();
+//            mCancelThread.start();
+//        }
+//    }
 
     /**
      * Handles the booking cancel event.
