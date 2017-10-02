@@ -239,25 +239,4 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
     public void setupFirebase(){
         mDatabase = FirebaseDatabase.getInstance().getReference();
     }
-//
-//    public void populateData(){
-//        mDatabase.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                enq01 = dataSnapshot.child("bookings").child("1").getValue().toString();
-//                enq02 = dataSnapshot.child("bookings").child("2").getValue().toString();
-//                enq03 = dataSnapshot.child("bookings").child("3").getValue().toString();
-//                enq04 = dataSnapshot.child("bookings").child("4").getValue().toString();
-//                enq05 = dataSnapshot.child("bookings").child("5").getValue().toString();
-//                enq06 = dataSnapshot.child("bookings").child("6").getValue().toString();
-//                enq07 = dataSnapshot.child("bookings").child("7").getValue().toString();
-//                enq08 = dataSnapshot.child("bookings").child("8").getValue().toString();
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//    }
 }

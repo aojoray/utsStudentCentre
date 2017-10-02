@@ -132,8 +132,11 @@ public class CentreFragment extends Fragment {
     private void initialiseData() {
 
         Random random = new Random();
-        int wait01 = random.nextInt(20);
-        int wait02 = random.nextInt(20);
+        //TODO: Replace after testing
+        int wait01 = 3;
+//        int wait01 = random.nextInt(20);
+        int wait02 = 3;
+//        int wait02 = random.nextInt(20);
 
         mEstTime01 = wait01 * 5; // 5 minutes average time per booking
         mEstTime02 = wait02 * 5;

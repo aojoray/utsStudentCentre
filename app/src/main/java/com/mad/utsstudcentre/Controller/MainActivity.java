@@ -19,11 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.mad.utsstudcentre.Dialogue.CancelDialogue;
 import com.mad.utsstudcentre.Model.Booking;
 import com.mad.utsstudcentre.Model.Student;
@@ -31,12 +28,11 @@ import com.mad.utsstudcentre.Model.StudentCentre;
 import com.mad.utsstudcentre.R;
 import com.mad.utsstudcentre.Util.AlarmReceiver;
 import com.mad.utsstudcentre.Util.SaveSharedPreference;
-import com.simplealertdialog.SimpleAlertDialogFragment;
 
 import java.util.Calendar;
 import java.util.Date;
 
-import static com.mad.utsstudcentre.Controller.LoginActivity.USERSID;
+import static com.mad.utsstudcentre.Controller.FinalConfirmActivity.NOTIFICATION;
 
 /**
  * MainActivity is a launching activity after the login.
@@ -46,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
     private static final String TAG = "MainActivity_TAG";
     private static final int BOOKING_REQUEST = 1111;
+    private static final String FLAG = "Instance flag";
+    protected static final String CONFIRM = "Confirm booking";
+    private static final String CANCEL = "Cancel Booking";
 
     private DatabaseReference mDatabase;
 
@@ -64,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     // Push Notification builder
     private NotificationCompat.Builder mNotificationBuilder;
     private NotificationManager mNotificationManager;
-
     private PendingIntent pendingIntent;
 
 
@@ -80,10 +78,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private int mDelay = 1;//60; // The initial delay between operate() calls is 60 seconds (1 minute).
     private TextView mRefNumTv;
     private OperationThread mThread;
-//    private CancelThread mCancelThread;
 
-    // Progressbar on Cancel
-//    private ProgressBar mCancelPb;
 
     // getters for static objects Booking and Student Centre
     public static Booking getBooking() {
@@ -98,13 +93,18 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        sStudent = new Student();
-        sBooking = new Booking();
-        sCentre = new StudentCentre();
-        sBooking.setStudent(sStudent);
-        sBooking.setStudentCentre(sCentre);
-        initialise();
+
+        if (savedInstanceState!=null) {
+            onRestoreInstanceState(savedInstanceState);
+        } else {
+            setContentView(R.layout.activity_main);
+            sStudent = new Student();
+            sBooking = new Booking();
+            sCentre = new StudentCentre();
+            sBooking.setStudent(sStudent);
+            sBooking.setStudentCentre(sCentre);
+            initialise();
+        }
     }
 
     private void initialise() {
@@ -163,7 +163,8 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
+
+        if (resultCode == RESULT_OK && data.getBooleanExtra(NOTIFICATION, true)) {
             Log.d(TAG, "RESULT OKAY! ");
             setContentView(R.layout.activity_main_booked);
 
@@ -221,37 +222,22 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     public void start() {
 
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        int interval = 1000 * 60 * mDelay; // mDelay minutes interval
 
         /* Set the alarm to start at 10:30 AM */
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        Log.d(TAG, "Time = " + Calendar.getInstance().getTimeInMillis());
-        Log.d(TAG, "CurTime-Time = " + (Calendar.getInstance().getTimeInMillis() + (time*1000)));
-        Log.d(TAG, "CurTime-Time in minute " + (Calendar.getInstance().getTimeInMillis() + (time*1000))/60000);
+        calendar.setTimeInMillis((System.currentTimeMillis()+60000)); // Change to 600000 for 10 minutes
 
-//        int targetHr = ;
-//        int targetMin= 0;
-//        calendar.set(Calendar.HOUR_OF_DAY, 10);
-//        calendar.set(Calendar.MINUTE, 30);
+        Log.d(TAG, "Alarm set at = " + calendar.getTime());
 
         /* Repeating on every mDelay minutes interval */
         // TODO: replace 2nd with --> (Calendar.getInstance().getTimeInMillis() + (time*1000))
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, (Calendar.getInstance().getTimeInMillis() + 60000),
-                1000 * 60 * 0, pendingIntent);
-
-        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
-
-//        AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-//        int interval = 8000;
-//
-//        manager.setInexactRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(), interval, pendingIntent);
-//        Toast.makeText(this, "Alarm Set", Toast.LENGTH_SHORT).show();
+        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                0, pendingIntent);
     }
 
     /**
      * Method to cancel the alarm service
-     * //TODO: Need to be called at some point when user fianlly confirms the booking
+     * //TODO: Need to be called at some point when user finally confirms the booking
      */
     public void cancel() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -266,8 +252,18 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                 .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
                         R.mipmap.ic_launcher))
                 .setContentTitle("10 minutes left!")
+                .setDefaults(Notification.DEFAULT_ALL)
+                .setPriority(Notification.PRIORITY_MAX)
+                .setAutoCancel(true)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText("Your Booking will be processed shortly!"))
                 .setContentText("Your Booking will be proceeded shortly!");
+        Intent answerIntent = new Intent(this, FinalConfirmActivity.class);
+        answerIntent.setAction(CONFIRM);
+        PendingIntent pendingIntentYes = PendingIntent.getActivity(this, 1, answerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mNotificationBuilder.addAction(R.drawable.ic_action_check, "Confirm", pendingIntentYes);
+        answerIntent.setAction(CANCEL);
+        PendingIntent pendingIntentNo = PendingIntent.getActivity(this, 1, answerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mNotificationBuilder.addAction(R.drawable.ic_action_cancel, "Cancel", pendingIntentNo);
         sendNotification();
         Log.d(TAG, "Notification sent!!! ");
     }
@@ -277,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         mNotificationBuilder.setContentIntent(contentIntent);
         Notification notification = mNotificationBuilder.build();
-        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+//        notification.flags  |= Notification.FLAG_AUTO_CANCEL;
         notification.defaults |= Notification.DEFAULT_SOUND;
         mNotificationManager.notify(1001, notification);
     }
@@ -301,15 +297,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         }
     }
 
-//    /**
-//     * Start the new thread for emulating process on cnacelation
-//     */
-//    public synchronized void startCancelThread() {
-//        if (mCancelThread == null) {
-//            mCancelThread = new CancelThread();
-//            mCancelThread.start();
-//        }
-//    }
+
 
     /**
      * Handles the booking cancel event.
@@ -329,7 +317,32 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "onDestroy");
         shutdown();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d(TAG, "onStop");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause");
+
+        if(time!=0){
+            Bundle bdl = new Bundle();
+            boolean flag = true;
+            bdl.putBoolean(FLAG, flag);
+            onSaveInstanceState(bdl);
+        } else {
+            Bundle bdl = new Bundle();
+            boolean flag = false;
+            bdl.putBoolean(FLAG, flag);
+            onSaveInstanceState(bdl);
+        }
     }
 
     /**
