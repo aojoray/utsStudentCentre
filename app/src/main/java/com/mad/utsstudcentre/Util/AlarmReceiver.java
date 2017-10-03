@@ -19,8 +19,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         //TODO: replace the next line of code with actual notification etc.
         Toast.makeText(context, "AlarmReceiver: ALARM ", Toast.LENGTH_SHORT).show();
         Log.d(TAG, "AlarmReceiver");
-//        Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-//        vibrator.vibrate(2000);
 
     }
 }

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.mad.utsstudcentre.Dialogue.CancelDialogue;
@@ -22,6 +24,7 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
     public static final String NOTIFICATION_ID = "NOTIFICATION_ID";
     protected static final String NOTIFICATION = "Notification";
     private TextView mAnsTv;
+    private Button mConfBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,13 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
             setContentView(R.layout.activity_final_confirm);
             mAnsTv = (TextView) findViewById(R.id.ansTv);
             mAnsTv.setText(getIntent().getAction());
+            mConfBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    setContentView(R.layout.activity_main);
+
+                }
+            });
         } else {
             setContentView(R.layout.activity_main_booked);
             CancelDialogue cancelDialogue = new CancelDialogue();
