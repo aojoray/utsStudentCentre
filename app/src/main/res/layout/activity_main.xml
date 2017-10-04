@@ -11,6 +11,11 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal">
 
+        <ProgressBar
+            android:id="@+id/cancel_pb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -40,7 +45,7 @@
         android:id="@+id/new_booking_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_margin="10dp"
         android:background="@color/btn_new_booking"
         android:textColor="@color/text_new_booking"
         android:text="@string/new_booking_btn" />
@@ -49,8 +54,8 @@
         android:id="@+id/logout_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:background="@color/btn_logut_bg"
+        android:layout_margin="10dp"
+        android:background="@color/btn_logout_bg"
         android:textColor="@color/white"
         android:text="@string/logout" />
 
