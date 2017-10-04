@@ -18,20 +18,22 @@ public class SaveSharedPreference {
         return PreferenceManager.getDefaultSharedPreferences(ctx);
     }
 
+    //Set and get student username to be stored in the save shared preference
     public static void setUserName(Context ctx, String userName){
         Editor editor = getSharedPreferences(ctx).edit();
         editor.putString(PREF_USERNAME, userName);
         editor.commit();
     }
 
+    public static String getUserName(Context ctx) {
+        return getSharedPreferences(ctx).getString(PREF_USERNAME, "");
+    }
+
+    //Set and get student firstname to be stored in the save shared preference
     public static void setFirstName(Context ctx, String firstName){
         Editor editor = getSharedPreferences(ctx).edit();
         editor.putString(PREF_FIRSTNAME, firstName);
         editor.commit();
-    }
-
-    public static String getUserName(Context ctx) {
-        return getSharedPreferences(ctx).getString(PREF_USERNAME, "");
     }
 
     public static String getFirstName(Context ctx){

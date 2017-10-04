@@ -69,8 +69,6 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
         setContentView(R.layout.activity_enquiry_type);
         setupFirebase();
 
-        enq01 = "lol";
-
         // Connect buttons to controller
         mEnqBtn01 = (Button) findViewById(R.id.enqBtn01);
         mEnqBtn02 = (Button) findViewById(R.id.enqBtn02);
