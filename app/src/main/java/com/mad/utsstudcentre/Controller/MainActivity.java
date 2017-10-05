@@ -234,6 +234,11 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         if (resultCode == RESULT_OK && !data.getBooleanExtra(NOTIFICATION, false)) {
             Log.d(TAG, "RESULT OKAY! ");
             setBookingView();
+            SharedPreferences sharedpreferences = getSharedPreferences(BOOKING_PREFERENCE, Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putBoolean(BOOKING, true);
+            editor.apply();
+
 //            setContentView(R.layout.activity_main_booked);
 //
 //            final Booking mBooking = MainActivity.getBooking();
@@ -454,6 +459,9 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
         public void shutdown() {
             running = false;
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putBoolean(BOOKING, false);
+            editor.apply();
             interrupt();
         }
     }
