@@ -6,6 +6,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -18,6 +19,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -46,8 +49,14 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     protected static final String CONFIRM = "Confirm booking";
     private static final String CANCEL = "Cancel Booking_old";
     private static final String REF_NUMBER = "refNumber";
+    protected static final String BOOKING_PREFERENCE = "Booking SharedPreferences";
+    private static final String BOOKING_MODEL = "Current booking";
+    private static final String CENTRE_MODEL = "Current Centre";
+    private static final String STUDENT_MODEL = "Current Student";
+    protected static final String BOOKING = "isBookingExist";
 
     private DatabaseReference mDatabase;
+    private SharedPreferences sharedpreferences;
 
     // Models
     private static Student sStudent;
@@ -91,11 +100,11 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        sharedpreferences = getSharedPreferences(BOOKING_PREFERENCE, Context.MODE_PRIVATE);
 
-        if (savedInstanceState!=null) {
-            onRestoreInstanceState(savedInstanceState);
-            Log.d(TAG, "NOT NULL!!! ");
-        } else {
+        // if current booking exists
+        if (!sharedpreferences.getBoolean(BOOKING, false)) {
+            Log.d(TAG, "false!");
             setContentView(R.layout.activity_main);
             sStudent = new Student();
             sBooking = new Booking();
@@ -103,7 +112,58 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             sBooking.setStudent(sStudent);
             sBooking.setCentre(sCentre);
             initialise();
+        } else {
+            // if no booking exists
+            Log.d(TAG, "true!");
+            Gson gson = new GsonBuilder().create();
+            sStudent= gson.fromJson(sharedpreferences.getString(STUDENT_MODEL, ""), Student.class);
+            sBooking= gson.fromJson(sharedpreferences.getString(BOOKING_MODEL, ""), Booking.class);
+            sCentre= gson.fromJson(sharedpreferences.getString(CENTRE_MODEL, ""), StudentCentre.class);
+            setBookingView();
         }
+    }
+
+    private void setBookingView() {
+        setContentView(R.layout.activity_main_booked);
+
+        final Booking mBooking = MainActivity.getBooking();
+        final Student mStudent = mBooking.getStudent();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mRefNumTv = (TextView) findViewById(R.id.refNumTv);
+        mBookedSidTv = (TextView) findViewById(R.id.booked_sidTv);
+        mBookedUserNameTv = (TextView) findViewById(R.id.booked_nameTv);
+        mBookedTypeTv = (TextView) findViewById(R.id.booked_enqTypeTv);
+        mBookedCentreTv = (TextView) findViewById(R.id.booked_centreTv);
+        mBookedEstTv = (TextView) findViewById(R.id.booked_estTv);
+
+        mCancelBtn = (Button) findViewById(R.id.cancelBtn_main);
+
+        // setText with booking information
+        mRefNumTv.setText(sBooking.getReference());
+        mBookedSidTv.setText(mUserSid);
+        mBookedUserNameTv.setText(sBooking.getStudent().getPrefferedName());
+        mBookedTypeTv.setText(sBooking.getEnqType());
+        mBookedCentreTv.setText(sCentre.getCenterName());
+
+        // set the estimated time of waiting
+        time = sCentre.getEstTime();
+        mBookedEstTv.setText(time + " min");
+
+        //TODO: booking time may need change in logic
+        sBooking.setDate(new Date().toLocaleString());
+        Log.d(TAG, "Booking_old Date: " + sBooking.getDate());
+
+        startup();   // start the Thread for count
+
+        mCancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CancelDialogue cancelDialogue = new CancelDialogue();
+                cancelDialogue.show(getSupportFragmentManager(), "CancelDialogue");
+            }
+        });
     }
 
     private void initialise() {
@@ -171,38 +231,39 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == RESULT_OK && data.getBooleanExtra(NOTIFICATION, true)) {
+        if (resultCode == RESULT_OK && !data.getBooleanExtra(NOTIFICATION, false)) {
             Log.d(TAG, "RESULT OKAY! ");
-            setContentView(R.layout.activity_main_booked);
-
-            final Booking mBooking = MainActivity.getBooking();
-            final Student mStudent = mBooking.getStudent();
-
-            mDatabase = FirebaseDatabase.getInstance().getReference();
-
-            mRefNumTv = (TextView) findViewById(R.id.refNumTv);
-            mBookedSidTv = (TextView) findViewById(R.id.booked_sidTv);
-            mBookedUserNameTv = (TextView) findViewById(R.id.booked_nameTv);
-            mBookedTypeTv = (TextView) findViewById(R.id.booked_enqTypeTv);
-            mBookedCentreTv = (TextView) findViewById(R.id.booked_centreTv);
-            mBookedEstTv = (TextView) findViewById(R.id.booked_estTv);
-
-            mCancelBtn = (Button) findViewById(R.id.cancelBtn_main);
-
-            // setText with booking information
-            mRefNumTv.setText(sBooking.getReference());
-            mBookedSidTv.setText(mUserSid);
-            mBookedUserNameTv.setText(sBooking.getStudent().getPrefferedName());
-            mBookedTypeTv.setText(sBooking.getEnqType());
-            mBookedCentreTv.setText(sCentre.getCenterName());
-
-            // set the estimated time of waiting
-            time = sCentre.getEstTime();
-            mBookedEstTv.setText(time + " min");
-
-            //TODO: booking time may need change in logic
-            sBooking.setDate(new Date().toLocaleString());
-            Log.d(TAG, "Booking_old Date: " + sBooking.getDate());
+            setBookingView();
+//            setContentView(R.layout.activity_main_booked);
+//
+//            final Booking mBooking = MainActivity.getBooking();
+//            final Student mStudent = mBooking.getStudent();
+//
+//            mDatabase = FirebaseDatabase.getInstance().getReference();
+//
+//            mRefNumTv = (TextView) findViewById(R.id.refNumTv);
+//            mBookedSidTv = (TextView) findViewById(R.id.booked_sidTv);
+//            mBookedUserNameTv = (TextView) findViewById(R.id.booked_nameTv);
+//            mBookedTypeTv = (TextView) findViewById(R.id.booked_enqTypeTv);
+//            mBookedCentreTv = (TextView) findViewById(R.id.booked_centreTv);
+//            mBookedEstTv = (TextView) findViewById(R.id.booked_estTv);
+//
+//            mCancelBtn = (Button) findViewById(R.id.cancelBtn_main);
+//
+//            // setText with booking information
+//            mRefNumTv.setText(sBooking.getReference());
+//            mBookedSidTv.setText(mUserSid);
+//            mBookedUserNameTv.setText(sBooking.getStudent().getPrefferedName());
+//            mBookedTypeTv.setText(sBooking.getEnqType());
+//            mBookedCentreTv.setText(sCentre.getCenterName());
+//
+//            // set the estimated time of waiting
+//            time = sCentre.getEstTime();
+//            mBookedEstTv.setText(time + " min");
+//
+//            //TODO: booking time may need change in logic
+//            sBooking.setDate(new Date().toLocaleString());
+//            Log.d(TAG, "Booking_old Date: " + sBooking.getDate());
 
             startup();   // start the Thread for count
 
@@ -220,6 +281,8 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             Intent alarmIntent = new Intent(this, AlarmReceiver.class);
             pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
             start();
+        } else {
+
         }
     }
 
@@ -341,15 +404,16 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         Log.d(TAG, "onPause");
 
         if(time!=0){
-            Bundle bdl = new Bundle();
-            boolean flag = true;
-            bdl.putBoolean(FLAG, flag);
-            onSaveInstanceState(bdl);
+            Gson gson = new GsonBuilder().create();
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putString(BOOKING_MODEL, gson.toJson(sBooking));
+            editor.putString(STUDENT_MODEL, gson.toJson(sStudent));
+            editor.putString(CENTRE_MODEL, gson.toJson(sCentre));
+            editor.putBoolean(BOOKING, true);
+            editor.apply();
+
         } else {
-            Bundle bdl = new Bundle();
-            boolean flag = false;
-            bdl.putBoolean(FLAG, flag);
-            onSaveInstanceState(bdl);
+
         }
     }
 

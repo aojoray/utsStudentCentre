@@ -1,7 +1,9 @@
 package com.mad.utsstudcentre.Controller;
 
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +14,8 @@ import android.widget.TextView;
 import com.mad.utsstudcentre.Dialogue.CancelDialogue;
 import com.mad.utsstudcentre.R;
 
+import static com.mad.utsstudcentre.Controller.MainActivity.BOOKING;
+import static com.mad.utsstudcentre.Controller.MainActivity.BOOKING_PREFERENCE;
 import static com.mad.utsstudcentre.Controller.MainActivity.CONFIRM;
 
 /**
@@ -42,7 +46,14 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
             mConfBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    setContentView(R.layout.activity_main);
+                    SharedPreferences sharedpreferences = getSharedPreferences(BOOKING_PREFERENCE, Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                    editor.putBoolean(BOOKING, false);
+                    editor.apply();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    setResult(RESULT_OK, intent);
+                    startActivity(intent);
+                    finish();
 
                 }
             });
