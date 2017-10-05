@@ -5,7 +5,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -18,7 +17,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.mad.utsstudcentre.Controller.CentreFragment;
 import com.mad.utsstudcentre.Controller.MainActivity;
 import com.mad.utsstudcentre.Model.Booking;
 import com.mad.utsstudcentre.Model.Student;
@@ -62,13 +60,13 @@ public class ConfirmDialogue extends DialogFragment {
         mTypeTv = (TextView) v.findViewById(R.id.dia_typeTv);
         mCentreTv = (TextView) v.findViewById(R.id.dia_centreTv);
 
-        // populate fields with Booking and Student objects
+        // populate fields with Booking_old and Student objects
         final Booking booking = MainActivity.getBooking();
         final Student student =  booking.getStudent();
-        mSidTv.setText(student.getId());
-        mNameTv.setText(student.getName());
-        mTypeTv.setText(booking.getEnquiryType());
-        mCentreTv.setText(booking.getStudentCentre().getName());
+        mSidTv.setText(student.getsId());
+        mNameTv.setText(student.getPrefferedName());
+        mTypeTv.setText(booking.getEnqType());
+        mCentreTv.setText(booking.getCentre().getCenterName());
 
         // Build the dialog
         builder.setTitle("Do you want to proceed?")
@@ -78,12 +76,12 @@ public class ConfirmDialogue extends DialogFragment {
                         mHost.onOkayClick(ConfirmDialogue.this);
                         DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference();
                         DatabaseReference futureBookingChild = mDatabase.child("futureBooking")
-                                .child(booking.getEnquiryType())
-                                .child(student.getId());
-                        futureBookingChild.child("refNumber").setValue(booking.getRefNumber());
-                        futureBookingChild.child("studentId").setValue(student.getId());
-                        futureBookingChild.child("studentName").setValue(student.getName());
-                        futureBookingChild.child("studentCentre").setValue(booking.getStudentCentre());
+                                .child(booking.getEnqType())
+                                .child(student.getsId());
+                        futureBookingChild.child("refNumber").setValue(booking.getReference());
+                        futureBookingChild.child("studentId").setValue(student.getsId());
+                        futureBookingChild.child("studentName").setValue(student.getPrefferedName());
+                        futureBookingChild.child("studentCentre").setValue(booking.getCentre());
                         futureBookingChild.child("bookingConfirmation").setValue("false");
 
                         //decrease waiting People if the user confirm the booking
@@ -105,8 +103,8 @@ public class ConfirmDialogue extends DialogFragment {
                             }
                         });
 
-                        SaveSharedPreference.setBookingDetails(ConfirmDialogue.this.getContext(), booking.getRefNumber(),
-                                student.getName(), booking.getEnquiryType(), booking.getStudentCentre().getName());
+                        SaveSharedPreference.setBookingDetails(ConfirmDialogue.this.getContext(), booking.getReference(),
+                                student.getPrefferedName(), booking.getEnqType(), booking.getCentre().getCenterName());
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {

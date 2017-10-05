@@ -1,20 +1,10 @@
 package com.mad.utsstudcentre.Model;
 
+/**
+ * Created by noche on 5/10/2017.
+ */
 
 public class Booking {
-
-    private long mBookingID;
-    private String mRefNumber;
-    private String mEnquiryType;
-    private StudentCentre mStudentCentre;
-    private String mDate;
-    private Student mStudent;
-
-    public long getBookingID() {
-        return mBookingID;
-    }
-
-    private boolean mIsProcessed;
 
     public final String ENQTYPE01 = "My Subject Enrolment";
     public final String ENQTYPE02 = "My Study Plan";
@@ -25,56 +15,59 @@ public class Booking {
     public final String ENQTYPE07 = "My graduation";
     public final String ENQTYPE08 = "IT Support";
 
+    private String bookingId;
+    private String reference;
+    private String enqType;
+    private String date;
+    private Student student;
+    private StudentCentre centre;
 
-    public void setBookingID(long mBookingID) {
-        this.mBookingID = mBookingID;
+    public String getBookingId() {
+        return bookingId;
     }
 
-    public String getEnquiryType() {
-        return mEnquiryType;
+    public void setBookingId(String bookingId) {
+        this.bookingId = bookingId;
     }
 
-    public void setEnquiryType(String mEnquiryType) {
-        this.mEnquiryType = mEnquiryType;
+    public String getReference() {
+        return reference;
     }
 
-    public StudentCentre getStudentCentre() {
-        return mStudentCentre;
+    public void setReference(String reference) {
+        this.reference = reference;
     }
 
-    public void setStudentCentre(StudentCentre mStudentCentre) {
-        this.mStudentCentre = mStudentCentre;
+    public String getEnqType() {
+        return enqType;
+    }
+
+    public void setEnqType(String enqType) {
+        this.enqType = enqType;
     }
 
     public String getDate() {
-        return mDate;
+        return date;
     }
 
-    public void setDate(String mDate) {
-        this.mDate = mDate;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public boolean isIsProcessed() {
-        return mIsProcessed;
-    }
-
-    public void setIsProcessed(boolean mIsProcessed) {
-        this.mIsProcessed = mIsProcessed;
-    }
-
-    public String getRefNumber() {
-        return mRefNumber;
-    }
-
-    public void setRefNumber(String mRefNumber) {
-        this.mRefNumber = mRefNumber;
-    }
 
     public Student getStudent() {
-        return mStudent;
+        return student;
     }
 
     public void setStudent(Student student) {
-        this.mStudent = student;
+        this.student = student;
+    }
+
+    public StudentCentre getCentre() {
+        return centre;
+    }
+
+    public void setCentre(StudentCentre centre) {
+        this.centre = centre;
     }
 }

@@ -38,6 +38,7 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
             setContentView(R.layout.activity_final_confirm);
             mAnsTv = (TextView) findViewById(R.id.ansTv);
             mAnsTv.setText(getIntent().getAction());
+            mConfBtn = (Button) findViewById(R.id.final_conf_btn);
             mConfBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

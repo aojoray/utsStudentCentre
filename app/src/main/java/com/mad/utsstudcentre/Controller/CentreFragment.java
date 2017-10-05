@@ -113,11 +113,11 @@ public class CentreFragment extends Fragment {
 
                 StudentCentre centre = getCentre();
 
-                centre.setID(CENTRE_01_ID);
-                centre.setName(CENTRE_01);
+                centre.setCenterId(CENTRE_01_ID);
+                centre.setCenterName(CENTRE_01);
                 centre.setEstTime(mEstTime01);
-                mBooking.setEnquiryType(mFinalType);
-                mBooking.setStudentCentre(centre);
+                mBooking.setEnqType(mFinalType);
+                mBooking.setCentre(centre);
 
                 Bundle args = new Bundle();
                 args.putString(INDEX_TYPE, "" + mFinalTypeIndex);
@@ -208,7 +208,7 @@ public class CentreFragment extends Fragment {
     }
 
     /**
-     * Overriden onStart method initialise the models and execute AsyncTask to generate Booking reference number
+     * Overriden onStart method initialise the models and execute AsyncTask to generate Booking_old reference number
      */
     @Override
     public void onStart() {
@@ -222,7 +222,6 @@ public class CentreFragment extends Fragment {
      * generate random number for Reference number according to the enquiry type
      */
     private class RefNumberAsyncTask extends AsyncTask<Nullable, String, String> {
-
 
         @Override
         protected String doInBackground(Nullable... params) {
@@ -252,7 +251,7 @@ public class CentreFragment extends Fragment {
                     break;
             }
 
-            mBooking.setRefNumber(refNum);
+            mBooking.setReference(refNum);
 
             return refNum;
         }

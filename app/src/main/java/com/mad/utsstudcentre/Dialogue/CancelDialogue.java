@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -56,7 +55,7 @@ public class CancelDialogue extends DialogFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         mHost.onCancelConfirmClick(CancelDialogue.this);
                         DatabaseReference futureBooking = mDatabase.child("futureBooking")
-                                .child(mBooking.getEnquiryType()).child(mStudent.getId());
+                                .child(mBooking.getEnqType()).child(mStudent.getsId());
                         futureBooking.removeValue();
                     }
                 })

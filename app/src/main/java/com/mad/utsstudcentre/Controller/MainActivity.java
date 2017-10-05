@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private static final int BOOKING_REQUEST = 1111;
     private static final String FLAG = "Instance flag";
     protected static final String CONFIRM = "Confirm booking";
-    private static final String CANCEL = "Cancel Booking";
+    private static final String CANCEL = "Cancel Booking_old";
     private static final String REF_NUMBER = "refNumber";
 
     private DatabaseReference mDatabase;
@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private NotificationManager mNotificationManager;
     private PendingIntent pendingIntent;
 
-
     // Data filed after confirming a booking
     private TextView mBookedSidTv;
     private TextView mBookedUserNameTv;
@@ -80,8 +79,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private TextView mRefNumTv;
     private OperationThread mThread;
 
-
-    // getters for static objects Booking and Student Centre
+    // getters for static objects Booking_old and Student Centre
     public static Booking getBooking() {
         return sBooking;
     }
@@ -90,20 +88,20 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         return sCentre;
     }
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState!=null) {
             onRestoreInstanceState(savedInstanceState);
+            Log.d(TAG, "NOT NULL!!! ");
         } else {
             setContentView(R.layout.activity_main);
             sStudent = new Student();
             sBooking = new Booking();
             sCentre = new StudentCentre();
             sBooking.setStudent(sStudent);
-            sBooking.setStudentCentre(sCentre);
+            sBooking.setCentre(sCentre);
             initialise();
         }
     }
@@ -118,16 +116,16 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                 mUserSName = SaveSharedPreference.getFirstName(MainActivity.this);
                 mUserSid = SaveSharedPreference.getUserName(MainActivity.this);
 
-                sStudent.setName(mUserSName);
-                sStudent.setId(mUserSid);
+                sStudent.setPrefferedName(mUserSName);
+                sStudent.setsId(mUserSid);
 
                 mUserSName = SaveSharedPreference.getFirstName(MainActivity.this);
                 mUserSNameTv = (TextView) findViewById(R.id.userSidTv);
                 mUserSNameTv.setText(" " + mUserSName);
 
                 sBooking.setStudent(sStudent);
-                Log.d(TAG, "Name -- > " + getBooking().getStudent().getName());
-                sBooking.setStudentCentre(sCentre);
+                Log.d(TAG, "Name -- > " + getBooking().getStudent().getPrefferedName());
+                sBooking.setCentre(sCentre);
 
 
                 Button newBookingBtn = (Button) findViewById(R.id.new_booking_btn);
@@ -162,7 +160,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     }
 
     /**
-     * Handles Booking result
+     * Handles Booking_old result
      * Once User confirms the booking, this method will be called.
      *
      * @param requestCode
@@ -192,11 +190,11 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             mCancelBtn = (Button) findViewById(R.id.cancelBtn_main);
 
             // setText with booking information
-            mRefNumTv.setText(sBooking.getRefNumber());
+            mRefNumTv.setText(sBooking.getReference());
             mBookedSidTv.setText(mUserSid);
-            mBookedUserNameTv.setText(sBooking.getStudent().getName());
-            mBookedTypeTv.setText(sBooking.getEnquiryType());
-            mBookedCentreTv.setText(sCentre.getName());
+            mBookedUserNameTv.setText(sBooking.getStudent().getPrefferedName());
+            mBookedTypeTv.setText(sBooking.getEnqType());
+            mBookedCentreTv.setText(sCentre.getCenterName());
 
             // set the estimated time of waiting
             time = sCentre.getEstTime();
@@ -204,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
             //TODO: booking time may need change in logic
             sBooking.setDate(new Date().toLocaleString());
-            Log.d(TAG, "Booking Date: " + sBooking.getDate());
+            Log.d(TAG, "Booking_old Date: " + sBooking.getDate());
 
             startup();   // start the Thread for count
 
@@ -264,8 +262,8 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_MAX)
                 .setAutoCancel(true)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Your Booking will be processed shortly!"))
-                .setContentText("Your Booking will be proceeded shortly!");
+                .setStyle(new NotificationCompat.BigTextStyle().bigText("Your Booking_old will be processed shortly!"))
+                .setContentText("Your Booking_old will be proceeded shortly!");
         Intent answerIntent = new Intent(this, FinalConfirmActivity.class);
         answerIntent.setAction(CONFIRM);
         PendingIntent pendingIntentYes = PendingIntent.getActivity(this, 1, answerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -295,6 +293,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             mThread = new OperationThread();
             mThread.start();
         }
+        Log.d(TAG, "startup");
     }
 
     /**
