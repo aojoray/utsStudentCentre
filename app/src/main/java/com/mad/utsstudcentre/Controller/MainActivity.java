@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private static final String FLAG = "Instance flag";
     protected static final String CONFIRM = "Confirm booking";
     private static final String CANCEL = "Cancel Booking";
+    private static final String REF_NUMBER = "refNumber";
 
     private DatabaseReference mDatabase;
 
@@ -113,41 +114,49 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             startActivity(loginIntent);
         } else {
             //Populate data stored in the login activity from SaveSharedPreference
-            mUserSName = SaveSharedPreference.getFirstName(MainActivity.this);
-            mUserSid = SaveSharedPreference.getUserName(MainActivity.this);
+//            if(SaveSharedPreference.getRefNumber(MainActivity.this).isEmpty()){
+                mUserSName = SaveSharedPreference.getFirstName(MainActivity.this);
+                mUserSid = SaveSharedPreference.getUserName(MainActivity.this);
 
-            sStudent.setName(mUserSName);
-            sStudent.setId(mUserSid);
+                sStudent.setName(mUserSName);
+                sStudent.setId(mUserSid);
 
-            mUserSName = SaveSharedPreference.getFirstName(MainActivity.this);
-            mUserSNameTv = (TextView) findViewById(R.id.userSidTv);
-            mUserSNameTv.setText(" " + mUserSName);
+                mUserSName = SaveSharedPreference.getFirstName(MainActivity.this);
+                mUserSNameTv = (TextView) findViewById(R.id.userSidTv);
+                mUserSNameTv.setText(" " + mUserSName);
 
-            sBooking.setStudent(sStudent);
-            Log.d(TAG, "Name -- > " + getBooking().getStudent().getName());
-            sBooking.setStudentCentre(sCentre);
+                sBooking.setStudent(sStudent);
+                Log.d(TAG, "Name -- > " + getBooking().getStudent().getName());
+                sBooking.setStudentCentre(sCentre);
 
 
-            Button newBookingBtn = (Button) findViewById(R.id.new_booking_btn);
-            newBookingBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(MainActivity.this, EnquiryTypeActivity.class);
-                    startActivityForResult(intent, BOOKING_REQUEST);
-                }
-            });
+                Button newBookingBtn = (Button) findViewById(R.id.new_booking_btn);
+                newBookingBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(MainActivity.this, EnquiryTypeActivity.class);
+                        startActivityForResult(intent, BOOKING_REQUEST);
+                    }
+                });
 
-            Button logoutBtn = (Button) findViewById(R.id.logout_btn);
-            logoutBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SaveSharedPreference.clearUserName(MainActivity.this);
-                    Intent logoutIntent = new Intent(MainActivity.this, LoginActivity.class);
-                    startActivity(logoutIntent);
-                    finish();
-                }
+                Button logoutBtn = (Button) findViewById(R.id.logout_btn);
+                logoutBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        SaveSharedPreference.clearUserName(MainActivity.this);
+                        Intent logoutIntent = new Intent(MainActivity.this, LoginActivity.class);
+                        startActivity(logoutIntent);
+                        finish();
+                    }
 
-            });
+                });
+//            }
+//            else {
+//                Intent referenceIntent = new Intent(MainActivity.this, ReferenceActivity.class);
+//                referenceIntent.putExtra(REF_NUMBER, SaveSharedPreference.getRefNumber(MainActivity.this));
+//                startActivity(referenceIntent);
+//                finish();
+//            }
         }
 
     }

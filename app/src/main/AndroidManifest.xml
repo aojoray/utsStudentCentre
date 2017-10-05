@@ -27,6 +27,7 @@
             android:name=".Controller.LoginActivity"
             android:label="@string/app_name"></activity>
         <activity android:name=".Controller.EnquiryTypeActivity"></activity>
+        <activity android:name=".Controller.ReferenceActivity"></activity>
 
         <receiver android:name=".Util.AlarmReceiver">
             <intent-filter>

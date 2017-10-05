@@ -13,8 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.mad.utsstudcentre.Controller.CentreFragment;
 import com.mad.utsstudcentre.Controller.MainActivity;
 import com.mad.utsstudcentre.Model.Booking;
 import com.mad.utsstudcentre.Model.Student;
@@ -27,6 +31,8 @@ import com.mad.utsstudcentre.Util.SaveSharedPreference;
 public class ConfirmDialogue extends DialogFragment {
 
     private static final String TAG = "ConfirmDialogue_TAG";
+    public static final String INDEX_TYPE = "IndexType";
+    public static final String WAITING_05 = "waitingPeople05";
     private ConfDialogListener mHost;
     private TextView mSidTv;
     private TextView mNameTv;
@@ -44,6 +50,8 @@ public class ConfirmDialogue extends DialogFragment {
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final String enqIndex = getArguments().getString(INDEX_TYPE);
+        final String waitingNum = getArguments().getString(WAITING_05);
 
         // Create the custom layout using the LayoutInflater class
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -77,6 +85,28 @@ public class ConfirmDialogue extends DialogFragment {
                         futureBookingChild.child("studentName").setValue(student.getName());
                         futureBookingChild.child("studentCentre").setValue(booking.getStudentCentre());
                         futureBookingChild.child("bookingConfirmation").setValue("false");
+
+                        //decrease waiting People if the user confirm the booking
+                        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                int currentWaitingNum = dataSnapshot.child("bookings").child(enqIndex)
+                                        .child(waitingNum).getValue(Integer.class);
+                                currentWaitingNum += 1;
+
+                                DatabaseReference updatedReference = dataSnapshot.getRef().child("bookings")
+                                        .child(enqIndex).child(waitingNum);
+                                updatedReference.setValue(currentWaitingNum);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
+                        SaveSharedPreference.setBookingDetails(ConfirmDialogue.this.getContext(), booking.getRefNumber(),
+                                student.getName(), booking.getEnquiryType(), booking.getStudentCentre().getName());
                     }
                 })
                 .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
