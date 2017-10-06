@@ -4,6 +4,7 @@ package com.mad.utsstudcentre.Dialogue;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
@@ -13,13 +14,17 @@ import android.view.View;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.mad.utsstudcentre.Controller.MainActivity;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mad.utsstudcentre.Model.Booking;
 import com.mad.utsstudcentre.Model.Student;
 import com.mad.utsstudcentre.R;
 
+import static com.mad.utsstudcentre.Controller.MainActivity.BOOKING_MODEL;
+import static com.mad.utsstudcentre.Controller.MainActivity.BOOKING_PREFERENCE;
+
 /**
- * CancelDialogue asking user whether they really want to cancel the booking
+ * CancelDialogue asking user whether they really want to cancelAlarm the booking
  */
 public class CancelDialogue extends DialogFragment {
 
@@ -28,6 +33,7 @@ public class CancelDialogue extends DialogFragment {
 
     private Booking mBooking;
     private Student mStudent;
+    private SharedPreferences sharedpreferences;
 
     /**
      * Building the dialogue
@@ -39,7 +45,9 @@ public class CancelDialogue extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        mBooking = MainActivity.getBooking();
+        sharedpreferences = getActivity().getSharedPreferences(BOOKING_PREFERENCE, Context.MODE_PRIVATE);
+        Gson gson = new GsonBuilder().create();
+        mBooking = gson.fromJson(sharedpreferences.getString(BOOKING_MODEL, ""), Booking.class);
         mStudent = mBooking.getStudent();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

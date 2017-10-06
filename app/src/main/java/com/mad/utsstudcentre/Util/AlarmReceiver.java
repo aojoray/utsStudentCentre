@@ -70,7 +70,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     /**
-     * sendNotification sends the notification asking user either to confirm or cancel the booking.
+     * sendNotification sends the notification asking user either to confirm or cancelAlarm the booking.
      */
     private void sendNotification() {
         Intent notificationIntent = new Intent(mContext, MainActivity.class);

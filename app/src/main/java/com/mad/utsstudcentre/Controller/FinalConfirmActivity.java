@@ -13,12 +13,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mad.utsstudcentre.Dialogue.CancelDialogue;
+import com.mad.utsstudcentre.Model.Booking;
 import com.mad.utsstudcentre.R;
 
 import static com.mad.utsstudcentre.Controller.CentreFragment.EST_TIME;
-import static com.mad.utsstudcentre.Controller.MainActivity.BOOKING;
 import static com.mad.utsstudcentre.Controller.MainActivity.BOOKING_FINAL;
+import static com.mad.utsstudcentre.Controller.MainActivity.BOOKING_MODEL;
 import static com.mad.utsstudcentre.Controller.MainActivity.BOOKING_PREFERENCE;
 import static com.mad.utsstudcentre.Controller.MainActivity.CANCEL;
 import static com.mad.utsstudcentre.Controller.MainActivity.CURRENT_TIME;
@@ -26,15 +29,28 @@ import static com.mad.utsstudcentre.Controller.MainActivity.CURRENT_TIME;
 /**
  * FinalConfirmActivity responses to the user's action toward the notification.
  * If user confirm the booking finally, this activity will display the final confirmation screen for staff.
- *  Otherwise, will ask user whether they want to cancel the booking.
+ * Otherwise, will ask user whether they want to cancelAlarm the booking.
  */
-public class FinalConfirmActivity extends AppCompatActivity implements CancelDialogue.CancelDialogueListener{
+public class FinalConfirmActivity extends AppCompatActivity implements CancelDialogue.CancelDialogueListener {
 
     private static final String TAG = "FinalConfirmAct_TAG";
     public static final String NOTIFICATION_ID = "NOTIFICATION_ID";
     protected static final String NOTIFICATION = "Notification";
-    private TextView mAnsTv;
+    protected static final String CANCEL_PUSH = "Cancel from Push";
+
+    // Final Confirmation View
+    private TextView mRefNumTv;
     private Button mConfBtn;
+    private Booking mBooking;
+
+    // Data filed after confirming a booking
+    private TextView mBookedSidTv;
+    private TextView mBookedUserNameTv;
+    private TextView mBookedTypeTv;
+    private TextView mBookedCentreTv;
+    private TextView mBookedEstTv;
+    private Button mCancelBtn;
+
 
     // Counter for end activity: 10 minutes later, will destroy itself regardless user's input
     private CounterThread mThread;
@@ -47,40 +63,35 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_final_confirm);
         // Closing the notification
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(getIntent().getIntExtra(NOTIFICATION_ID, 1001));
 
         sharedpreferences = getSharedPreferences(BOOKING_PREFERENCE, Context.MODE_PRIVATE);
+        Gson gson = new GsonBuilder().create();
+        mBooking = gson.fromJson(sharedpreferences.getString(BOOKING_MODEL, ""), Booking.class);
+        mRefNumTv = (TextView) findViewById(R.id.refNumTv);
+        mRefNumTv.setText(mBooking.getReference());
+        mConfBtn = (Button) findViewById(R.id.final_conf_btn);
+        // Confirm button click will clear all the booking information and launch mainActivity
+        mConfBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                clearRecord();
+                launchMain();
+            }
+        });
 
         // Set the view according to the user's response
         if (getIntent().getAction() == CANCEL) {
             Log.d(TAG, "Opened from Cancel");
-            setContentView(R.layout.activity_main_booked);
             CancelDialogue cancelDialogue = new CancelDialogue();
             cancelDialogue.show(getSupportFragmentManager(), "CancelDialogue");
-
         } else {
-            setContentView(R.layout.activity_final_confirm);
-            mAnsTv = (TextView) findViewById(R.id.ansTv);
-            mAnsTv.setText(getIntent().getAction());
-            mConfBtn = (Button) findViewById(R.id.final_conf_btn);
-            mConfBtn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    SharedPreferences sharedpreferences = getSharedPreferences(BOOKING_PREFERENCE, Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedpreferences.edit();
-                    editor.putBoolean(BOOKING, false);
-                    editor.apply();
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                    setResult(RESULT_OK, intent);
-                    startActivity(intent);
-                    finish();
 
-                }
-            });
             // if this was restored before time is up
-            if (sharedpreferences.getBoolean(BOOKING_FINAL, false)){
+            if (sharedpreferences.getBoolean(BOOKING_FINAL, false)) {
                 Log.d(TAG, "Booking Final is true");
                 long difference = System.currentTimeMillis() - sharedpreferences.getLong(CURRENT_TIME, 0);
                 Log.d(TAG, "Difference/1000 == " + difference / 1000);
@@ -92,7 +103,7 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
                 if (time <= 0) {
                     time = 0;
                     clearRecord();
-                    endActivity();
+                    expiredActivity();
                 } else {
                     // start counter thread
                     startup();
@@ -100,29 +111,47 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
             } else {
                 Log.d(TAG, "Booking Final is false");
                 // Operate the thread to count down
-                time=10;
+                time = 10;
                 startup();
             }
         }
     }
 
+    /**
+     * Handles the cancelAlarm confirm event
+     * @param dlg
+     */
     @Override
     public void onCancelConfirmClick(DialogFragment dlg) {
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        setResult(RESULT_OK, intent);
-        startActivity(intent);
-        finish();
+        clearRecord();
+        launchMain();
     }
 
     /**
      * Finish activity after 10 minutes of inactivity
      */
-    private void endActivity() {
-        shutdown();
+    private void expiredActivity() {
+        clearRecord();
         Toast.makeText(getApplicationContext(), "Your Booking is expired", Toast.LENGTH_LONG).show();
+        launchMain();
+    }
+
+    /**
+     * Clear booking record and launch MainActivity
+     */
+    private void launchMain(){
+        shutdown();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    private void clearRecord() {
+        // Clearing current booking information from sharedPreference
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.clear();
+        editor.commit();
+        shutdown();
     }
 
     /**
@@ -131,9 +160,8 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
     @Override
     protected void onPause() {
         super.onPause();
-        if(time >0){
+        if (time > 0) {
             Log.d(TAG, "Final onPause");
-
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putLong(CURRENT_TIME, System.currentTimeMillis());
             editor.putInt(EST_TIME, time);
@@ -143,13 +171,6 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
         }
     }
 
-    private void clearRecord(){
-        // Clearing current booking information from sharedPreference
-        SharedPreferences.Editor editor = sharedpreferences.edit();
-        editor.clear();
-        editor.commit();
-        shutdown();
-    }
 
     /**
      * Start the new thread for counter
@@ -193,7 +214,7 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
                         if (time <= 0) {
                             FinalConfirmActivity.this.runOnUiThread(new Runnable() {
                                 public void run() {
-                                    endActivity();
+                                    expiredActivity();
                                 }
                             });
                             shutdown();

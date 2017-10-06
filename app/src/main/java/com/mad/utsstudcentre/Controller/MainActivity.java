@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     public static final String CONFIRM = "Confirm booking";
     public static final String CANCEL = "Cancel Booking_old";
     private static final String REF_NUMBER = "refNumber";
-    protected static final String BOOKING_PREFERENCE = "Booking SharedPreferences";
-    private static final String BOOKING_MODEL = "Current booking";
+    public static final String BOOKING_PREFERENCE = "Booking SharedPreferences";
+    public static final String BOOKING_MODEL = "Current booking";
     private static final String CENTRE_MODEL = "Current Centre";
     private static final String STUDENT_MODEL = "Current Student";
     protected static final String BOOKING = "isBookingExist";
@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private String mUserSName;
     private String mUserSid;
     private TextView mUserSNameTv;
-    private Button mCancelBtn;
     private LinearLayout mLayout;
 
     // Push Notification builder
@@ -81,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private TextView mBookedTypeTv;
     private TextView mBookedCentreTv;
     private TextView mBookedEstTv;
+    private Button mCancelBtn;
 
     // private TextView mBookedWaitingTv;
     public static int sTime;
@@ -103,9 +103,10 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         sharedpreferences = getSharedPreferences(BOOKING_PREFERENCE, Context.MODE_PRIVATE);
 
         Log.d(TAG, "onCreate");
-        // if current booking exists
+        // if no booking exists
         if (!sharedpreferences.getBoolean(BOOKING, false)) {
             Log.d(TAG, "false!");
+
             // check if final confirmation left
             if (!sharedpreferences.getBoolean(BOOKING_FINAL, false)){
                 Log.d(TAG, "Final booking false!");
@@ -117,10 +118,11 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                 sBooking.setCentre(sCentre);
                 initialise();
             } else {
+                // requires final confirmation of booking
                 setFinalView();
             }
         } else {
-            // if no booking exists
+            // if booking exists
             Log.d(TAG, "true!");
             restore();
         }
@@ -130,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         setContentView(R.layout.activity_main_booked);
 
         final Booking mBooking = MainActivity.getBooking();
-        final Student mStudent = mBooking.getStudent();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -272,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
         Calendar calendar = Calendar.getInstance();
         //TODO: Change to ((sTime * 60000) - 600000) for 10 minutes before
-        calendar.setTimeInMillis((System.currentTimeMillis() + 60000)); // Alarm set to 1 minute after for testing
+        calendar.setTimeInMillis((System.currentTimeMillis() + 5000)); // Alarm set to 5sec (5000) / 1 minute (60000) after for testing
 
         Log.d(TAG, "current time = " + new Date().toLocaleString());
         Log.d(TAG, "Alarm set at = " + calendar.getTime());
@@ -284,9 +285,9 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     }
 
     /**
-     * Method to cancel the alarm service
+     * Method to cancelAlarm the alarm service
      */
-    public void cancel() {
+    public void cancelAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         manager.cancel(pendingIntent);
         Toast.makeText(this, "Alarm Canceled", Toast.LENGTH_SHORT).show();
@@ -316,8 +317,8 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     }
 
     /**
-     * Handles the booking cancel event.
-     * Once the user confirms to cancel the booking, this method will be called and initialise the view and fields
+     * Handles the booking cancelAlarm event.
+     * Once the user confirms to cancelAlarm the booking, this method will be called and initialise the view and fields
      *
      * @param dlg
      */
@@ -333,12 +334,23 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     }
 
     /**
-     * clearRecord clears sharedPreference and shutdown the thread when time is up
+     * clearRecord clears sharedPreference and shutdown the thread when booking is canceled
      */
     private void clearRecord() {
         // Clearing current booking information from sharedPreference
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.clear();
+        editor.commit();
+        shutdown();
+    }
+
+    /**
+     * clearBooking sets Booking at sharedPreference to false and shutdown the thread
+     */
+    private void clearBooking() {
+        // Clearing current booking information from sharedPreference
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.putBoolean(BOOKING, false);
         editor.commit();
         shutdown();
     }
@@ -357,7 +369,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         // if the estimated time is already under 0, set the time to 0. Otherwise, run thread for counting down.
         if (sTime <= 0) {
             sTime = 0;
-            clearRecord();
+            clearBooking();
             setFinalView();
         } else {
             // start counter thread
@@ -421,7 +433,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                         if (sTime <= 0) {
                             MainActivity.this.runOnUiThread(new Runnable() {
                                 public void run() {
-                                    clearRecord();
+                                    clearBooking();
                                     setFinalView();
                                 }
                             });
