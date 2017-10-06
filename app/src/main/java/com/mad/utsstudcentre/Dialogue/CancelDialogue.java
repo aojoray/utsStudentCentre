@@ -53,10 +53,10 @@ public class CancelDialogue extends DialogFragment {
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        mHost.onCancelConfirmClick(CancelDialogue.this);
                         DatabaseReference futureBooking = mDatabase.child("futureBooking")
                                 .child(mBooking.getEnqType()).child(mStudent.getsId());
                         futureBooking.removeValue();
+                        mHost.onCancelConfirmClick(CancelDialogue.this);
                     }
                 })
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {

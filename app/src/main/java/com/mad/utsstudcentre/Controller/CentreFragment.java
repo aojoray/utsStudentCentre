@@ -12,11 +12,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.mad.utsstudcentre.Dialogue.ConfirmDialogue;
 import com.mad.utsstudcentre.Model.Booking;
 import com.mad.utsstudcentre.Model.StudentCentre;
@@ -147,21 +143,21 @@ public class CentreFragment extends Fragment {
     private int wait02;
     private void initialiseData() {
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+//        mDatabase = FirebaseDatabase.getInstance().getReference();
 
 
-//        int wait01 = random.nextInt(20);
-//        int wait02 = random.nextInt(20);
-        final String index = "" + mFinalTypeIndex;
         Random random = new Random();
+        int wait01 = random.nextInt(20);
+        int wait02 = random.nextInt(20);
+        final String index = "" + mFinalTypeIndex;
         //TODO: Replace after testing
-        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                wait01 = dataSnapshot.child("bookings").child(index)
-                        .child("waitingPeople05").getValue(Integer.class);
-                wait02 = dataSnapshot.child("bookings").child(index)
-                        .child("waitingPeople10").getValue(Integer.class);
+//        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                wait01 = dataSnapshot.child("bookings").child(index)
+//                        .child("waitingPeople05").getValue(Integer.class);
+//                wait02 = dataSnapshot.child("bookings").child(index)
+//                        .child("waitingPeople10").getValue(Integer.class);
 
                 mEstTime01 = wait01 * 5;
                 mEstTime02 = wait02 * 5;
@@ -186,13 +182,13 @@ public class CentreFragment extends Fragment {
                 mEst_02Tv.setText(est02);
                 mWait_01Tv.setText(wait01 + " people");
                 mWait_02Tv.setText(wait02 + " people");
-            }
+//            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
 //        mEstTime01 = wait01 * 5; // 5 minutes average time per booking
 

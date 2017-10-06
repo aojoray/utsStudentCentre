@@ -1,13 +1,11 @@
 package com.mad.utsstudcentre.Controller;
 
 import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
@@ -19,11 +17,11 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mad.utsstudcentre.Dialogue.CancelDialogue;
 import com.mad.utsstudcentre.Model.Booking;
 import com.mad.utsstudcentre.Model.Student;
@@ -46,8 +44,8 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private static final String TAG = "MainActivity_TAG";
     private static final int BOOKING_REQUEST = 1111;
     private static final String FLAG = "Instance flag";
-    protected static final String CONFIRM = "Confirm booking";
-    private static final String CANCEL = "Cancel Booking_old";
+    public static final String CONFIRM = "Confirm booking";
+    public static final String CANCEL = "Cancel Booking_old";
     private static final String REF_NUMBER = "refNumber";
     protected static final String BOOKING_PREFERENCE = "Booking SharedPreferences";
     private static final String BOOKING_MODEL = "Current booking";
@@ -100,9 +98,13 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+//        sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedpreferences = getSharedPreferences(BOOKING_PREFERENCE, Context.MODE_PRIVATE);
+//        Log.d(TAG, "shared pref ---> " + sharedpreferences.getString(BOOKING, "-"));
+        Log.d(TAG, "shared pref ---> " + sharedpreferences.getString(BOOKING_MODEL, "create none"));
 
         // if current booking exists
+//        if (!sharedpreferences.getString(BOOKING, "-").equals("+")) {
         if (!sharedpreferences.getBoolean(BOOKING, false)) {
             Log.d(TAG, "false!");
             setContentView(R.layout.activity_main);
@@ -155,7 +157,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         sBooking.setDate(new Date().toLocaleString());
         Log.d(TAG, "Booking_old Date: " + sBooking.getDate());
 
-        startup();   // start the Thread for count
 
         mCancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,13 +209,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                     }
 
                 });
-//            }
-//            else {
-//                Intent referenceIntent = new Intent(MainActivity.this, ReferenceActivity.class);
-//                referenceIntent.putExtra(REF_NUMBER, SaveSharedPreference.getRefNumber(MainActivity.this));
-//                startActivity(referenceIntent);
-//                finish();
-//            }
         }
 
     }
@@ -236,39 +230,9 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             setBookingView();
             SharedPreferences sharedpreferences = getSharedPreferences(BOOKING_PREFERENCE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedpreferences.edit();
+//            editor.putString(BOOKING, "+");
             editor.putBoolean(BOOKING, true);
-            editor.apply();
-
-//            setContentView(R.layout.activity_main_booked);
-//
-//            final Booking mBooking = MainActivity.getBooking();
-//            final Student mStudent = mBooking.getStudent();
-//
-//            mDatabase = FirebaseDatabase.getInstance().getReference();
-//
-//            mRefNumTv = (TextView) findViewById(R.id.refNumTv);
-//            mBookedSidTv = (TextView) findViewById(R.id.booked_sidTv);
-//            mBookedUserNameTv = (TextView) findViewById(R.id.booked_nameTv);
-//            mBookedTypeTv = (TextView) findViewById(R.id.booked_enqTypeTv);
-//            mBookedCentreTv = (TextView) findViewById(R.id.booked_centreTv);
-//            mBookedEstTv = (TextView) findViewById(R.id.booked_estTv);
-//
-//            mCancelBtn = (Button) findViewById(R.id.cancelBtn_main);
-//
-//            // setText with booking information
-//            mRefNumTv.setText(sBooking.getReference());
-//            mBookedSidTv.setText(mUserSid);
-//            mBookedUserNameTv.setText(sBooking.getStudent().getPrefferedName());
-//            mBookedTypeTv.setText(sBooking.getEnqType());
-//            mBookedCentreTv.setText(sCentre.getCenterName());
-//
-//            // set the estimated time of waiting
-//            time = sCentre.getEstTime();
-//            mBookedEstTv.setText(time + " min");
-//
-//            //TODO: booking time may need change in logic
-//            sBooking.setDate(new Date().toLocaleString());
-//            Log.d(TAG, "Booking_old Date: " + sBooking.getDate());
+            editor.commit();
 
             startup();   // start the Thread for count
 
@@ -286,6 +250,8 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             Intent alarmIntent = new Intent(this, AlarmReceiver.class);
             pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
             start();
+
+            startup();   // start the Thread for count
         } else {
 
         }
@@ -300,9 +266,11 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
         /* Set the alarm to start at 10:30 AM */
         Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis((System.currentTimeMillis()+60000)); // Change to 600000 for 10 minutes
+        //TODO: Change to ((time * 60000) - 600000) for 10 minutes before
+        calendar.setTimeInMillis((System.currentTimeMillis()+6000)); // Alarm set to 1 minute after for testing
 
         Log.d(TAG, "Alarm set at = " + calendar.getTime());
+//        setPushNotification();
 
         /* Repeating on every mDelay minutes interval */
         // TODO: replace 2nd with --> (Calendar.getInstance().getTimeInMillis() + (time*1000))
@@ -321,42 +289,43 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     }
 
 
-    private void setPushNotification() {
-        mNotificationBuilder = new NotificationCompat.Builder(this)
-                .setSmallIcon(R.mipmap.ic_launcher)
-                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
-                        R.mipmap.ic_launcher))
-                .setContentTitle("10 minutes left!")
-                .setDefaults(Notification.DEFAULT_ALL)
-                .setPriority(Notification.PRIORITY_MAX)
-                .setAutoCancel(true)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Your Booking_old will be processed shortly!"))
-                .setContentText("Your Booking_old will be proceeded shortly!");
-        Intent answerIntent = new Intent(this, FinalConfirmActivity.class);
-        answerIntent.setAction(CONFIRM);
-        PendingIntent pendingIntentYes = PendingIntent.getActivity(this, 1, answerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mNotificationBuilder.addAction(R.drawable.ic_action_check, "Confirm", pendingIntentYes);
-        answerIntent.setAction(CANCEL);
-        PendingIntent pendingIntentNo = PendingIntent.getActivity(this, 1, answerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mNotificationBuilder.addAction(R.drawable.ic_action_cancel, "Cancel", pendingIntentNo);
-        sendNotification();
-        Log.d(TAG, "Notification sent!!! ");
-    }
-
-    private void sendNotification() {
-        Intent notificationIntent = new Intent(this, MainActivity.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mNotificationBuilder.setContentIntent(contentIntent);
-        Notification notification = mNotificationBuilder.build();
-//        notification.flags  |= Notification.FLAG_AUTO_CANCEL;
-        notification.defaults |= Notification.DEFAULT_SOUND;
-        mNotificationManager.notify(1001, notification);
-    }
+//    public void setPushNotification() {
+//        mNotificationBuilder = new NotificationCompat.Builder(this)
+//                .setSmallIcon(R.mipmap.ic_launcher)
+//                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
+//                        R.mipmap.ic_launcher))
+//                .setContentTitle("10 minutes left!")
+//                .setDefaults(Notification.DEFAULT_ALL)
+//                .setPriority(Notification.PRIORITY_MAX)
+//                .setAutoCancel(true)
+//                .setStyle(new NotificationCompat.BigTextStyle().bigText("Your Booking_old will be processed shortly!"))
+//                .setContentText("Your Booking_old will be proceeded shortly!");
+//        Intent answerIntent = new Intent(this, FinalConfirmActivity.class);
+//        answerIntent.setAction(CONFIRM);
+//        PendingIntent pendingIntentYes = PendingIntent.getActivity(this, 1, answerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        mNotificationBuilder.addAction(R.drawable.ic_action_check, "Confirm", pendingIntentYes);
+//        answerIntent.setAction(CANCEL);
+//        PendingIntent pendingIntentNo = PendingIntent.getActivity(this, 1, answerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        mNotificationBuilder.addAction(R.drawable.ic_action_cancel, "Cancel", pendingIntentNo);
+//        sendNotification();
+//        Log.d(TAG, "Notification sent!!! ");
+//    }
+//
+//    private void sendNotification() {
+//        Intent notificationIntent = new Intent(this, MainActivity.class);
+//        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+//        mNotificationBuilder.setContentIntent(contentIntent);
+//        Notification notification = mNotificationBuilder.build();
+////        notification.flags  |= Notification.FLAG_AUTO_CANCEL;
+//        notification.defaults |= Notification.DEFAULT_SOUND;
+//        mNotificationManager.notify(1001, notification);
+//    }
 
     /**
      * Start the new thread for counter
      */
     public synchronized void startup() {
+//        Log.d(TAG, "Thread Startup --->" + mThread.running);
         if (mThread == null) {
             mThread = new OperationThread();
             mThread.start();
@@ -387,6 +356,12 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         mLayout = (LinearLayout) findViewById(R.id.main_layout);
         Snackbar.make(mLayout, R.string.booking_cancel_msg, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
+        //
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+//        editor.putBoolean(BOOKING, false);
+        editor.clear();
+        editor.commit();
+        shutdown();
         initialise();
     }
 
@@ -414,8 +389,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             editor.putString(BOOKING_MODEL, gson.toJson(sBooking));
             editor.putString(STUDENT_MODEL, gson.toJson(sStudent));
             editor.putString(CENTRE_MODEL, gson.toJson(sCentre));
-            editor.putBoolean(BOOKING, true);
-            editor.apply();
+            editor.commit();
 
         } else {
 
@@ -445,7 +419,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                         MainActivity.this.runOnUiThread(new Runnable() {
                             public void run() {
                                 Log.d(TAG, "Time to send notification!!");
-                                setPushNotification();
+//                                setPushNotification();
                             }
                         });
                     }
@@ -459,9 +433,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
         public void shutdown() {
             running = false;
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putBoolean(BOOKING, false);
-            editor.apply();
             interrupt();
         }
     }
