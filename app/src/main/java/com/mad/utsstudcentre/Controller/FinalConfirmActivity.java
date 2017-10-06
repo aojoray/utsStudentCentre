@@ -16,9 +16,12 @@ import android.widget.Toast;
 import com.mad.utsstudcentre.Dialogue.CancelDialogue;
 import com.mad.utsstudcentre.R;
 
+import static com.mad.utsstudcentre.Controller.CentreFragment.EST_TIME;
 import static com.mad.utsstudcentre.Controller.MainActivity.BOOKING;
+import static com.mad.utsstudcentre.Controller.MainActivity.BOOKING_FINAL;
 import static com.mad.utsstudcentre.Controller.MainActivity.BOOKING_PREFERENCE;
 import static com.mad.utsstudcentre.Controller.MainActivity.CANCEL;
+import static com.mad.utsstudcentre.Controller.MainActivity.CURRENT_TIME;
 
 /**
  * FinalConfirmActivity responses to the user's action toward the notification.
@@ -35,8 +38,11 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
 
     // Counter for end activity: 10 minutes later, will destroy itself regardless user's input
     private CounterThread mThread;
-    private int time = 10; //10 minutes
+    private int time; //timer
     private int mDelay = 1; // //60; // The initial delay between operate() calls is 60 seconds (1 minute).
+
+    private SharedPreferences sharedpreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,8 +51,11 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(getIntent().getIntExtra(NOTIFICATION_ID, 1001));
 
+        sharedpreferences = getSharedPreferences(BOOKING_PREFERENCE, Context.MODE_PRIVATE);
+
         // Set the view according to the user's response
         if (getIntent().getAction() == CANCEL) {
+            Log.d(TAG, "Opened from Cancel");
             setContentView(R.layout.activity_main_booked);
             CancelDialogue cancelDialogue = new CancelDialogue();
             cancelDialogue.show(getSupportFragmentManager(), "CancelDialogue");
@@ -70,8 +79,30 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
 
                 }
             });
-            // Operate the thread to count down
-            startup();
+            // if this was restored before time is up
+            if (sharedpreferences.getBoolean(BOOKING_FINAL, false)){
+                Log.d(TAG, "Booking Final is true");
+                long difference = System.currentTimeMillis() - sharedpreferences.getLong(CURRENT_TIME, 0);
+                Log.d(TAG, "Difference/1000 == " + difference / 1000);
+                // TODO: Replace 1000 with 60000 after testing
+                time = (int) (sharedpreferences.getInt(EST_TIME, 0) - (difference / 1000)); //1000 for sec 60000 for min
+
+                // if the estimated time is already under 0, set the time to 0 and finish the activity.
+                // Otherwise, run thread for counting down.
+                if (time <= 0) {
+                    time = 0;
+                    clearRecord();
+                    endActivity();
+                } else {
+                    // start counter thread
+                    startup();
+                }
+            } else {
+                Log.d(TAG, "Booking Final is false");
+                // Operate the thread to count down
+                time=10;
+                startup();
+            }
         }
     }
 
@@ -83,11 +114,41 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
         finish();
     }
 
+    /**
+     * Finish activity after 10 minutes of inactivity
+     */
     private void endActivity() {
+        shutdown();
         Toast.makeText(getApplicationContext(), "Your Booking is expired", Toast.LENGTH_LONG).show();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         finish();
+    }
+
+    /**
+     * To restore activity
+     */
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(time >0){
+            Log.d(TAG, "Final onPause");
+
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putLong(CURRENT_TIME, System.currentTimeMillis());
+            editor.putInt(EST_TIME, time);
+            editor.putBoolean(BOOKING_FINAL, true);
+            editor.commit();
+            shutdown();
+        }
+    }
+
+    private void clearRecord(){
+        // Clearing current booking information from sharedPreference
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.clear();
+        editor.commit();
+        shutdown();
     }
 
     /**
@@ -149,7 +210,7 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
 
         public void shutdown() {
             running = false;
-            Log.d(TAG, "Thread shutdown");
+            Log.d(TAG, "Final Thread shutdown");
             interrupt();
         }
     }

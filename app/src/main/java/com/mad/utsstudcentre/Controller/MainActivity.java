@@ -50,8 +50,9 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private static final String CENTRE_MODEL = "Current Centre";
     private static final String STUDENT_MODEL = "Current Student";
     protected static final String BOOKING = "isBookingExist";
+    protected static final String BOOKING_FINAL = "isFinalBookingExist";
     //    private static final String THREAD_NAME = "Name of CounterThread";
-    private static final String CURRENT_TIME = "Time onPause";
+    public static final String CURRENT_TIME = "Time onPause";
     private static final String EST_TIME = "est onPause";
 
     private DatabaseReference mDatabase;
@@ -105,13 +106,19 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         // if current booking exists
         if (!sharedpreferences.getBoolean(BOOKING, false)) {
             Log.d(TAG, "false!");
-            setContentView(R.layout.activity_main);
-            sStudent = new Student();
-            sBooking = new Booking();
-            sCentre = new StudentCentre();
-            sBooking.setStudent(sStudent);
-            sBooking.setCentre(sCentre);
-            initialise();
+            // check if final confirmation left
+            if (!sharedpreferences.getBoolean(BOOKING_FINAL, false)){
+                Log.d(TAG, "Final booking false!");
+                setContentView(R.layout.activity_main);
+                sStudent = new Student();
+                sBooking = new Booking();
+                sCentre = new StudentCentre();
+                sBooking.setStudent(sStudent);
+                sBooking.setCentre(sCentre);
+                initialise();
+            } else {
+                setFinalView();
+            }
         } else {
             // if no booking exists
             Log.d(TAG, "true!");
@@ -164,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private void setFinalView() {
         Intent finalIntent = new Intent(MainActivity.this, FinalConfirmActivity.class);
         startActivity(finalIntent);
+        finish();
     }
 
     private void initialise() {
@@ -347,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         sTime = (int) (sharedpreferences.getInt(EST_TIME, 0) - (difference / 1000)); //1000 for sec 60000 for min
 
         // if the estimated time is already under 0, set the time to 0. Otherwise, run thread for counting down.
-        if (sTime < 0) {
+        if (sTime <= 0) {
             sTime = 0;
             clearRecord();
             setFinalView();
@@ -369,6 +377,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             editor.putString(STUDENT_MODEL, gson.toJson(sStudent));
             editor.putString(CENTRE_MODEL, gson.toJson(sCentre));
             editor.putLong(CURRENT_TIME, System.currentTimeMillis());
+            editor.putBoolean(BOOKING, true);
             editor.putInt(EST_TIME, sTime);
             editor.commit();
             shutdown();
@@ -430,7 +439,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
         public void shutdown() {
             running = false;
-            Log.d(TAG, "Thread shutdown");
+            Log.d(TAG, "Main Thread shutdown");
             interrupt();
         }
     }
