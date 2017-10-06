@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <data>
-        <variable
-            name="time"
-            type="com.mad.utsstudcentre.Controller.MainActivity" />
-    </data>
+    <!--<data>-->
+        <!--<variable-->
+            <!--name="sTime"-->
+            <!--type="com.mad.utsstudcentre.Controller.MainActivity" />-->
+    <!--</data>-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -153,8 +153,8 @@
                     android:layout_width="0dp"
                     android:layout_marginRight="10sp"
                     android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="@{String.valueOf(time.time)}" />
+                    android:gravity="right"/>
+                    <!--android:text="@{String.valueOf(time.time)}" />-->
 
             </TableRow>
 

@@ -76,5 +76,7 @@
     <string name="uts_student_id">UTS Student ID</string>
     <string name="password">Password</string>
     <string name="login">Login</string>
+    <string name="notification_text">Your Booking will be processed shortly!</string>
+    <string name="notification_title">10 minutes left!</string>
 
 </resources>

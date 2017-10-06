@@ -19,7 +19,7 @@ import static com.mad.utsstudcentre.Controller.MainActivity.CONFIRM;
 
 /**
  * Alarm BroadcastReceiver associating alarm service with broadcast receiver.
- * Alarm service will be invoked on scheduled time even the user turns off the app.
+ * Alarm service will be invoked on scheduled sTime even the user turns off the app.
  */
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -32,7 +32,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     private Context mContext;
 
     /**
-     * If the estimated time reaches to 10 minutes, the alarm receiver will send the push notification.
+     * If the estimated sTime reaches to 10 minutes, the alarm receiver will send the push notification.
      * @param context
      * @param intent
      */
@@ -53,12 +53,12 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setSmallIcon(R.mipmap.ic_launcher)
                 .setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(),
                         R.mipmap.ic_launcher))
-                .setContentTitle("10 minutes left!")
+                .setContentTitle(mContext.getString(R.string.notification_title))
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_MAX)
                 .setAutoCancel(true)
-                .setStyle(new NotificationCompat.BigTextStyle().bigText("Your Booking_old will be processed shortly!"))
-                .setContentText("Your Booking_old will be proceeded shortly!");
+                .setStyle(new NotificationCompat.BigTextStyle().bigText(mContext.getString(R.string.notification_text)))
+                .setContentText((mContext.getString(R.string.notification_text)));
         Intent answerIntent = new Intent(mContext, FinalConfirmActivity.class);
         answerIntent.setAction(CONFIRM);
         PendingIntent pendingIntentYes = PendingIntent.getActivity(mContext, 1, answerIntent, PendingIntent.FLAG_UPDATE_CURRENT);

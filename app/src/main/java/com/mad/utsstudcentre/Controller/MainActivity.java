@@ -1,7 +1,6 @@
 package com.mad.utsstudcentre.Controller;
 
 import android.app.AlarmManager;
-import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +8,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private static final String CENTRE_MODEL = "Current Centre";
     private static final String STUDENT_MODEL = "Current Student";
     protected static final String BOOKING = "isBookingExist";
+//    private static final String THREAD_NAME = "Name of CounterThread";
+    private static final String CURRENT_TIME = "Time onPause";
+    private static final String EST_TIME = "est onPause";
 
     private DatabaseReference mDatabase;
     private SharedPreferences sharedpreferences;
@@ -69,8 +70,8 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private LinearLayout mLayout;
 
     // Push Notification builder
-    private NotificationCompat.Builder mNotificationBuilder;
-    private NotificationManager mNotificationManager;
+//    private NotificationCompat.Builder mNotificationBuilder;
+//    private NotificationManager mNotificationManager;
     private PendingIntent pendingIntent;
 
     // Data filed after confirming a booking
@@ -81,10 +82,10 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private TextView mBookedEstTv;
 
     // private TextView mBookedWaitingTv;
-    public int time;
+    public static int sTime;
     private int mDelay = 1;//60; // The initial delay between operate() calls is 60 seconds (1 minute).
     private TextView mRefNumTv;
-    private OperationThread mThread;
+    private CounterThread mThread;
 
     // getters for static objects Booking_old and Student Centre
     public static Booking getBooking() {
@@ -98,13 +99,10 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        sharedpreferences = PreferenceManager.getDefaultSharedPreferences(this);
         sharedpreferences = getSharedPreferences(BOOKING_PREFERENCE, Context.MODE_PRIVATE);
-//        Log.d(TAG, "shared pref ---> " + sharedpreferences.getString(BOOKING, "-"));
         Log.d(TAG, "shared pref ---> " + sharedpreferences.getString(BOOKING_MODEL, "create none"));
 
         // if current booking exists
-//        if (!sharedpreferences.getString(BOOKING, "-").equals("+")) {
         if (!sharedpreferences.getBoolean(BOOKING, false)) {
             Log.d(TAG, "false!");
             setContentView(R.layout.activity_main);
@@ -121,6 +119,11 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             sStudent= gson.fromJson(sharedpreferences.getString(STUDENT_MODEL, ""), Student.class);
             sBooking= gson.fromJson(sharedpreferences.getString(BOOKING_MODEL, ""), Booking.class);
             sCentre= gson.fromJson(sharedpreferences.getString(CENTRE_MODEL, ""), StudentCentre.class);
+            long difference = System.currentTimeMillis() - sharedpreferences.getLong(CURRENT_TIME, 0);
+            Log.d(TAG, "Difference/60000 == " + difference/60000);
+            sTime = (int) (sharedpreferences.getInt(EST_TIME, 0) - (difference/60000));
+            // start counter thread
+            startup();
             setBookingView();
         }
     }
@@ -149,13 +152,12 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         mBookedTypeTv.setText(sBooking.getEnqType());
         mBookedCentreTv.setText(sCentre.getCenterName());
 
-        // set the estimated time of waiting
-        time = sCentre.getEstTime();
-        mBookedEstTv.setText(time + " min");
+        // set the estimated sTime of waiting
+        mBookedEstTv.setText(sTime + " min");
 
-        //TODO: booking time may need change in logic
+        //TODO: booking sTime may need change in logic
         sBooking.setDate(new Date().toLocaleString());
-        Log.d(TAG, "Booking_old Date: " + sBooking.getDate());
+        Log.d(TAG, "Booking Date: " + sBooking.getDate());
 
 
         mCancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -165,6 +167,8 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                 cancelDialogue.show(getSupportFragmentManager(), "CancelDialogue");
             }
         });
+
+
     }
 
     private void initialise() {
@@ -173,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             startActivity(loginIntent);
         } else {
             //Populate data stored in the login activity from SaveSharedPreference
-//            if(SaveSharedPreference.getRefNumber(MainActivity.this).isEmpty()){
                 mUserSName = SaveSharedPreference.getFirstName(MainActivity.this);
                 mUserSid = SaveSharedPreference.getUserName(MainActivity.this);
 
@@ -227,14 +230,14 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
         if (resultCode == RESULT_OK && !data.getBooleanExtra(NOTIFICATION, false)) {
             Log.d(TAG, "RESULT OKAY! ");
+
+            sTime = sCentre.getEstTime();
+
             setBookingView();
             SharedPreferences sharedpreferences = getSharedPreferences(BOOKING_PREFERENCE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedpreferences.edit();
-//            editor.putString(BOOKING, "+");
             editor.putBoolean(BOOKING, true);
             editor.commit();
-
-            startup();   // start the Thread for count
 
             mCancelBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -244,15 +247,12 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                 }
             });
 
-            mNotificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
-
             /* Retrieve a PendingIntent that will perform a broadcast */
             Intent alarmIntent = new Intent(this, AlarmReceiver.class);
             pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, 0);
-            start();
+            startAlarm();
 
             startup();   // start the Thread for count
-        } else {
 
         }
     }
@@ -260,27 +260,23 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     /**
      * Starting the alarm service.
      */
-    public void start() {
-
+    public void startAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
-        /* Set the alarm to start at 10:30 AM */
         Calendar calendar = Calendar.getInstance();
-        //TODO: Change to ((time * 60000) - 600000) for 10 minutes before
-        calendar.setTimeInMillis((System.currentTimeMillis()+6000)); // Alarm set to 1 minute after for testing
+        //TODO: Change to ((sTime * 60000) - 600000) for 10 minutes before
+        calendar.setTimeInMillis((System.currentTimeMillis() + 60000)); // Alarm set to 1 minute after for testing
 
         Log.d(TAG, "Alarm set at = " + calendar.getTime());
-//        setPushNotification();
 
-        /* Repeating on every mDelay minutes interval */
-        // TODO: replace 2nd with --> (Calendar.getInstance().getTimeInMillis() + (time*1000))
+        /* no Repeat */
+        // TODO: replace 2nd with --> (Calendar.getInstance().getTimeInMillis() + (sTime*1000))
         manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 0, pendingIntent);
     }
 
     /**
      * Method to cancel the alarm service
-     * //TODO: Need to be called at some point when user finally confirms the booking
      */
     public void cancel() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
@@ -288,49 +284,18 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         Toast.makeText(this, "Alarm Canceled", Toast.LENGTH_SHORT).show();
     }
 
-
-//    public void setPushNotification() {
-//        mNotificationBuilder = new NotificationCompat.Builder(this)
-//                .setSmallIcon(R.mipmap.ic_launcher)
-//                .setLargeIcon(BitmapFactory.decodeResource(this.getResources(),
-//                        R.mipmap.ic_launcher))
-//                .setContentTitle("10 minutes left!")
-//                .setDefaults(Notification.DEFAULT_ALL)
-//                .setPriority(Notification.PRIORITY_MAX)
-//                .setAutoCancel(true)
-//                .setStyle(new NotificationCompat.BigTextStyle().bigText("Your Booking_old will be processed shortly!"))
-//                .setContentText("Your Booking_old will be proceeded shortly!");
-//        Intent answerIntent = new Intent(this, FinalConfirmActivity.class);
-//        answerIntent.setAction(CONFIRM);
-//        PendingIntent pendingIntentYes = PendingIntent.getActivity(this, 1, answerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        mNotificationBuilder.addAction(R.drawable.ic_action_check, "Confirm", pendingIntentYes);
-//        answerIntent.setAction(CANCEL);
-//        PendingIntent pendingIntentNo = PendingIntent.getActivity(this, 1, answerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        mNotificationBuilder.addAction(R.drawable.ic_action_cancel, "Cancel", pendingIntentNo);
-//        sendNotification();
-//        Log.d(TAG, "Notification sent!!! ");
-//    }
-//
-//    private void sendNotification() {
-//        Intent notificationIntent = new Intent(this, MainActivity.class);
-//        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-//        mNotificationBuilder.setContentIntent(contentIntent);
-//        Notification notification = mNotificationBuilder.build();
-////        notification.flags  |= Notification.FLAG_AUTO_CANCEL;
-//        notification.defaults |= Notification.DEFAULT_SOUND;
-//        mNotificationManager.notify(1001, notification);
-//    }
-
     /**
      * Start the new thread for counter
      */
     public synchronized void startup() {
-//        Log.d(TAG, "Thread Startup --->" + mThread.running);
+
         if (mThread == null) {
-            mThread = new OperationThread();
-            mThread.start();
+            mThread = new CounterThread(2424);
+            new Thread(mThread).start();
         }
         Log.d(TAG, "startup");
+
+        Log.d(TAG, "Thread Name: "+ mThread.getId());
     }
 
     /**
@@ -341,8 +306,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             mThread.shutdown();
         }
     }
-
-
 
     /**
      * Handles the booking cancel event.
@@ -356,9 +319,9 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         mLayout = (LinearLayout) findViewById(R.id.main_layout);
         Snackbar.make(mLayout, R.string.booking_cancel_msg, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
-        //
+
+        // Clearing current booking information from sharedPreference
         SharedPreferences.Editor editor = sharedpreferences.edit();
-//        editor.putBoolean(BOOKING, false);
         editor.clear();
         editor.commit();
         shutdown();
@@ -369,7 +332,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     protected void onDestroy() {
         super.onDestroy();
         Log.d(TAG, "onDestroy");
-        shutdown();
     }
 
     @Override
@@ -383,46 +345,58 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         super.onPause();
         Log.d(TAG, "onPause");
 
-        if(time!=0){
+        if(sTime !=0){
             Gson gson = new GsonBuilder().create();
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString(BOOKING_MODEL, gson.toJson(sBooking));
             editor.putString(STUDENT_MODEL, gson.toJson(sStudent));
             editor.putString(CENTRE_MODEL, gson.toJson(sCentre));
+//            editor.putLong(THREAD_NAME, mThread.getId());
+            editor.putLong(CURRENT_TIME, System.currentTimeMillis());
+            editor.putInt(EST_TIME, sTime);
             editor.commit();
-
-        } else {
-
+            shutdown();
         }
     }
 
     /**
-     * OperationThread is used for counting the remained time and change the view accordingly
+     * CounterThread is used for counting the remained sTime and change the view accordingly
      * The interval is manipulated by mDelay (if mDelay = 6 -> interval = 60 seconds)
      */
-    private class OperationThread extends Thread {
+    private class CounterThread extends Thread {
         private boolean running = true;
+        int minPrime;
+
+        public CounterThread(int code) {
+            minPrime = code;
+            Log.d(TAG, "Thread Id: "+this.getId());
+
+        }
 
         @Override
         public void run() {
-            while (time > 0) {
+            while (running) {
                 try {
                     Thread.sleep(mDelay * 1000); // delay * 1000 milliseconds
-                    time--;
+                    Log.d(TAG, "Thread Time @ Loop: "+ sTime);
+
+                    sTime--;
                     MainActivity.this.runOnUiThread(new Runnable() {
                         public void run() {
-                            mBookedEstTv.setText(time + " min");
+                            mBookedEstTv.setText(sTime + " min");
                         }
                     });
-                    Log.d(TAG, "Thread time: " + time);
-                    if (time == 10) {
+                    if (sTime == 10) {
                         MainActivity.this.runOnUiThread(new Runnable() {
                             public void run() {
                                 Log.d(TAG, "Time to send notification!!");
 //                                setPushNotification();
                             }
                         });
+                    } else if (sTime <= 0) {
+                        shutdown();
                     }
+
 
                 } catch (InterruptedException e) {
                     // Happens when requested to shut down
@@ -433,6 +407,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
         public void shutdown() {
             running = false;
+            Log.d(TAG, "Thread shutdown");
             interrupt();
         }
     }
