@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private static final String CENTRE_MODEL = "Current Centre";
     private static final String STUDENT_MODEL = "Current Student";
     protected static final String BOOKING = "isBookingExist";
-//    private static final String THREAD_NAME = "Name of CounterThread";
+    //    private static final String THREAD_NAME = "Name of CounterThread";
     private static final String CURRENT_TIME = "Time onPause";
     private static final String EST_TIME = "est onPause";
 
@@ -100,8 +100,8 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         sharedpreferences = getSharedPreferences(BOOKING_PREFERENCE, Context.MODE_PRIVATE);
-        Log.d(TAG, "shared pref ---> " + sharedpreferences.getString(BOOKING_MODEL, "create none"));
 
+        Log.d(TAG, "onCreate");
         // if current booking exists
         if (!sharedpreferences.getBoolean(BOOKING, false)) {
             Log.d(TAG, "false!");
@@ -115,16 +115,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         } else {
             // if no booking exists
             Log.d(TAG, "true!");
-            Gson gson = new GsonBuilder().create();
-            sStudent= gson.fromJson(sharedpreferences.getString(STUDENT_MODEL, ""), Student.class);
-            sBooking= gson.fromJson(sharedpreferences.getString(BOOKING_MODEL, ""), Booking.class);
-            sCentre= gson.fromJson(sharedpreferences.getString(CENTRE_MODEL, ""), StudentCentre.class);
-            long difference = System.currentTimeMillis() - sharedpreferences.getLong(CURRENT_TIME, 0);
-            Log.d(TAG, "Difference/60000 == " + difference/60000);
-            sTime = (int) (sharedpreferences.getInt(EST_TIME, 0) - (difference/60000));
-            // start counter thread
-            startup();
-            setBookingView();
+            restore();
         }
     }
 
@@ -167,51 +158,59 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                 cancelDialogue.show(getSupportFragmentManager(), "CancelDialogue");
             }
         });
+    }
 
 
+    private void setFinalView() {
+        Intent finalIntent = new Intent(MainActivity.this, FinalConfirmActivity.class);
+        startActivity(finalIntent);
     }
 
     private void initialise() {
+        Log.d(TAG, "initialise()");
         if (SaveSharedPreference.getUserName(MainActivity.this).length() == 0) {
+            Log.d(TAG, "@initialise: Launch Login");
             Intent loginIntent = new Intent(MainActivity.this, LoginActivity.class);
             startActivity(loginIntent);
         } else {
             //Populate data stored in the login activity from SaveSharedPreference
-                mUserSName = SaveSharedPreference.getFirstName(MainActivity.this);
-                mUserSid = SaveSharedPreference.getUserName(MainActivity.this);
+            Log.d(TAG, "@initialise: Launch MainView");
 
-                sStudent.setPrefferedName(mUserSName);
-                sStudent.setsId(mUserSid);
+            mUserSName = SaveSharedPreference.getFirstName(MainActivity.this);
+            mUserSid = SaveSharedPreference.getUserName(MainActivity.this);
 
-                mUserSName = SaveSharedPreference.getFirstName(MainActivity.this);
-                mUserSNameTv = (TextView) findViewById(R.id.userSidTv);
-                mUserSNameTv.setText(" " + mUserSName);
+            sStudent.setPrefferedName(mUserSName);
+            sStudent.setsId(mUserSid);
 
-                sBooking.setStudent(sStudent);
-                Log.d(TAG, "Name -- > " + getBooking().getStudent().getPrefferedName());
-                sBooking.setCentre(sCentre);
+            mUserSName = SaveSharedPreference.getFirstName(MainActivity.this);
+            mUserSNameTv = (TextView) findViewById(R.id.userSidTv);
+            mUserSNameTv.setText(" " + mUserSName);
+
+            sBooking.setStudent(sStudent);
+            Log.d(TAG, "Name -- > " + getBooking().getStudent().getPrefferedName());
+            sBooking.setCentre(sCentre);
 
 
-                Button newBookingBtn = (Button) findViewById(R.id.new_booking_btn);
-                newBookingBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(MainActivity.this, EnquiryTypeActivity.class);
-                        startActivityForResult(intent, BOOKING_REQUEST);
-                    }
-                });
+            Button newBookingBtn = (Button) findViewById(R.id.new_booking_btn);
+            newBookingBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(MainActivity.this, EnquiryTypeActivity.class);
+                    startActivityForResult(intent, BOOKING_REQUEST);
+                }
+            });
 
-                Button logoutBtn = (Button) findViewById(R.id.logout_btn);
-                logoutBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        SaveSharedPreference.clearUserName(MainActivity.this);
-                        Intent logoutIntent = new Intent(MainActivity.this, LoginActivity.class);
-                        startActivity(logoutIntent);
-                        finish();
-                    }
+            Button logoutBtn = (Button) findViewById(R.id.logout_btn);
+            logoutBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    SaveSharedPreference.clearUserName(MainActivity.this);
+                    Intent logoutIntent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(logoutIntent);
+                    finish();
+                }
 
-                });
+            });
         }
 
     }
@@ -267,6 +266,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         //TODO: Change to ((sTime * 60000) - 600000) for 10 minutes before
         calendar.setTimeInMillis((System.currentTimeMillis() + 60000)); // Alarm set to 1 minute after for testing
 
+        Log.d(TAG, "current time = " + new Date().toLocaleString());
         Log.d(TAG, "Alarm set at = " + calendar.getTime());
 
         /* no Repeat */
@@ -290,12 +290,12 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     public synchronized void startup() {
 
         if (mThread == null) {
-            mThread = new CounterThread(2424);
+            mThread = new CounterThread();
             new Thread(mThread).start();
         }
         Log.d(TAG, "startup");
 
-        Log.d(TAG, "Thread Name: "+ mThread.getId());
+        Log.d(TAG, "Thread Name: " + mThread.getId());
     }
 
     /**
@@ -310,6 +310,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     /**
      * Handles the booking cancel event.
      * Once the user confirms to cancel the booking, this method will be called and initialise the view and fields
+     *
      * @param dlg
      */
     @Override
@@ -319,19 +320,59 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         mLayout = (LinearLayout) findViewById(R.id.main_layout);
         Snackbar.make(mLayout, R.string.booking_cancel_msg, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
+        clearRecord();
+        initialise();
+    }
 
+    /**
+     * clearRecord clears sharedPreference and shutdown the thread when time is up
+     */
+    private void clearRecord() {
         // Clearing current booking information from sharedPreference
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.clear();
         editor.commit();
         shutdown();
-        initialise();
+    }
+
+    private void restore() {
+        Log.d(TAG, "Restore! ");
+        Gson gson = new GsonBuilder().create();
+        sStudent = gson.fromJson(sharedpreferences.getString(STUDENT_MODEL, ""), Student.class);
+        sBooking = gson.fromJson(sharedpreferences.getString(BOOKING_MODEL, ""), Booking.class);
+        sCentre = gson.fromJson(sharedpreferences.getString(CENTRE_MODEL, ""), StudentCentre.class);
+        long difference = System.currentTimeMillis() - sharedpreferences.getLong(CURRENT_TIME, 0);
+        Log.d(TAG, "Difference/60000 == " + difference / 1000);
+        // TODO: Replace 1000 with 60000 after testing
+        sTime = (int) (sharedpreferences.getInt(EST_TIME, 0) - (difference / 1000)); //1000 for sec 60000 for min
+
+        // if the estimated time is already under 0, set the time to 0. Otherwise, run thread for counting down.
+        if (sTime < 0) {
+            sTime = 0;
+            clearRecord();
+            setFinalView();
+        } else {
+            // start counter thread
+            startup();
+            setBookingView();
+        }
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d(TAG, "onDestroy");
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG, "onPause");
+        if (sTime != 0) {
+            Gson gson = new GsonBuilder().create();
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.putString(BOOKING_MODEL, gson.toJson(sBooking));
+            editor.putString(STUDENT_MODEL, gson.toJson(sStudent));
+            editor.putString(CENTRE_MODEL, gson.toJson(sCentre));
+            editor.putLong(CURRENT_TIME, System.currentTimeMillis());
+            editor.putInt(EST_TIME, sTime);
+            editor.commit();
+            shutdown();
+        }
     }
 
     @Override
@@ -341,23 +382,11 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d(TAG, "onPause");
-
-        if(sTime !=0){
-            Gson gson = new GsonBuilder().create();
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putString(BOOKING_MODEL, gson.toJson(sBooking));
-            editor.putString(STUDENT_MODEL, gson.toJson(sStudent));
-            editor.putString(CENTRE_MODEL, gson.toJson(sCentre));
-//            editor.putLong(THREAD_NAME, mThread.getId());
-            editor.putLong(CURRENT_TIME, System.currentTimeMillis());
-            editor.putInt(EST_TIME, sTime);
-            editor.commit();
-            shutdown();
-        }
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d(TAG, "onDestroy");
     }
+
 
     /**
      * CounterThread is used for counting the remained sTime and change the view accordingly
@@ -365,41 +394,35 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
      */
     private class CounterThread extends Thread {
         private boolean running = true;
-        int minPrime;
-
-        public CounterThread(int code) {
-            minPrime = code;
-            Log.d(TAG, "Thread Id: "+this.getId());
-
-        }
 
         @Override
         public void run() {
-            while (running) {
-                try {
-                    Thread.sleep(mDelay * 1000); // delay * 1000 milliseconds
-                    Log.d(TAG, "Thread Time @ Loop: "+ sTime);
+            if (sTime > 0) {
+                while (running) {
+                    try {
+                        Thread.sleep(mDelay * 1000); // delay * 1000 milliseconds
+                        Log.d(TAG, "Thread Time @ Loop: " + sTime);
 
-                    sTime--;
-                    MainActivity.this.runOnUiThread(new Runnable() {
-                        public void run() {
-                            mBookedEstTv.setText(sTime + " min");
-                        }
-                    });
-                    if (sTime == 10) {
+                        sTime--;
                         MainActivity.this.runOnUiThread(new Runnable() {
                             public void run() {
-                                Log.d(TAG, "Time to send notification!!");
-//                                setPushNotification();
+                                mBookedEstTv.setText(sTime + " min");
                             }
                         });
-                    } else if (sTime <= 0) {
-                        shutdown();
+                        if (sTime <= 0) {
+                            MainActivity.this.runOnUiThread(new Runnable() {
+                                public void run() {
+                                    clearRecord();
+                                    setFinalView();
+                                }
+                            });
+                            shutdown();
+                        }
+
+
+                    } catch (InterruptedException e) {
+                        // Happens when requested to shut down
                     }
-
-
-                } catch (InterruptedException e) {
-                    // Happens when requested to shut down
                 }
             }
             shutdown();
