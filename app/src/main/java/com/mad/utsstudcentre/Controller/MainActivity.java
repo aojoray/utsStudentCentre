@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private static final String STUDENT_MODEL = "Current Student";
     protected static final String BOOKING = "isBookingExist";
     protected static final String BOOKING_FINAL = "isFinalBookingExist";
-    //    private static final String THREAD_NAME = "Name of CounterThread";
     public static final String CURRENT_TIME = "Time onPause";
     private static final String EST_TIME = "est onPause";
 
@@ -83,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private Button mCancelBtn;
 
     // private TextView mBookedWaitingTv;
-    public static int sTime;
+    public static int sTime=0;
     private int mDelay = 1;//60; // The initial delay between operate() calls is 60 seconds (1 minute).
     private TextView mRefNumTv;
     private CounterThread mThread;
@@ -106,7 +105,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         // if no booking exists
         if (!sharedpreferences.getBoolean(BOOKING, false)) {
             Log.d(TAG, "false!");
-
             // check if final confirmation left
             if (!sharedpreferences.getBoolean(BOOKING_FINAL, false)){
                 Log.d(TAG, "Final booking false!");
@@ -130,8 +128,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
     private void setBookingView() {
         setContentView(R.layout.activity_main_booked);
-
-        final Booking mBooking = MainActivity.getBooking();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -352,6 +348,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putBoolean(BOOKING, false);
         editor.commit();
+        sTime=0;
         shutdown();
     }
 

@@ -29,6 +29,17 @@
     <string name="my_graduation">My Graduation</string>
     <string name="it_support">IT Support</string>
 
+    <string-array name="enq_type">
+        <item>My Subject Enrolment</item>
+        <item>My Study Plan</item>
+        <item>My UTS Documents</item>
+        <item>General Enquiry</item>
+        <item>My Class Timetable</item>
+        <item>Exams and Assessment</item>
+        <item>My Graduation</item>
+        <item>IT Support</item>
+    </string-array>
+
     <!--Sub-enquiries-->
     <string name="pre_requisite">Pre-Requisite</string>
     <string name="full_subject">Full Subject</string>

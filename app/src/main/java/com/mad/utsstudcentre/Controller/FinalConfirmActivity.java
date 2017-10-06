@@ -43,15 +43,6 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
     private Button mConfBtn;
     private Booking mBooking;
 
-    // Data filed after confirming a booking
-    private TextView mBookedSidTv;
-    private TextView mBookedUserNameTv;
-    private TextView mBookedTypeTv;
-    private TextView mBookedCentreTv;
-    private TextView mBookedEstTv;
-    private Button mCancelBtn;
-
-
     // Counter for end activity: 10 minutes later, will destroy itself regardless user's input
     private CounterThread mThread;
     private int time; //timer
@@ -79,7 +70,7 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
             @Override
             public void onClick(View v) {
                 clearRecord();
-                launchMain();
+//                launchMain();
             }
         });
 
@@ -124,7 +115,6 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
     @Override
     public void onCancelConfirmClick(DialogFragment dlg) {
         clearRecord();
-        launchMain();
     }
 
     /**
@@ -133,25 +123,25 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
     private void expiredActivity() {
         clearRecord();
         Toast.makeText(getApplicationContext(), "Your Booking is expired", Toast.LENGTH_LONG).show();
-        launchMain();
     }
 
     /**
      * Clear booking record and launch MainActivity
      */
     private void launchMain(){
-        shutdown();
+        time = 0;
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         finish();
     }
 
     private void clearRecord() {
+        shutdown();
         // Clearing current booking information from sharedPreference
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.clear();
         editor.commit();
-        shutdown();
+        launchMain();
     }
 
     /**
@@ -217,7 +207,7 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
                                     expiredActivity();
                                 }
                             });
-                            shutdown();
+                            break;
                         }
 
 

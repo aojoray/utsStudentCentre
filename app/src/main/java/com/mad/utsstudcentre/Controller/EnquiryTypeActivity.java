@@ -1,16 +1,22 @@
 package com.mad.utsstudcentre.Controller;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -61,6 +67,8 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
     private String enq07;
     private String enq08;
 
+    private String[] mEnqList;
+
     private DatabaseReference mDatabase;
 
     @Override
@@ -69,18 +77,10 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
         setContentView(R.layout.activity_enquiry_type);
         setupFirebase();
 
-        // Connect buttons to controller
-        mEnqBtn01 = (Button) findViewById(R.id.enqBtn01);
-        mEnqBtn02 = (Button) findViewById(R.id.enqBtn02);
-        mEnqBtn03 = (Button) findViewById(R.id.enqBtn03);
-        mEnqBtn04 = (Button) findViewById(R.id.enqBtn04);
-        mEnqBtn05 = (Button) findViewById(R.id.enqBtn05);
-        mEnqBtn06 = (Button) findViewById(R.id.enqBtn06);
-        mEnqBtn07 = (Button) findViewById(R.id.enqBtn07);
-        mEnqBtn08 = (Button) findViewById(R.id.enqBtn08);
-        mHelpBtn = (ImageButton) findViewById(R.id.enqHelpBtn);
         // Connect Fragment container
         mFrame = (FrameLayout) findViewById(R.id.container);
+        mEnqList = new String[8];
+
 
         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -93,14 +93,7 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
                 enq06 = dataSnapshot.child("bookings").child("6").child("bookingName").getValue().toString();
                 enq07 = dataSnapshot.child("bookings").child("7").child("bookingName").getValue().toString();
                 enq08 = dataSnapshot.child("bookings").child("8").child("bookingName").getValue().toString();
-                mEnqBtn01.setText(enq01);
-                mEnqBtn02.setText(enq02);
-                mEnqBtn03.setText(enq03);
-                mEnqBtn04.setText(enq04);
-                mEnqBtn05.setText(enq05);
-                mEnqBtn06.setText(enq06);
-                mEnqBtn07.setText(enq07);
-                mEnqBtn08.setText(enq08);
+
             }
 
             @Override
@@ -109,102 +102,120 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
             }
         });
 
+        mEnqList = new String[getResources().getStringArray(R.array.enq_type).length + 1];
+        String[] temp = getResources().getStringArray(R.array.enq_type);
+//        mEnqList = getResources().getStringArray(R.array.enq_type);
+
+        for (int i = 0; i < mEnqList.length - 1; i++) {
+            mEnqList[i] = temp[i];
+        }
+
+        Log.d(TAG, "mEnqList length 2: " + mEnqList.length);
+        mEnqList[mEnqList.length - 1] = "help";
+        for (String type : mEnqList) {
+            Log.d(TAG, "type loop: " + type);
+        }
+
+        GridView gridView = (GridView) findViewById(R.id.enqGv);
+        EnqTypeAdapter enqTypeAdapter = new EnqTypeAdapter(this, mEnqList);
+        gridView.setAdapter(enqTypeAdapter);
+
         //Set OnclickListeners for buttons
         // My subject enrolment btn
-        mEnqBtn01.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-//                Toast.makeText(getApplicationContext(), "My subject enrolment", Toast.LENGTH_SHORT).show();
-                // let FrameLayout for Fragment visible
-                mFrame.setVisibility(View.VISIBLE);
-                // instantiate the fragment and commit to open
-                SubEnqFragment subEnqFragment = SubEnqFragment.newInstance(TYPE_SUbJ_ENROL);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
-                        .replace(R.id.container, subEnqFragment, SUB_ENQUIRY_FRAGMENT).commit();
-
-            }
-        });
-
-        // My Study plan btn
-        mEnqBtn02.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "My Study plan", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        //My UTS documents btn
-        mEnqBtn03.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "My UTS documents", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        // General Enquiry btn
-        mEnqBtn04.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "General Enquiry", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        // My class timetable btn
-        mEnqBtn05.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "My class timetable", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        //Exams and assessment btn
-        mEnqBtn06.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Exams and assessment", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        // My Graduation btn
-        mEnqBtn07.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "My Graduation", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        // IT support btn
-        mEnqBtn08.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "IT support", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-        // Help btn providing descriptions for available options
-        mHelpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), "Help", Toast.LENGTH_SHORT).show();
-                // let FrameLayout for Fragment visible
-                mFrame.setVisibility(View.VISIBLE);
-                // instantiate the fragment and commit to open
-                HelpEnqFragment helpEnqFragment = HelpEnqFragment.newInstance(CODE_ENQ_TYPE);
-
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
-                        .replace(R.id.container, helpEnqFragment, HELP_ENQUIRY_FRAGMENT).commit();
-
-            }
-        });
+//        mEnqBtn01.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Toast.makeText(getApplicationContext(), "My subject enrolment", Toast.LENGTH_SHORT).show();
+//                // let FrameLayout for Fragment visible
+//                mFrame.setVisibility(View.VISIBLE);
+//                // instantiate the fragment and commit to open
+//                SubEnqFragment subEnqFragment = SubEnqFragment.newInstance(TYPE_SUbJ_ENROL);
+//                FragmentManager fragmentManager = getSupportFragmentManager();
+//                fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
+//                        .replace(R.id.container, subEnqFragment, SUB_ENQUIRY_FRAGMENT).commit();
+//
+//            }
+//        });
+//
+//        // My Study plan btn
+//        mEnqBtn02.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "My Study plan", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//
+//        //My UTS documents btn
+//        mEnqBtn03.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "My UTS documents", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//
+//        // General Enquiry btn
+//        mEnqBtn04.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "General Enquiry", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//
+//        // My class timetable btn
+//        mEnqBtn05.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "My class timetable", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//
+//        //Exams and assessment btn
+//        mEnqBtn06.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "Exams and assessment", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//
+//        // My Graduation btn
+//        mEnqBtn07.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "My Graduation", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//
+//        // IT support btn
+//        mEnqBtn08.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Toast.makeText(getApplicationContext(), "IT support", Toast.LENGTH_SHORT).show();
+//
+//            }
+//        });
+//
+//        // Help btn providing descriptions for available options
+//        mHelpBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+////                Toast.makeText(getApplicationContext(), "Help", Toast.LENGTH_SHORT).show();
+//                // let FrameLayout for Fragment visible
+//                mFrame.setVisibility(View.VISIBLE);
+//                // instantiate the fragment and commit to open
+//                HelpEnqFragment helpEnqFragment = HelpEnqFragment.newInstance(CODE_ENQ_TYPE);
+//
+//                FragmentManager fragmentManager = getSupportFragmentManager();
+//                fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
+//                        .replace(R.id.container, helpEnqFragment, HELP_ENQUIRY_FRAGMENT).commit();
+//
+//            }
+//        });
 
 
     }
@@ -216,8 +227,8 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
     @Override
     public void onBackPressed() {
 
-        Log.d(TAG, "COUNT: "+getSupportFragmentManager().getBackStackEntryCount());
-        if(getSupportFragmentManager().getBackStackEntryCount() == 1){
+        Log.d(TAG, "COUNT: " + getSupportFragmentManager().getBackStackEntryCount());
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             mFrame.setVisibility(View.GONE);
         }
         super.onBackPressed();
@@ -225,6 +236,7 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
 
     /**
      * If the booking is confirmed, this callback message will finish the intent and pass the reference number to MainActivity
+     *
      * @param dlg
      */
     @Override
@@ -234,7 +246,99 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
         finish();
     }
 
-    public void setupFirebase(){
+    public void setupFirebase() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
+//        mSnapshot = FirebaseDatabase.getInstance().getReference().getVal
+
     }
+
+    /**
+     * Innerclass EnqTypeAdapter for populate enquiry type items
+     */
+    private class EnqTypeAdapter extends BaseAdapter {
+
+        private final Context mContext;
+        private final String[] mEnquiryTypes;
+
+        private EnqTypeAdapter(Context context, String[] enquiryTypes) {
+            Log.d(TAG, "Adapter!!");
+            this.mContext = context;
+            this.mEnquiryTypes = enquiryTypes;
+        }
+
+        @Override
+        public int getCount() {
+            return mEnquiryTypes.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mEnquiryTypes[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            // Binds Data
+            final String type = mEnquiryTypes[position];
+            Log.d(TAG, "Type == " + type);
+
+            Log.d(TAG, "position: " + position);
+            Log.d(TAG, "mEnquiryTypes: " + mEnquiryTypes[position]);
+            // Link to the view and Set title
+            if (position == mEnquiryTypes.length - 1) {
+                // Inflate Item's layout
+                if (convertView == null) {
+                    final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+                    convertView = layoutInflater.inflate(R.layout.item_enquiry_help, null);
+                }
+
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // let FrameLayout for Fragment visible
+                        mFrame.setVisibility(View.VISIBLE);
+                        // instantiate the fragment and commit to open
+                        HelpEnqFragment helpEnqFragment = HelpEnqFragment.newInstance(CODE_ENQ_TYPE);
+
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
+                                .replace(R.id.container, helpEnqFragment, HELP_ENQUIRY_FRAGMENT).commit();
+                    }
+                });
+            } else {
+                // Inflate Item's layout
+                if (convertView == null) {
+                     LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+                    convertView = layoutInflater.inflate(R.layout.item_enquiry_type, null);
+                    CardView typeCv = (CardView) convertView.findViewById(R.id.enqItemCv);
+                    TextView typeNameTv = (TextView) convertView.findViewById(R.id.typeNameTv);
+                    typeNameTv.setText(type);
+
+                    typeCv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+//                         let FrameLayout for Fragment visible
+                            mFrame.setVisibility(View.VISIBLE);
+                            // instantiate the fragment and commit to open
+                            SubEnqFragment subEnqFragment = SubEnqFragment.newInstance(position+1);
+                            FragmentManager fragmentManager = getSupportFragmentManager();
+                            fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
+                                    .replace(R.id.container, subEnqFragment, SUB_ENQUIRY_FRAGMENT).commit();
+                        }
+                    });
+                }
+
+
+            }
+
+
+            return convertView;
+        }
+    }
+
 }
