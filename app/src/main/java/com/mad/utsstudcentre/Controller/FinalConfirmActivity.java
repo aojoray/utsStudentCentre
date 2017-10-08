@@ -20,6 +20,7 @@ import com.mad.utsstudcentre.Model.Booking;
 import com.mad.utsstudcentre.R;
 
 import static com.mad.utsstudcentre.Controller.CentreFragment.EST_TIME;
+import static com.mad.utsstudcentre.Controller.MainActivity.BOOKING;
 import static com.mad.utsstudcentre.Controller.MainActivity.BOOKING_FINAL;
 import static com.mad.utsstudcentre.Controller.MainActivity.BOOKING_MODEL;
 import static com.mad.utsstudcentre.Controller.MainActivity.BOOKING_PREFERENCE;
@@ -129,18 +130,22 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
      * Clear booking record and launch MainActivity
      */
     private void launchMain(){
-        time = 0;
+//        time = 0;
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);
         finish();
     }
 
     private void clearRecord() {
+        Log.d(TAG, "Final: clear record");
         shutdown();
         // Clearing current booking information from sharedPreference
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.clear();
         editor.commit();
+        Log.d(TAG, "BOOKING_FINAL == > " + sharedpreferences.getBoolean(BOOKING_FINAL, false));
+        Log.d(TAG, "BOOKING_FINAL == > " + sharedpreferences.getBoolean(BOOKING, false));
+
         launchMain();
     }
 
@@ -150,8 +155,8 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
     @Override
     protected void onPause() {
         super.onPause();
-        if (time > 0) {
-            Log.d(TAG, "Final onPause");
+        if (sharedpreferences.getBoolean(BOOKING_FINAL, false)) {
+            Log.d(TAG, "@Final onPause Booking True");
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putLong(CURRENT_TIME, System.currentTimeMillis());
             editor.putInt(EST_TIME, time);

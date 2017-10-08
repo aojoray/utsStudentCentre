@@ -379,7 +379,8 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause");
-        if (sTime != 0) {
+        if (sharedpreferences.getBoolean(BOOKING, false)) {
+            Log.d(TAG, "@onPause Booking True");
             Gson gson = new GsonBuilder().create();
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putString(BOOKING_MODEL, gson.toJson(sBooking));
