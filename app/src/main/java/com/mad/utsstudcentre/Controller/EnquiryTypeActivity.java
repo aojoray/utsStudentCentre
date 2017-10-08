@@ -102,20 +102,17 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
             }
         });
 
+        // mEnqList for GridView adapter reads data from String res file = one additional for help
         mEnqList = new String[getResources().getStringArray(R.array.enq_type).length + 1];
         String[] temp = getResources().getStringArray(R.array.enq_type);
-//        mEnqList = getResources().getStringArray(R.array.enq_type);
-
-        for (int i = 0; i < mEnqList.length - 1; i++) {
-            mEnqList[i] = temp[i];
-        }
-
+        System.arraycopy(temp, 0, mEnqList, 0, mEnqList.length - 1);
         Log.d(TAG, "mEnqList length 2: " + mEnqList.length);
         mEnqList[mEnqList.length - 1] = "help";
         for (String type : mEnqList) {
             Log.d(TAG, "type loop: " + type);
         }
 
+        // Sending list data to GridView
         GridView gridView = (GridView) findViewById(R.id.enqGv);
         EnqTypeAdapter enqTypeAdapter = new EnqTypeAdapter(this, mEnqList);
         gridView.setAdapter(enqTypeAdapter);
