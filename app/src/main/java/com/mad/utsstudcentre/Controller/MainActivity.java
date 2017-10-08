@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private Button mCancelBtn;
 
     // private TextView mBookedWaitingTv;
-    public static int sTime=0;
+    public int time =0;
     private int mDelay = 1;//60; // The initial delay between operate() calls is 60 seconds (1 minute).
     private TextView mRefNumTv;
     private CounterThread mThread;
@@ -147,10 +147,10 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         mBookedTypeTv.setText(sBooking.getEnqType());
         mBookedCentreTv.setText(sCentre.getCenterName());
 
-        // set the estimated sTime of waiting
-        mBookedEstTv.setText(sTime + " min");
+        // set the estimated time of waiting
+        mBookedEstTv.setText(time + " min");
 
-        //TODO: booking sTime may need change in logic
+        //TODO: booking time may need change in logic
         sBooking.setDate(new Date().toLocaleString());
         Log.d(TAG, "Booking Date: " + sBooking.getDate());
 
@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         if (resultCode == RESULT_OK && !data.getBooleanExtra(NOTIFICATION, false)) {
             Log.d(TAG, "RESULT OKAY! ");
 
-            sTime = sCentre.getEstTime();
+            time = sCentre.getEstTime();
 
             setBookingView();
             SharedPreferences sharedpreferences = getSharedPreferences(BOOKING_PREFERENCE, Context.MODE_PRIVATE);
@@ -273,14 +273,14 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         Calendar calendar = Calendar.getInstance();
-        //TODO: Change to ((sTime * 60000) - 600000) for 10 minutes before
+        //TODO: Change to ((time * 60000) - 600000) for 10 minutes before
         calendar.setTimeInMillis((System.currentTimeMillis() + 5000)); // Alarm set to 5sec (5000) / 1 minute (60000) after for testing
 
         Log.d(TAG, "current time = " + new Date().toLocaleString());
         Log.d(TAG, "Alarm set at = " + calendar.getTime());
 
         /* no Repeat */
-        // TODO: replace 2nd with --> (Calendar.getInstance().getTimeInMillis() + (sTime*1000))
+        // TODO: replace 2nd with --> (Calendar.getInstance().getTimeInMillis() + (time*1000))
         manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 0, pendingIntent);
     }
@@ -354,7 +354,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putBoolean(BOOKING, false);
         editor.commit();
-        sTime=0;
+        time =0;
         shutdown();
     }
 
@@ -367,11 +367,11 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         long difference = System.currentTimeMillis() - sharedpreferences.getLong(CURRENT_TIME, 0);
         Log.d(TAG, "Difference/60000 == " + difference / 1000);
         // TODO: Replace 1000 with 60000 after testing
-        sTime = (int) (sharedpreferences.getInt(EST_TIME, 0) - (difference / 1000)); //1000 for sec 60000 for min
+        time = (int) (sharedpreferences.getInt(EST_TIME, 0) - (difference / 1000)); //1000 for sec 60000 for min
 
         // if the estimated time is already under 0, set the time to 0. Otherwise, run thread for counting down.
-        if (sTime <= 0) {
-            sTime = 0;
+        if (time <= 0) {
+            time = 0;
             clearBooking();
             setFinalView();
         } else {
@@ -391,7 +391,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putLong(CURRENT_TIME, System.currentTimeMillis());
             editor.putBoolean(BOOKING, true);
-            editor.putInt(EST_TIME, sTime);
+            editor.putInt(EST_TIME, time);
             editor.commit();
             shutdown();
         }
@@ -411,7 +411,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
 
     /**
-     * CounterThread is used for counting the remained sTime and change the view accordingly
+     * CounterThread is used for counting the remained time and change the view accordingly
      * The interval is manipulated by mDelay (if mDelay = 6 -> interval = 60 seconds)
      */
     private class CounterThread extends Thread {
@@ -419,19 +419,19 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
         @Override
         public void run() {
-            if (sTime > 0) {
+            if (time > 0) {
                 while (running) {
                     try {
                         Thread.sleep(mDelay * 1000); // delay * 1000 milliseconds
-                        Log.d(TAG, "Thread Time @ Loop: " + sTime);
+                        Log.d(TAG, "Thread Time @ Loop: " + time);
 
-                        sTime--;
+                        time--;
                         MainActivity.this.runOnUiThread(new Runnable() {
                             public void run() {
-                                mBookedEstTv.setText(sTime + " min");
+                                mBookedEstTv.setText(time + " min");
                             }
                         });
-                        if (sTime <= 0) {
+                        if (time <= 0) {
                             MainActivity.this.runOnUiThread(new Runnable() {
                                 public void run() {
                                     clearBooking();

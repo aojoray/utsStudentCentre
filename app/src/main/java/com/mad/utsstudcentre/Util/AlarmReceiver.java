@@ -19,7 +19,7 @@ import static com.mad.utsstudcentre.Controller.MainActivity.CONFIRM;
 
 /**
  * Alarm BroadcastReceiver associating alarm service with broadcast receiver.
- * Alarm service will be invoked on scheduled sTime even the user turns off the app.
+ * Alarm service will be invoked on scheduled time even the user turns off the app.
  */
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -32,7 +32,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     private Context mContext;
 
     /**
-     * If the estimated sTime reaches to 10 minutes, the alarm receiver will send the push notification.
+     * If the estimated time reaches to 10 minutes, the alarm receiver will send the push notification.
      * @param context
      * @param intent
      */

@@ -190,7 +190,7 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
 
 
     /**
-     * CounterThread is used for counting the remained sTime and change the view accordingly
+     * CounterThread is used for counting the remained time and change the view accordingly
      * The interval is manipulated by mDelay (if mDelay = 6 -> interval = 60 seconds)
      */
     private class CounterThread extends Thread {
