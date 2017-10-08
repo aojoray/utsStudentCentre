@@ -331,6 +331,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         Snackbar.make(mLayout, R.string.booking_cancel_msg, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
         clearRecord();
+        cancelAlarm();
         initialise();
     }
 
