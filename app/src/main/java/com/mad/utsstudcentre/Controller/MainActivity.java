@@ -240,7 +240,12 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             setBookingView();
             SharedPreferences sharedpreferences = getSharedPreferences(BOOKING_PREFERENCE, Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = sharedpreferences.edit();
+            Gson gson = new GsonBuilder().create();
+
             editor.putBoolean(BOOKING, true);
+            editor.putString(BOOKING_MODEL, gson.toJson(sBooking));
+            editor.putString(STUDENT_MODEL, gson.toJson(sStudent));
+            editor.putString(CENTRE_MODEL, gson.toJson(sCentre));
             editor.commit();
 
             mCancelBtn.setOnClickListener(new View.OnClickListener() {
@@ -383,9 +388,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             Log.d(TAG, "@onPause Booking True");
             Gson gson = new GsonBuilder().create();
             SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.putString(BOOKING_MODEL, gson.toJson(sBooking));
-            editor.putString(STUDENT_MODEL, gson.toJson(sStudent));
-            editor.putString(CENTRE_MODEL, gson.toJson(sCentre));
             editor.putLong(CURRENT_TIME, System.currentTimeMillis());
             editor.putBoolean(BOOKING, true);
             editor.putInt(EST_TIME, sTime);
