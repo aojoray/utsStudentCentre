@@ -108,9 +108,6 @@ public class EnquiryTypeActivity extends AppCompatActivity implements ConfirmDia
         System.arraycopy(temp, 0, mEnqList, 0, mEnqList.length - 1);
         Log.d(TAG, "mEnqList length 2: " + mEnqList.length);
         mEnqList[mEnqList.length - 1] = "help";
-        for (String type : mEnqList) {
-            Log.d(TAG, "type loop: " + type);
-        }
 
         // Sending list data to GridView
         GridView gridView = (GridView) findViewById(R.id.enqGv);

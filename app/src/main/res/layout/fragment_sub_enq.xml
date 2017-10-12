@@ -16,25 +16,32 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <ScrollView
+    <GridLayout
+        android:id="@+id/gridLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
-        <LinearLayout
-            android:id="@+id/sub_enq_btn_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:orientation="vertical"/>
+    </GridLayout>
 
-    </ScrollView>
+    <!--<ScrollView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
 
-    <ImageButton
-        android:id="@+id/sub_enqHelpBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="10dp"
-        android:background="@android:color/transparent"
-        android:src="@drawable/ic_action_name" />
+        <!--<LinearLayout-->
+            <!--android:id="@+id/sub_enq_btn_layout"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:paddingBottom="10dp"-->
+            <!--android:orientation="vertical"/>-->
+
+    <!--</ScrollView>-->
+
+    <!--<ImageButton-->
+        <!--android:id="@+id/sub_enqHelpBtn"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_horizontal"-->
+        <!--android:layout_margin="10dp"-->
+        <!--android:background="@android:color/transparent"-->
+        <!--android:src="@drawable/ic_action_name" />-->
 </LinearLayout>

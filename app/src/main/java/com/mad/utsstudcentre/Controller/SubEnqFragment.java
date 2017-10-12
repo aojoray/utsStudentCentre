@@ -1,15 +1,20 @@
 package com.mad.utsstudcentre.Controller;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.CardView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mad.utsstudcentre.R;
@@ -91,61 +96,75 @@ public class SubEnqFragment extends Fragment {
         if(v!=null){
             ButterKnife.bind(this, v);
         }
-
-        // Connects help button and set OnClickListener
-        mHelpBtn= (ImageButton) v.findViewById(R.id.sub_enqHelpBtn);
-        mHelpBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                // instantiate the fragment and commit to open
-                HelpEnqFragment helpEnqFragment = HelpEnqFragment.newInstance(CODE_SUB_ENQ, getArguments().getInt(TYPE));
-
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
-                        .replace(R.id.container, helpEnqFragment, HELP_ENQUIRY_FRAGMENT).commit();
-            }
-        });
-
-        // layout where the sub-enquiry types will be placed
-        mSubEnqBtnLayout= (LinearLayout) v.findViewById(R.id.sub_enq_btn_layout);
+//
+//        // Connects help button and set OnClickListener
+//        mHelpBtn= (ImageButton) v.findViewById(R.id.sub_enqHelpBtn);
+//        mHelpBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                // instantiate the fragment and commit to open
+//                HelpEnqFragment helpEnqFragment = HelpEnqFragment.newInstance(CODE_SUB_ENQ, getArguments().getInt(TYPE));
+//
+//                FragmentManager fragmentManager = getFragmentManager();
+//                fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
+//                        .replace(R.id.container, helpEnqFragment, HELP_ENQUIRY_FRAGMENT).commit();
+//            }
+//        });
+//
+//        // layout where the sub-enquiry types will be placed
+//        mSubEnqBtnLayout= (LinearLayout) v.findViewById(R.id.sub_enq_btn_layout);
 
         // type of Parent Enquiry
         mType = getArguments().getInt(TYPE);
+
+        // mEnqList for GridView adapter reads data from String res file = one additional for help
+        mItems = new String[getResources().getStringArray(R.array.enq_type).length + 1];
+        String[] temp = getResources().getStringArray(R.array.enq_type);
+        System.arraycopy(temp, 0, mItems, 0, mItems.length - 1);
+        Log.d(TAG, "mEnqList length 2: " + mItems.length);
+        mItems[mItems.length - 1] = "help";
+
+        // Sending list data to GridView
+        GridView gridView = (GridView) v.findViewById(R.id.enqGv);
+//        GridLayout gridLayout =  v.fi
+        SubEnqTypeAdapter subenqTypeAdapter = new SubEnqTypeAdapter(getActivity(), mItems);
+        gridView.setAdapter(subenqTypeAdapter);
+
 
         // Populate Sub-enquiry type Buttons dynamically
         switch(mType){
             case TYPE_SUbJ_ENROL:
                 mItems = getResources().getStringArray(R.array.sub_enrol_title_01);
-                for(int i = 0; i < mItems.length ; i++){
-
-                    // Dynamically generated views
-                    final Button subEnqBtn = (Button) inflater.inflate(R.layout.attribute_enq_btn, null);
-
-                    // set Text and Style
-                    subEnqBtn.setText(mItems[i]);
-                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT
-                    );
-                    params.setMargins(20, 20, 20, 20);
-                    params.height = 480;
-                    subEnqBtn.setLayoutParams(params);
-
-                    // index of the item in the array
-                    final int index =  1001 + i;
-
-                    //setOnclickListener
-                    subEnqBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            onOptionClick(v, subEnqBtn.getText(), index);
-                        }
-                    });
-
-                    // Add views to the layout
-                    mSubEnqBtnLayout.addView(subEnqBtn);
-                }
+//                for(int i = 0; i < mItems.length ; i++){
+//
+//                    // Dynamically generated views
+//                    final Button subEnqBtn = (Button) inflater.inflate(R.layout.attribute_enq_btn, null);
+//
+//                    // set Text and Style
+//                    subEnqBtn.setText(mItems[i]);
+//                    LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+//                            ViewGroup.LayoutParams.MATCH_PARENT,
+//                            ViewGroup.LayoutParams.MATCH_PARENT
+//                    );
+//                    params.setMargins(20, 20, 20, 20);
+//                    params.height = 480;
+//                    subEnqBtn.setLayoutParams(params);
+//
+//                    // index of the item in the array
+//                    final int index =  1001 + i;
+//
+//                    //setOnclickListener
+//                    subEnqBtn.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                            onOptionClick(v, subEnqBtn.getText(), index);
+//                        }
+//                    });
+//
+//                    // Add views to the layout
+//                    mSubEnqBtnLayout.addView(subEnqBtn);
+//                }
                 break;
             case TYPE_STUDY_PLAN:
                 break;
@@ -180,6 +199,87 @@ public class SubEnqFragment extends Fragment {
         FragmentManager fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
                 .replace(R.id.container, subEnqFragment, CENTRE_FRAGMENT).commit();
+    }
+    /**
+     * Innerclass EnqTypeAdapter for populate enquiry type items
+     */
+    private class SubEnqTypeAdapter extends BaseAdapter {
+
+        private final Context mContext;
+        private final String[] mSubEnquiryTypes;
+
+        private SubEnqTypeAdapter(Context context, String[] enquiryTypes) {
+            Log.d(TAG, "Adapter!!");
+            this.mContext = context;
+            this.mSubEnquiryTypes = enquiryTypes;
+        }
+
+        @Override
+        public int getCount() {
+            return mSubEnquiryTypes.length;
+        }
+
+        @Override
+        public Object getItem(int position) {
+            return mSubEnquiryTypes[position];
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return 0;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            // Binds Data
+            final String type = mSubEnquiryTypes[position];
+            Log.d(TAG, "Type == " + type);
+
+            Log.d(TAG, "position: " + position);
+            Log.d(TAG, "mSubEnquiryTypes: " + mSubEnquiryTypes[position]);
+            // Link to the view and Set title
+            if (position == mSubEnquiryTypes.length - 1) {
+                // Inflate Item's layout
+                if (convertView == null) {
+                    final LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+                    convertView = layoutInflater.inflate(R.layout.item_enquiry_help, null);
+                }
+
+                convertView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // let FrameLayout for Fragment visible
+//                        mFrame.setVisibility(View.VISIBLE);
+                        // instantiate the fragment and commit to open
+                        HelpEnqFragment helpEnqFragment = HelpEnqFragment.newInstance(CODE_SUB_ENQ, getArguments().getInt(TYPE));
+
+                        FragmentManager fragmentManager = getFragmentManager();
+                        fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
+                                .replace(R.id.container, helpEnqFragment, HELP_ENQUIRY_FRAGMENT).commit();
+                    }
+                });
+            } else {
+                // Inflate Item's layout
+                if (convertView == null) {
+                    LayoutInflater layoutInflater = LayoutInflater.from(mContext);
+                    convertView = layoutInflater.inflate(R.layout.item_enquiry_type, null);
+                    CardView typeCv = (CardView) convertView.findViewById(R.id.enqItemCv);
+                    TextView typeNameTv = (TextView) convertView.findViewById(R.id.typeNameTv);
+                    typeNameTv.setText(type);
+
+                    // index of the item in the array
+//                    final int index =  1001 + i;
+                    typeCv.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //setOnclickListener
+                            onOptionClick(v, type, position);
+                        }
+                    });
+                }
+            }
+            return convertView;
+        }
     }
 
 }
