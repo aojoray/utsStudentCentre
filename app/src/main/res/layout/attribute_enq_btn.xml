@@ -4,4 +4,5 @@
     android:layout_height="wrap_content"
     android:background="@color/btn_enq"
     android:orientation="vertical"
+    android:layout_margin="10dp"
     android:textColor="@color/btn_enq_txt" />

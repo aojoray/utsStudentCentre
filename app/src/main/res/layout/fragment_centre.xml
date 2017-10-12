@@ -155,7 +155,6 @@
                     android:id="@+id/centre_02_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/btn_centre_bg"
                     android:clickable="true"
                     android:orientation="vertical"
                     android:padding="5dp"

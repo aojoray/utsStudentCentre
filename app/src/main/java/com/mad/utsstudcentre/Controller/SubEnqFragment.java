@@ -129,6 +129,7 @@ public class SubEnqFragment extends Fragment {
                             ViewGroup.LayoutParams.MATCH_PARENT
                     );
                     params.setMargins(20, 20, 20, 20);
+                    params.height = 480;
                     subEnqBtn.setLayoutParams(params);
 
                     // index of the item in the array

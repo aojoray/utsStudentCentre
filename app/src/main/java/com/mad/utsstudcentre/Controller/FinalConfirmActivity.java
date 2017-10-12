@@ -13,10 +13,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mad.utsstudcentre.Dialogue.CancelDialogue;
 import com.mad.utsstudcentre.Model.Booking;
+import com.mad.utsstudcentre.Model.Student;
 import com.mad.utsstudcentre.R;
 
 import static com.mad.utsstudcentre.Controller.CentreFragment.EST_TIME;
@@ -42,13 +45,16 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
     // Final Confirmation View
     private TextView mRefNumTv;
     private Button mConfBtn;
-    private Booking mBooking;
 
     // Counter for end activity: 10 minutes later, will destroy itself regardless user's input
     private CounterThread mThread;
     private int time; //timer
     private int mDelay = 1; // //60; // The initial delay between operate() calls is 60 seconds (1 minute).
 
+    private DatabaseReference mDatabase;
+
+    private Booking mBooking;
+    private Student mStudent;
     private SharedPreferences sharedpreferences;
 
 
@@ -63,6 +69,7 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
         sharedpreferences = getSharedPreferences(BOOKING_PREFERENCE, Context.MODE_PRIVATE);
         Gson gson = new GsonBuilder().create();
         mBooking = gson.fromJson(sharedpreferences.getString(BOOKING_MODEL, ""), Booking.class);
+
         mRefNumTv = (TextView) findViewById(R.id.refNumTv);
         mRefNumTv.setText(mBooking.getReference());
         mConfBtn = (Button) findViewById(R.id.final_conf_btn);
@@ -138,6 +145,12 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
 
     private void clearRecord() {
         Log.d(TAG, "Final: clear record");
+        mStudent = mBooking.getStudent();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        DatabaseReference futureBooking = mDatabase.child("futureBooking")
+                .child(mBooking.getEnqType()).child(mStudent.getsId());
+        futureBooking.removeValue();
         shutdown();
         // Clearing current booking information from sharedPreference
         SharedPreferences.Editor editor = sharedpreferences.edit();

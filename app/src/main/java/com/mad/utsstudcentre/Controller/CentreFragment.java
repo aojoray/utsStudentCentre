@@ -12,7 +12,11 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.mad.utsstudcentre.Dialogue.ConfirmDialogue;
 import com.mad.utsstudcentre.Model.Booking;
 import com.mad.utsstudcentre.Model.StudentCentre;
@@ -25,6 +29,8 @@ import butterknife.ButterKnife;
 import static com.mad.utsstudcentre.Controller.MainActivity.getCentre;
 import static com.mad.utsstudcentre.Model.StudentCentre.CENTRE_01;
 import static com.mad.utsstudcentre.Model.StudentCentre.CENTRE_01_ID;
+import static com.mad.utsstudcentre.Model.StudentCentre.CENTRE_02;
+import static com.mad.utsstudcentre.Model.StudentCentre.CENTRE_02_ID;
 
 /**
  * CentreFragment is loaded when user selects the Enquiry/sub-enquiry type.
@@ -37,8 +43,7 @@ public class CentreFragment extends Fragment {
     public static final String FINAL_TYPE = "Final Type";
     private static final String TYPE_INDEX = "Final type index";
     public static final String INDEX_TYPE = "IndexType";
-    public static final String WAITING_05 = "waitingPeople05";
-    public static final String WAITING_10 = "waitingPeople10";
+    public static final String WAITING = "waitingPeople";
     public static final String REF_NUMBER = "Reference Number";
     public static final String EST_TIME = "Estimated time";
     public static final String CENTRE_TYPE = "Centre type";
@@ -117,7 +122,7 @@ public class CentreFragment extends Fragment {
 
                 Bundle args = new Bundle();
                 args.putString(INDEX_TYPE, "" + mFinalTypeIndex);
-                args.putString(WAITING_05, "waitingPeople05");
+                args.putString(WAITING, "waitingPeople05");
                 cfmDialogue.setArguments(args);
                 cfmDialogue.show(getFragmentManager(), "ConfirmDialogue");
             }
@@ -126,7 +131,21 @@ public class CentreFragment extends Fragment {
         mCentre02Layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ConfirmDialogue cfmDialogue = new ConfirmDialogue();
 
+                StudentCentre centre = getCentre();
+
+                centre.setCenterId(CENTRE_02_ID);
+                centre.setCenterName(CENTRE_02);
+                centre.setEstTime(mEstTime02);
+                mBooking.setEnqType(mFinalType);
+                mBooking.setCentre(centre);
+
+                Bundle args = new Bundle();
+                args.putString(INDEX_TYPE, "" + mFinalTypeIndex);
+                args.putString(WAITING, "waitingPeople10");
+                cfmDialogue.setArguments(args);
+                cfmDialogue.show(getFragmentManager(), "ConfirmDialogue");
             }
         });
 
@@ -141,59 +160,58 @@ public class CentreFragment extends Fragment {
      */
     private void initialiseData() {
 
-//        mDatabase = FirebaseDatabase.getInstance().getReference();
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
 
         Random random = new Random();
-        int wait01 = 3;//random.nextInt(20);
-        int wait02 = random.nextInt(20);
+
         final String index = "" + mFinalTypeIndex;
         //TODO: Replace after testing
-//        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                wait01 = dataSnapshot.child("bookings").child(index)
-//                        .child("waitingPeople05").getValue(Integer.class);
-//                wait02 = dataSnapshot.child("bookings").child(index)
-//                        .child("waitingPeople10").getValue(Integer.class);
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            int wait01 = 0;
+            int wait02 = 0;
 
-        mEstTime01 = wait01 * 5;
-        mEstTime02 = wait02 * 5;
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                wait01 = dataSnapshot.child("studentCentre")
+                        .child("waitingPeople05").getValue(Integer.class);
+                wait02 = dataSnapshot.child("studentCentre")
+                        .child("waitingPeople10").getValue(Integer.class);
+
+                mEstTime01 = wait01 * 5;
+                mEstTime02 = wait02 * 5;
 
 
-        String est01 = "";
-        String est02 = "";
+                String est01 = "";
+                String est02 = "";
 
-        if (mEstTime01 > 60) {
-            est01 = mEstTime01 / 60 + " hour " + mEstTime01 % 60 + " min";
-        } else {
-            est01 = mEstTime01 + " min";
-        }
+                if (mEstTime01 > 60) {
+                    est01 = mEstTime01 / 60 + " hour " + mEstTime01 % 60 + " min";
+                } else {
+                    est01 = mEstTime01 + " min";
+                }
 
-        if (mEstTime02 > 60) {
-            est02 = mEstTime02 / 60 + " hour " + mEstTime02 % 60 + " min";
-        } else {
-            est02 = mEstTime02 + " min";
-        }
+                if (mEstTime02 > 60) {
+                    est02 = mEstTime02 / 60 + " hour " + mEstTime02 % 60 + " min";
+                } else {
+                    est02 = mEstTime02 + " min";
+                }
 
-        mEst_01Tv.setText(est01);
-        mEst_02Tv.setText(est02);
-        mWait_01Tv.setText(wait01 + " people");
-        mWait_02Tv.setText(wait02 + " people");
-//            }
+                mEst_01Tv.setText(est01);
+                mEst_02Tv.setText(est02);
+                mWait_01Tv.setText(wait01 + " people");
+                mWait_02Tv.setText(wait02 + " people");
+            }
 
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 //        mEstTime01 = wait01 * 5; // 5 minutes average time per booking
+            }
 
-
-    }
-
-    /**
+            /**
      * setRefNumber after RefNumberAsyncTask generate the reference number
      *
      * @param refNumber
@@ -257,5 +275,4 @@ public class CentreFragment extends Fragment {
             super.onPostExecute(refNum);
         }
     }
-
 }

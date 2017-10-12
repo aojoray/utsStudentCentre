@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -196,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             sBooking.setCentre(sCentre);
 
 
-            Button newBookingBtn = (Button) findViewById(R.id.new_booking_btn);
+            FloatingActionButton newBookingBtn = (FloatingActionButton) findViewById(R.id.new_booking_btn);
             newBookingBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

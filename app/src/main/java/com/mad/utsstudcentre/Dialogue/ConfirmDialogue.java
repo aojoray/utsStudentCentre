@@ -30,7 +30,7 @@ public class ConfirmDialogue extends DialogFragment {
 
     private static final String TAG = "ConfirmDialogue_TAG";
     public static final String INDEX_TYPE = "IndexType";
-    public static final String WAITING_05 = "waitingPeople05";
+    public static final String WAITING = "waitingPeople";
     private ConfDialogListener mHost;
     private TextView mSidTv;
     private TextView mNameTv;
@@ -49,7 +49,7 @@ public class ConfirmDialogue extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final String enqIndex = getArguments().getString(INDEX_TYPE);
-        final String waitingNum = getArguments().getString(WAITING_05);
+        final String waitingNum = getArguments().getString(WAITING);
 
         // Create the custom layout using the LayoutInflater class
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -88,12 +88,12 @@ public class ConfirmDialogue extends DialogFragment {
                         mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
-                                int currentWaitingNum = dataSnapshot.child("bookings").child(enqIndex)
+                                int currentWaitingNum = dataSnapshot.child("studentCentre")
                                         .child(waitingNum).getValue(Integer.class);
                                 currentWaitingNum += 1;
 
-                                DatabaseReference updatedReference = dataSnapshot.getRef().child("bookings")
-                                        .child(enqIndex).child(waitingNum);
+                                DatabaseReference updatedReference = dataSnapshot.getRef().child("studentCentre")
+                                        .child(waitingNum);
                                 updatedReference.setValue(currentWaitingNum);
                             }
 
