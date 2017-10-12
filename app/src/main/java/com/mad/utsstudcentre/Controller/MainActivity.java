@@ -275,7 +275,9 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
         Calendar calendar = Calendar.getInstance();
         //TODO: Change to ((time * 60000) - 600000) for 10 minutes before
-        calendar.setTimeInMillis((System.currentTimeMillis() + 5000)); // Alarm set to 5sec (5000) / 1 minute (60000) after for testing
+//        calendar.setTimeInMillis((System.currentTimeMillis() + 5000)); // Alarm set to 5sec (5000) / 1 minute (60000) after for testing
+        int target = (time * 60000) - 60000;
+        calendar.setTimeInMillis((System.currentTimeMillis() +  ((time * 1000)) - 10000)); // Alarm set to 5sec (5000) / 1 minute (60000) after for testing
 
         Log.d(TAG, "current time = " + new Date().toLocaleString());
         Log.d(TAG, "Alarm set at = " + calendar.getTime());
