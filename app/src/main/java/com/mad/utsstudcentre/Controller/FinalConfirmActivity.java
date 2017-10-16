@@ -66,7 +66,17 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_final_confirm);
+        Log.d(TAG, "OnCreate @ Final");
+//        if (isTaskRoot()) {
+//            // Now launch this activity again and immediately return
+//            Intent intent = new Intent(this, MainActivity.class);
+//
+//            TaskStackBuilder.create(this)
+//                    .addNextIntentWithParentStack(intent)
+//                    .startActivities();
+//        }
         // Closing the notification
+
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         manager.cancel(getIntent().getIntExtra(NOTIFICATION_ID, 1001));
 
@@ -81,7 +91,7 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
         mBookedCentreTv = (TextView) findViewById(R.id.final_centreTv);
 
         // setText with booking information
-        mBookedSidTv.setText(mBooking.getStudent().getPrefferedName());
+        mBookedSidTv.setText(mBooking.getStudent().getsId());
         mBookedUserNameTv.setText(mBooking.getStudent().getPrefferedName());
         mBookedTypeTv.setText(mBooking.getEnqType());
         mBookedCentreTv.setText(mBooking.getCentre().getCenterName());
@@ -133,6 +143,7 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
 
     /**
      * Handles the cancelAlarm confirm event
+     *
      * @param dlg
      */
     @Override
@@ -151,7 +162,7 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
     /**
      * Clear booking record and launch MainActivity
      */
-    private void launchMain(){
+    private void launchMain() {
 //        time = 0;
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         startActivity(intent);

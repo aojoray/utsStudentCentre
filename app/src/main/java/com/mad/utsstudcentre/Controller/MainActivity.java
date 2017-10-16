@@ -277,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         calendar.setTimeInMillis((System.currentTimeMillis() +  ((time * 1000)) - 10000)); // Alarm set to 10 sec before the booking
 
         Log.d(TAG, "current time = " + new Date().toLocaleString());
+//        Log.d(TAG, "current time = " + System.currentTimeMillis());
         Log.d(TAG, "Alarm set at = " + calendar.getTime());
 
         /* no Repeat */

@@ -172,11 +172,14 @@ public class CentreFragment extends Fragment {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                wait01 = dataSnapshot.child("studentCentre")
-                        .child("waitingPeople05").getValue(Integer.class);
-                wait02 = dataSnapshot.child("studentCentre")
-                        .child("waitingPeople10").getValue(Integer.class);
+//                wait01 = dataSnapshot.child("studentCentre")
+//                        .child("waitingPeople05").getValue(Integer.class);
+//                wait02 = dataSnapshot.child("studentCentre")
+//                        .child("waitingPeople10").getValue(Integer.class);
+                wait01 = 4;
+                wait02 = 6;
 
+                // Estimated time is calculated from wait list (1 booking per 5 minutes)
                 mEstTime01 = wait01 * 5;
                 mEstTime02 = wait02 * 5;
 
@@ -184,6 +187,7 @@ public class CentreFragment extends Fragment {
                 String est01 = "";
                 String est02 = "";
 
+                //Changing minutes to hours if necessary
 //                if (mEstTime01 > 60) {
 //                    est01 = mEstTime01 / 60 + " hour " + mEstTime01 % 60 + " min";
 //                } else {
@@ -197,7 +201,7 @@ public class CentreFragment extends Fragment {
 //                }
 
                 mEst_01Tv.setText(""+mEstTime01);
-                mEst_02Tv.setText(""+mEstTime01);
+                mEst_02Tv.setText(""+mEstTime02);
                 mWait_01Tv.setText(""+wait01);
                 mWait_02Tv.setText(""+wait02);
             }
