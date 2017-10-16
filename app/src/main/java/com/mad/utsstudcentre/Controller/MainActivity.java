@@ -1,7 +1,9 @@
 package com.mad.utsstudcentre.Controller;
 
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -385,9 +387,19 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause");
+
+        ActivityManager am = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
+
+        int sizeStack =  am.getRunningTasks(100).size();
+        Log.d("TEST_TAG", "size == " + sizeStack);
+
+        for(int i = 0;i < sizeStack;i++){
+            ComponentName cn = am.getRunningTasks(100).get(i).topActivity;
+            Log.d("TEST_TAG", cn.getClassName());
+        }
         if (sharedpreferences.getBoolean(BOOKING, false)) {
             Log.d(TAG, "@onPause Booking True");
-            Gson gson = new GsonBuilder().create();
+//            Gson gson = new GsonBuilder().create();
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putLong(CURRENT_TIME, System.currentTimeMillis());
             editor.putBoolean(BOOKING, true);

@@ -56,7 +56,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setContentTitle(mContext.getString(R.string.notification_title))
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_MAX)
-                .setAutoCancel(true)
+//                .setAutoCancel(true)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(mContext.getString(R.string.notification_text)))
                 .setContentText((mContext.getString(R.string.notification_text)));
         Intent answerIntent = new Intent(mContext, FinalConfirmActivity.class);

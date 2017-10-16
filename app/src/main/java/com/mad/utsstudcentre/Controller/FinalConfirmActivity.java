@@ -1,6 +1,8 @@
 package com.mad.utsstudcentre.Controller;
 
+import android.app.ActivityManager;
 import android.app.NotificationManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -65,6 +67,7 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_final_confirm);
         Log.d(TAG, "OnCreate @ Final");
 //        if (isTaskRoot()) {
@@ -135,9 +138,19 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
                 Log.d(TAG, "Booking Final is false");
                 // Operate the thread to count down
                 // TODO: replace the time
-                time = 20; // Booking expires after 15 seconds (15min)
+                time = 15; // Booking expires after 15  seconds (15 min)
                 startup();
             }
+        }
+
+        ActivityManager am = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
+
+        int sizeStack =  am.getRunningTasks(100).size();
+        Log.d("TEST_X", "size == " + sizeStack);
+
+        for(int i = 0;i < sizeStack;i++){
+            ComponentName cn = am.getRunningTasks(100).get(i).topActivity;
+            Log.d("TEST_x", cn.getClassName());
         }
     }
 
