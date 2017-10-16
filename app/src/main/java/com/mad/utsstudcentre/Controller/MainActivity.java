@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
     private Button mCancelBtn;
 
     // private TextView mBookedWaitingTv;
-    public int time =0;
+    public int time = 0;
     private int mDelay = 1;//60; // The initial delay between operate() calls is 60 seconds (1 minute).
     private TextView mRefNumTv;
     private CounterThread mThread;
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         if (!sharedpreferences.getBoolean(BOOKING, false)) {
             Log.d(TAG, "false!");
             // check if final confirmation left
-            if (!sharedpreferences.getBoolean(BOOKING_FINAL, false)){
+            if (!sharedpreferences.getBoolean(BOOKING_FINAL, false)) {
                 Log.d(TAG, "Final booking false!");
                 setContentView(R.layout.activity_main);
                 sStudent = new Student();
@@ -276,7 +276,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
 
         Calendar calendar = Calendar.getInstance();
         //TODO: Change to ((time * 60000) - 600000) for 10 minutes before
-        calendar.setTimeInMillis((System.currentTimeMillis() +  ((time * 1000)) - 10000)); // Alarm set to 10 sec before the booking
+        calendar.setTimeInMillis((System.currentTimeMillis() + ((time * 1000)) - 10000)); // Alarm set to 10 sec before the booking
 
         Log.d(TAG, "current time = " + new Date().toLocaleString());
 //        Log.d(TAG, "current time = " + System.currentTimeMillis());
@@ -292,7 +292,11 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
      */
     public void cancelAlarm() {
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        manager.cancel(pendingIntent);
+        try {
+            manager.cancel(pendingIntent);
+        } catch (Exception e){
+            Log.d(TAG, e.getMessage());
+        }
 //        Toast.makeText(this, "Alarm Canceled", Toast.LENGTH_SHORT).show();
     }
 
@@ -331,7 +335,9 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         Snackbar.make(mLayout, R.string.booking_cancel_msg, Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show();
         clearRecord();
+
         cancelAlarm();
+
         initialise();
     }
 
@@ -354,7 +360,7 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         SharedPreferences.Editor editor = sharedpreferences.edit();
         editor.putBoolean(BOOKING, false);
         editor.commit();
-        time =0;
+        time = 0;
         shutdown();
     }
 
@@ -385,12 +391,12 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         super.onPause();
         Log.d(TAG, "onPause");
 
-        ActivityManager am = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager am = (ActivityManager) this.getSystemService(Context.ACTIVITY_SERVICE);
 
-        int sizeStack =  am.getRunningTasks(100).size();
+        int sizeStack = am.getRunningTasks(100).size();
         Log.d("TEST_TAG", "size == " + sizeStack);
 
-        for(int i = 0;i < sizeStack;i++){
+        for (int i = 0; i < sizeStack; i++) {
             ComponentName cn = am.getRunningTasks(100).get(i).topActivity;
             Log.d("TEST_TAG", cn.getClassName());
         }

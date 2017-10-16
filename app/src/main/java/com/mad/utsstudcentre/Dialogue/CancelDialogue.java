@@ -111,5 +111,6 @@ public class CancelDialogue extends DialogFragment {
      */
     public interface CancelDialogueListener {
         void onCancelConfirmClick(DialogFragment dlg);
+//        void onNotCancelClick(DialogFragment dig);
     }
 }

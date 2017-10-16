@@ -57,14 +57,10 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setContentTitle(mContext.getString(R.string.notification_title))
                 .setDefaults(Notification.DEFAULT_ALL)
                 .setPriority(Notification.PRIORITY_MAX)
-//                .setAutoCancel(true)
+                .setAutoCancel(true)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(mContext.getString(R.string.notification_text)))
                 .setContentText((mContext.getString(R.string.notification_text)));
         Intent answerIntent = new Intent(mContext, FinalConfirmActivity.class);
-//        answerIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-//        answerIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
-//                IntentCompat.FLAG_ACTIVITY_CLEAR_TASK |
-//                IntentCompat.FLAG_ACTIVITY_TASK_ON_HOME);
         answerIntent.setAction(CONFIRM);
         PendingIntent pendingIntentYes = PendingIntent.getActivity(mContext, 1, answerIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         mNotificationBuilder.addAction(R.drawable.ic_action_check, "Confirm", pendingIntentYes);

@@ -1,8 +1,6 @@
 package com.mad.utsstudcentre.Controller;
 
-import android.app.ActivityManager;
 import android.app.NotificationManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -67,17 +65,7 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_final_confirm);
-        Log.d(TAG, "OnCreate @ Final");
-//        if (isTaskRoot()) {
-//            // Now launch this activity again and immediately return
-//            Intent intent = new Intent(this, MainActivity.class);
-//
-//            TaskStackBuilder.create(this)
-//                    .addNextIntentWithParentStack(intent)
-//                    .startActivities();
-//        }
         // Closing the notification
 
         NotificationManager manager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -109,6 +97,32 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
             }
         });
 
+        // if this was restored before time is up
+        if (sharedpreferences.getBoolean(BOOKING_FINAL, false)) {
+            Log.d(TAG, "Booking Final is true");
+            long difference = System.currentTimeMillis() - sharedpreferences.getLong(CURRENT_TIME, 0);
+            Log.d(TAG, "Difference/1000 == " + difference / 1000);
+            // TODO: Replace 1000 with 60000 after testing
+            time = (int) (sharedpreferences.getInt(EST_TIME, 0) - (difference / 1000)); //1000 for sec 60000 for min
+
+            // if the estimated time is already under 0, set the time to 0 and finish the activity.
+            // Otherwise, run thread for counting down.
+            if (time <= 0) {
+                time = 0;
+                clearRecord();
+                expiredActivity();
+            } else {
+                // start counter thread
+                startup();
+            }
+        } else {
+            Log.d(TAG, "Booking Final is false");
+            // Operate the thread to count down
+            // TODO: replace the time
+            time = 15; // Booking expires after 15  seconds (15 min)
+            startup();
+        }
+
         // Set the view according to the user's response
         if (getIntent().getAction() == CANCEL) {
             Log.d(TAG, "Opened from Cancel");
@@ -116,46 +130,43 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
             cancelDialogue.show(getSupportFragmentManager(), "CancelDialogue");
         } else {
 
-            // if this was restored before time is up
-            if (sharedpreferences.getBoolean(BOOKING_FINAL, false)) {
-                Log.d(TAG, "Booking Final is true");
-                long difference = System.currentTimeMillis() - sharedpreferences.getLong(CURRENT_TIME, 0);
-                Log.d(TAG, "Difference/1000 == " + difference / 1000);
-                // TODO: Replace 1000 with 60000 after testing
-                time = (int) (sharedpreferences.getInt(EST_TIME, 0) - (difference / 1000)); //1000 for sec 60000 for min
-
-                // if the estimated time is already under 0, set the time to 0 and finish the activity.
-                // Otherwise, run thread for counting down.
-                if (time <= 0) {
-                    time = 0;
-                    clearRecord();
-                    expiredActivity();
-                } else {
-                    // start counter thread
-                    startup();
-                }
-            } else {
-                Log.d(TAG, "Booking Final is false");
-                // Operate the thread to count down
-                // TODO: replace the time
-                time = 15; // Booking expires after 15  seconds (15 min)
-                startup();
-            }
-        }
-
-        ActivityManager am = (ActivityManager)this.getSystemService(Context.ACTIVITY_SERVICE);
-
-        int sizeStack =  am.getRunningTasks(100).size();
-        Log.d("TEST_X", "size == " + sizeStack);
-
-        for(int i = 0;i < sizeStack;i++){
-            ComponentName cn = am.getRunningTasks(100).get(i).topActivity;
-            Log.d("TEST_x", cn.getClassName());
+//            // if this was restored before time is up
+//            if (sharedpreferences.getBoolean(BOOKING_FINAL, false)) {
+//                Log.d(TAG, "Booking Final is true");
+//                long difference = System.currentTimeMillis() - sharedpreferences.getLong(CURRENT_TIME, 0);
+//                Log.d(TAG, "Difference/1000 == " + difference / 1000);
+//                // TODO: Replace 1000 with 60000 after testing
+//                time = (int) (sharedpreferences.getInt(EST_TIME, 0) - (difference / 1000)); //1000 for sec 60000 for min
+//
+//                // if the estimated time is already under 0, set the time to 0 and finish the activity.
+//                // Otherwise, run thread for counting down.
+//                if (time <= 0) {
+//                    time = 0;
+//                    clearRecord();
+//                    expiredActivity();
+//                } else {
+//                    // start counter thread
+//                    startup();
+//                }
+//            } else {
+//                Log.d(TAG, "Booking Final is false");
+//                // Operate the thread to count down
+//                // TODO: replace the time
+//                time = 15; // Booking expires after 15  seconds (15 min)
+//                startup();
+//            }
         }
     }
 
+//    /**
+//     * initialise view on cancel not confirmed
+//     */
+//    public void initialise(){
+//
+//    }
+
     /**
-     * Handles the cancelAlarm confirm event
+     * Handles the cancelAlarm confirm event: when user confirms cancel
      *
      * @param dlg
      */
@@ -163,6 +174,15 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
     public void onCancelConfirmClick(DialogFragment dlg) {
         clearRecord();
     }
+//    /**
+//     * Handles the cancelAlarm confirm event: when user canceled cancellation
+//     *
+//     * @param dig
+//     */
+//    @Override
+//    public void onNotCancelClick(DialogFragment dig) {
+//
+//    }
 
     /**
      * Finish activity after 10 minutes of inactivity
