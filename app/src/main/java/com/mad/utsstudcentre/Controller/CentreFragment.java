@@ -172,12 +172,13 @@ public class CentreFragment extends Fragment {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-//                wait01 = dataSnapshot.child("studentCentre")
-//                        .child("waitingPeople05").getValue(Integer.class);
-//                wait02 = dataSnapshot.child("studentCentre")
-//                        .child("waitingPeople10").getValue(Integer.class);
-                wait01 = 4;
-                wait02 = 6;
+                wait01 = dataSnapshot.child("studentCentre")
+                        .child("waitingPeople05").getValue(Integer.class);
+                wait02 = dataSnapshot.child("studentCentre")
+                        .child("waitingPeople10").getValue(Integer.class);
+                // TODO: comment our testing code below
+//                wait01 = 4;
+//                wait02 = 6;
 
                 // Estimated time is calculated from wait list (1 booking per 5 minutes)
                 mEstTime01 = wait01 * 5;
