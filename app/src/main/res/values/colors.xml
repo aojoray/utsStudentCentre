@@ -10,7 +10,10 @@
     <color name="colorUtsLoginBox">#ebebeb</color>
     <color name="btn_UtsLogin">#114beb</color>
 
+    <color name="step_inactive">#b1b1b1</color>
+    <color name="step_active">#428bca</color>
 
+    <color name="dark_grey">#4d4d4d</color>
     <color name="bg_login">#26ae90</color>
     <color name="bg_register">#2e3237</color>
     <color name="bg_main">#428bca</color>

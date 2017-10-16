@@ -1,174 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--<data>-->
-        <!--<variable-->
-            <!--name="time"-->
-            <!--type="com.mad.utsstudcentre.Controller.MainActivity" />-->
-    <!--</data>-->
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="20dp"
-            android:text="Your Reference Number"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-        <TextView
-            android:id="@+id/refNumTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
-            android:text="D101"
-            android:textAlignment="center"
-            android:textColor="@color/colorUts"
-            android:textSize="80sp" />
-
-        <TableLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:layout_marginTop="20dp"
-            android:paddingBottom="5dp">
+            android:layout_marginBottom="15dp"
+            >
 
-            <TableRow
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:weightSum="2">
+                android:orientation="vertical">
+
 
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text="SID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="20dp"
+                    android:text="Your Reference Number"
+                    android:textAlignment="center"
                     android:textColor="@color/black"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/refNumTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="D101"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorUts"
+                    android:textSize="80sp" />
+
+                <TableLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="20dp"
+                    android:paddingBottom="5dp">
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:text="SID"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/booked_sidTv"
+                            android:layout_width="0dp"
+                            android:layout_marginRight="10sp"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="123" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:text="Name"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/booked_nameTv"
+                            android:layout_width="0dp"
+                            android:layout_marginRight="10sp"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="John Doe" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="0.8"
+                            android:text="Enquiry Type"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/booked_enqTypeTv"
+                            android:layout_width="0dp"
+                            android:layout_marginRight="10sp"
+                            android:layout_weight="1.2"
+                            android:gravity="right"
+                            android:text="Enrollment Assistance" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:text="Centre"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/booked_centreTv"
+                            android:layout_width="0dp"
+                            android:layout_marginRight="10sp"
+                            android:layout_weight="1"
+                            android:gravity="right"
+                            android:text="Building 5" />
+
+                    </TableRow>
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:weightSum="2">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:text="Estimated Time"
+                            android:textColor="@color/black"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/booked_estTv"
+                            android:layout_width="0dp"
+                            android:layout_marginRight="10sp"
+                            android:layout_weight="1"
+                            android:gravity="right" />
+                        <!--android:text="@{String.valueOf(time.time)}" />-->
+
+                    </TableRow>
+
+                </TableLayout>
+
+                <Button
+                    android:id="@+id/cancelBtn_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="20dp"
+                    android:layout_marginBottom="20dp"
+                    android:background="@color/btn_cancel"
+                    android:text="Cancel"
+                    android:textColor="@color/btn_cancel_txt"
                     android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/booked_sidTv"
-                    android:layout_width="0dp"
-                    android:layout_marginRight="10sp"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="123" />
 
-            </TableRow>
+            </LinearLayout>
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:weightSum="2">
+        </android.support.v7.widget.CardView>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text="Name"
-                    android:textColor="@color/black"
-                    android:textStyle="bold" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/booked_nameTv"
-                    android:layout_width="0dp"
-                    android:layout_marginRight="10sp"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="John Doe" />
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:background="@drawable/circle_container_inactive" />
 
-            </TableRow>
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/circle_container_inactive" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:weightSum="2">
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/circle_container_inactive" />
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text="Enquiry Type"
-                    android:textColor="@color/black"
-                    android:textStyle="bold" />
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/circle_container_inactive" />
 
-                <TextView
-                    android:id="@+id/booked_enqTypeTv"
-                    android:layout_width="0dp"
-                    android:layout_marginRight="10sp"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="Enrollment" />
+            <ImageView
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/circle_container" />
 
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:weightSum="2">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text="Centre"
-                    android:textColor="@color/black"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/booked_centreTv"
-                    android:layout_width="0dp"
-                    android:layout_marginRight="10sp"
-                    android:layout_weight="1"
-                    android:gravity="right"
-                    android:text="Building 5" />
-
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:weightSum="2">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:text="Estimated Time"
-                    android:textColor="@color/black"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/booked_estTv"
-                    android:layout_width="0dp"
-                    android:layout_marginRight="10sp"
-                    android:layout_weight="1"
-                    android:gravity="right"/>
-                    <!--android:text="@{String.valueOf(time.time)}" />-->
-
-            </TableRow>
-
-        </TableLayout>
-
-        <Button
-            android:id="@+id/cancelBtn_main"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:background="@color/btn_cancel"
-            android:text="Cancel"
-            android:textColor="@color/btn_cancel_txt"
-            android:textStyle="bold" />
+        </LinearLayout>
     </LinearLayout>
+
+
 </layout>

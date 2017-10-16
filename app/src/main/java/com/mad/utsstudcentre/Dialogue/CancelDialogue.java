@@ -11,11 +11,13 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mad.utsstudcentre.Controller.MainActivity;
 import com.mad.utsstudcentre.Model.Booking;
 import com.mad.utsstudcentre.Model.Student;
 import com.mad.utsstudcentre.R;
@@ -34,6 +36,10 @@ public class CancelDialogue extends DialogFragment {
     private Booking mBooking;
     private Student mStudent;
     private SharedPreferences sharedpreferences;
+    private TextView mSidTv;
+    private TextView mNameTv;
+    private TextView mTypeTv;
+    private TextView mCentreTv;
 
     /**
      * Building the dialogue
@@ -55,6 +61,18 @@ public class CancelDialogue extends DialogFragment {
         // Create the custom layout using the LayoutInflater class
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View v = inflater.inflate(R.layout.fragment_confirm_dialogue, null);
+        mSidTv = (TextView) v.findViewById(R.id.dia_sidTv);
+        mNameTv = (TextView) v.findViewById(R.id.dia_nameTv);
+        mTypeTv = (TextView) v.findViewById(R.id.dia_typeTv);
+        mCentreTv = (TextView) v.findViewById(R.id.dia_centreTv);
+
+        // populate fields with Booking_old and Student objects
+        final Booking booking = MainActivity.getBooking();
+        final Student student =  booking.getStudent();
+        mSidTv.setText(student.getsId());
+        mNameTv.setText(student.getPrefferedName());
+        mTypeTv.setText(booking.getEnqType());
+        mCentreTv.setText(booking.getCentre().getCenterName());
 
         // Build the dialog
         builder.setTitle(R.string.cancel_dialog_title)

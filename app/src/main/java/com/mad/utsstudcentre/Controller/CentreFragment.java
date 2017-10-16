@@ -184,22 +184,22 @@ public class CentreFragment extends Fragment {
                 String est01 = "";
                 String est02 = "";
 
-                if (mEstTime01 > 60) {
-                    est01 = mEstTime01 / 60 + " hour " + mEstTime01 % 60 + " min";
-                } else {
-                    est01 = mEstTime01 + " min";
-                }
+//                if (mEstTime01 > 60) {
+//                    est01 = mEstTime01 / 60 + " hour " + mEstTime01 % 60 + " min";
+//                } else {
+//                    est01 = mEstTime01 + " min";
+//                }
+//
+//                if (mEstTime02 > 60) {
+//                    est02 = mEstTime02 / 60 + " hour " + mEstTime02 % 60 + " min";
+//                } else {
+//                    est02 = mEstTime02 + " min";
+//                }
 
-                if (mEstTime02 > 60) {
-                    est02 = mEstTime02 / 60 + " hour " + mEstTime02 % 60 + " min";
-                } else {
-                    est02 = mEstTime02 + " min";
-                }
-
-                mEst_01Tv.setText(est01);
-                mEst_02Tv.setText(est02);
-                mWait_01Tv.setText(wait01 + " people");
-                mWait_02Tv.setText(wait02 + " people");
+                mEst_01Tv.setText(""+mEstTime01);
+                mEst_02Tv.setText(""+mEstTime01);
+                mWait_01Tv.setText(""+wait01);
+                mWait_02Tv.setText(""+wait02);
             }
 
             @Override

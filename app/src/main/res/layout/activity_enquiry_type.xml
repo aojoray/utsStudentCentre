@@ -26,21 +26,10 @@
         android:textSize="20sp"
         android:textStyle="bold" />
 
-    <!--<ScrollView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content">-->
-
-        <!--<GridView-->
-            <!--android:id="@+id/enqGv"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:numColumns="3"-->
-            <!--android:gravity="center">-->
-
         <GridView
             android:id="@+id/enqGv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:columnWidth="90dp"
             android:numColumns="auto_fit"
             android:verticalSpacing="10dp"
@@ -48,107 +37,44 @@
             android:stretchMode="columnWidth"
             android:gravity="center">
 
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical">-->
 
-            <!--<Button-->
-
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:background="@color/btn_enq"-->
-            <!--android:text="@string/my_subject_enrolment"-->
-            <!--android:textColor="@color/btn_enq_txt" />-->
-
-
-            <!--<Button-->
-            <!--android:id="@+id/enqBtn01"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:background="@color/btn_enq"-->
-            <!--android:text="@string/my_subject_enrolment"-->
-            <!--android:textColor="@color/btn_enq_txt" />-->
-
-            <!--<Button-->
-            <!--android:id="@+id/enqBtn02"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:background="@color/btn_enq"-->
-            <!--android:text="@string/my_study_plan"-->
-            <!--android:textColor="@color/btn_enq_txt" />-->
-
-            <!--<Button-->
-            <!--android:id="@+id/enqBtn03"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:background="@color/btn_enq"-->
-            <!--android:text="@string/my_uts_documents"-->
-            <!--android:textColor="@color/btn_enq_txt" />-->
-
-            <!--<Button-->
-            <!--android:id="@+id/enqBtn04"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:background="@color/btn_enq"-->
-            <!--android:text="@string/general_enquiry"-->
-            <!--android:textColor="@color/btn_enq_txt" />-->
-
-            <!--<Button-->
-            <!--android:id="@+id/enqBtn05"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:background="@color/btn_enq"-->
-            <!--android:text="@string/my_class_timetable"-->
-            <!--android:textColor="@color/btn_enq_txt" />-->
-
-            <!--<Button-->
-            <!--android:id="@+id/enqBtn06"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:background="@color/btn_enq"-->
-            <!--android:text="@string/exams_and_assessment"-->
-            <!--android:textColor="@color/btn_enq_txt" />-->
-
-            <!--<Button-->
-            <!--android:id="@+id/enqBtn07"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:background="@color/btn_enq"-->
-            <!--android:text="@string/my_graduation"-->
-            <!--android:textColor="@color/btn_enq_txt" />-->
-
-            <!--<Button-->
-            <!--android:id="@+id/enqBtn08"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginBottom="10dp"-->
-            <!--android:background="@color/btn_enq"-->
-            <!--android:text="@string/it_support"-->
-            <!--android:textColor="@color/btn_enq_txt" />-->
-
-            <!--<ImageButton-->
-            <!--android:id="@+id/enqHelpBtn"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_gravity="center_horizontal"-->
-            <!--android:layout_margin="10dp"-->
-            <!--android:background="@android:color/transparent"-->
-            <!--android:src="@drawable/ic_action_name" />-->
-
-
-        <!--</LinearLayout>-->
         </GridView>
 
-    <!--</ScrollView>-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="30dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/circle_container_inactive"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/circle_container"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/circle_container_inactive"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/circle_container_inactive"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/circle_container_inactive"/>
+
+    </LinearLayout>
 
 
 </LinearLayout>

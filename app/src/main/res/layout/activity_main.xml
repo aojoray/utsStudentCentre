@@ -75,7 +75,7 @@
                 android:textAlignment="center"
                 android:gravity="center"
                 android:textColor="@color/black"
-                android:textSize="10sp"
+                android:textSize="20sp"
                 android:text="New booking!"/>
 
         </LinearLayout>
@@ -84,11 +84,12 @@
             android:layout_width="match_parent"
             android:layout_height="fill_parent"
             android:layout_gravity="bottom"
+            android:gravity="center_horizontal"
             android:layout_weight="1">
 
             <Button
                 android:id="@+id/logout_btn"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
                 android:background="@color/btn_logout_bg"
@@ -96,6 +97,42 @@
                 android:text="@string/logout" />
 
         </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="25dp"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30dp"
+        android:gravity="center">
+
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:background="@drawable/circle_container"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/circle_container_inactive"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/circle_container_inactive"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/circle_container_inactive"/>
+        <ImageView
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="20dp"
+            android:background="@drawable/circle_container_inactive"/>
+
     </LinearLayout>
 
 </LinearLayout>

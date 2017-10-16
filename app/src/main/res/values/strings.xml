@@ -74,7 +74,7 @@
         <item>Pre-Requisite - advice or information regarding subject pre-requisites.</item>
     </string-array>
 
-    <string name="centre_greeting">Please Choose a Centre for</string>
+    <string name="centre_greeting">Please Choose a Centre</string>
     <string name="centre_1_name">Building 5</string>
     <string name="centre_2_name">Building 10</string>
     <string name="waiting">Waiting</string>

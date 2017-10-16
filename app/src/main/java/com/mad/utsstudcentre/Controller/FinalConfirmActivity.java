@@ -78,7 +78,6 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
             @Override
             public void onClick(View v) {
                 clearRecord();
-//                launchMain();
             }
         });
 
