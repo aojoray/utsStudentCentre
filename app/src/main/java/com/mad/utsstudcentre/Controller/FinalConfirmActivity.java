@@ -45,6 +45,10 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
     // Final Confirmation View
     private TextView mRefNumTv;
     private Button mConfBtn;
+    private TextView mBookedSidTv;
+    private TextView mBookedUserNameTv;
+    private TextView mBookedTypeTv;
+    private TextView mBookedCentreTv;
 
     // Counter for end activity: 10 minutes later, will destroy itself regardless user's input
     private CounterThread mThread;
@@ -71,8 +75,19 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
         mBooking = gson.fromJson(sharedpreferences.getString(BOOKING_MODEL, ""), Booking.class);
 
         mRefNumTv = (TextView) findViewById(R.id.refNumTv);
+        mBookedSidTv = (TextView) findViewById(R.id.final_sidTv);
+        mBookedUserNameTv = (TextView) findViewById(R.id.final_nameTv);
+        mBookedTypeTv = (TextView) findViewById(R.id.final_enqTypeTv);
+        mBookedCentreTv = (TextView) findViewById(R.id.final_centreTv);
+
+        // setText with booking information
+        mBookedSidTv.setText(mBooking.getStudent().getPrefferedName());
+        mBookedUserNameTv.setText(mBooking.getStudent().getPrefferedName());
+        mBookedTypeTv.setText(mBooking.getEnqType());
+        mBookedCentreTv.setText(mBooking.getCentre().getCenterName());
         mRefNumTv.setText(mBooking.getReference());
         mConfBtn = (Button) findViewById(R.id.final_conf_btn);
+
         // Confirm button click will clear all the booking information and launch mainActivity
         mConfBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,7 +124,8 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
             } else {
                 Log.d(TAG, "Booking Final is false");
                 // Operate the thread to count down
-                time = 10;
+                // TODO: replace the time
+                time = 20; // Booking expires after 15 seconds (15min)
                 startup();
             }
         }

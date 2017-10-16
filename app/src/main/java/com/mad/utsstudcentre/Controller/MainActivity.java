@@ -280,7 +280,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         Log.d(TAG, "Alarm set at = " + calendar.getTime());
 
         /* no Repeat */
-        // TODO: replace 2nd with --> (Calendar.getInstance().getTimeInMillis() + (time*1000))
         manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                 0, pendingIntent);
     }

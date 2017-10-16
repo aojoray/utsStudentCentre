@@ -8,8 +8,8 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="20dp"
         android:text="@string/centre_greeting"
         android:textAlignment="center"
         android:textColor="@color/black"
@@ -32,15 +32,18 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="7dp"
             android:orientation="vertical">
 
 
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginLeft="5dp"
                 android:elevation="20dp">
 
                 <LinearLayout
@@ -48,19 +51,29 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:text="@string/centre_1_name"
-                        android:textColor="@color/dark_grey"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
+                        android:background="@color/colorUtsLoginBox"
+                        android:layout_gravity="center"
+                        android:padding="10dp"
+                        android:gravity="center_vertical">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@color/colorUtsGrey" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/centre_1_name"
+                            android:textColor="@color/dark_grey"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+
+                    <!--<View-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="2dp"-->
+                        <!--android:background="@color/colorUtsGrey" />-->
 
                     <LinearLayout
                         android:id="@+id/centre_01_layout"
@@ -69,7 +82,7 @@
                         android:clickable="true"
                         android:fadingEdge="horizontal"
                         android:orientation="horizontal"
-                        android:padding="5dp"
+                        android:padding="2dp"
                         android:requiresFadingEdge="horizontal">
 
                         <ImageView
@@ -89,27 +102,26 @@
                             <TableLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginLeft="2dp"
                                 android:layout_marginTop="10dp">
 
                                 <TableRow
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="10dp"
-                                    android:weightSum="2">
+                                    android:weightSum="10">
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
+                                        android:layout_weight="4"
                                         android:text="@string/waiting"
-                                        android:textColor="@color/black"
-                                        android:textStyle="bold" />
+                                        android:textColor="@color/black"/>
 
                                     <TextView
                                         android:id="@+id/waiting_bd5_tv"
                                         android:layout_width="0dp"
                                         android:layout_marginRight="10sp"
-                                        android:layout_weight="0.3"
+                                        android:layout_weight="3"
                                         android:gravity="right"
                                         android:text="10"
                                         android:textColor="@color/colorAccent" />
@@ -117,7 +129,7 @@
                                     <TextView
                                         android:layout_width="0dp"
                                         android:layout_marginRight="10sp"
-                                        android:layout_weight="0.7"
+                                        android:layout_weight="3"
                                         android:gravity="left"
                                         android:text="people" />
 
@@ -126,28 +138,27 @@
                                 <TableRow
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:weightSum="2">
+                                    android:weightSum="10">
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
+                                        android:layout_weight="4"
                                         android:text="@string/est_time"
-                                        android:textColor="@color/black"
-                                        android:textStyle="bold" />
+                                        android:textColor="@color/black" />
 
                                     <TextView
                                         android:id="@+id/est_bd5_tv"
                                         android:layout_width="0dp"
                                         android:layout_marginRight="10sp"
-                                        android:layout_weight="0.3"
+                                        android:layout_weight="3"
                                         android:gravity="right"
-                                        android:text="60"
+                                        android:text="160"
                                         android:textColor="@color/colorAccent" />
 
                                     <TextView
                                         android:layout_width="0dp"
                                         android:layout_marginRight="10sp"
-                                        android:layout_weight="0.7"
+                                        android:layout_weight="3"
                                         android:gravity="left"
                                         android:text="min" />
 
@@ -198,19 +209,29 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <TextView
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="10dp"
-                        android:text="@string/centre_2_name"
-                        android:textColor="@color/dark_grey"
-                        android:textSize="17sp"
-                        android:textStyle="bold" />
+                        android:background="@color/colorUtsLoginBox"
+                        android:layout_gravity="center"
+                        android:padding="10dp"
+                        android:gravity="center_vertical">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="2dp"
-                        android:background="@color/colorUtsGrey" />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/centre_2_name"
+                            android:textColor="@color/dark_grey"
+                            android:textSize="17sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <!--<View-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="1dp"-->
+                        <!--android:elevation="1dp"-->
+                        <!--android:background="@color/colorUtsGrey" />-->
 
                     <LinearLayout
                         android:id="@+id/centre_02_layout"
@@ -219,7 +240,7 @@
                         android:clickable="true"
                         android:fadingEdge="horizontal"
                         android:orientation="horizontal"
-                        android:padding="5dp"
+                        android:padding="2dp"
                         android:requiresFadingEdge="horizontal">
 
                         <ImageView
@@ -228,6 +249,7 @@
                             android:layout_height="82dp"
                             android:layout_gravity="center_vertical"
                             android:elevation="10dp"
+                            android:padding="2dp"
                             android:scaleType="centerCrop"
                             android:src="@drawable/centre_2" />
 
@@ -241,27 +263,26 @@
                             <TableLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_marginLeft="10dp"
+                                android:layout_marginLeft="2dp"
                                 android:layout_marginTop="10dp">
 
                                 <TableRow
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="10dp"
-                                    android:weightSum="2">
+                                    android:weightSum="10">
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
+                                        android:layout_weight="4"
                                         android:text="@string/waiting"
-                                        android:textColor="@color/black"
-                                        android:textStyle="bold" />
+                                        android:textColor="@color/black"/>
 
                                     <TextView
                                         android:id="@+id/waiting_bd10_tv"
                                         android:layout_width="0dp"
                                         android:layout_marginRight="10sp"
-                                        android:layout_weight="0.3"
+                                        android:layout_weight="3"
                                         android:gravity="right"
                                         android:text="10"
                                         android:textColor="@color/colorAccent" />
@@ -269,7 +290,7 @@
                                     <TextView
                                         android:layout_width="0dp"
                                         android:layout_marginRight="10sp"
-                                        android:layout_weight="0.7"
+                                        android:layout_weight="3"
                                         android:gravity="left"
                                         android:text="people" />
 
@@ -278,20 +299,19 @@
                                 <TableRow
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:weightSum="2">
+                                    android:weightSum="10">
 
                                     <TextView
                                         android:layout_width="0dp"
-                                        android:layout_weight="1"
+                                        android:layout_weight="4"
                                         android:text="@string/est_time"
-                                        android:textColor="@color/black"
-                                        android:textStyle="bold" />
+                                        android:textColor="@color/black" />
 
                                     <TextView
                                         android:id="@+id/est_bd10_tv"
                                         android:layout_width="0dp"
                                         android:layout_marginRight="10sp"
-                                        android:layout_weight="0.3"
+                                        android:layout_weight="3"
                                         android:gravity="right"
                                         android:text="60"
                                         android:textColor="@color/colorAccent" />
@@ -299,7 +319,7 @@
                                     <TextView
                                         android:layout_width="0dp"
                                         android:layout_marginRight="10sp"
-                                        android:layout_weight="0.7"
+                                        android:layout_weight="3"
                                         android:gravity="left"
                                         android:text="min" />
 
@@ -340,6 +360,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
+        android:minHeight="40dp"
         android:orientation="horizontal"
         android:layout_marginTop="10dp"
         android:layout_gravity="bottom"
