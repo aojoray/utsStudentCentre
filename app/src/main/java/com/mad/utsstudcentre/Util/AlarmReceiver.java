@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.IntentCompat;
 import android.util.Log;
 
 import com.mad.utsstudcentre.Controller.FinalConfirmActivity;
@@ -78,6 +79,10 @@ public class AlarmReceiver extends BroadcastReceiver {
      */
     private void sendNotification() {
         Intent notificationIntent = new Intent(mContext, MainActivity.class);
+        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
+        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK |
+                                    IntentCompat.FLAG_ACTIVITY_CLEAR_TASK |
+                                    IntentCompat.FLAG_ACTIVITY_TASK_ON_HOME);
         PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         mNotificationBuilder.setContentIntent(contentIntent);
         Notification notification = mNotificationBuilder.build();

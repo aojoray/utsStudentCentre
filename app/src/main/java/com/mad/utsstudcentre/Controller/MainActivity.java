@@ -306,8 +306,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
             new Thread(mThread).start();
         }
         Log.d(TAG, "startup");
-
-        Log.d(TAG, "Thread Name: " + mThread.getId());
     }
 
     /**
@@ -367,7 +365,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         sBooking = gson.fromJson(sharedpreferences.getString(BOOKING_MODEL, ""), Booking.class);
         sCentre = gson.fromJson(sharedpreferences.getString(CENTRE_MODEL, ""), StudentCentre.class);
         long difference = System.currentTimeMillis() - sharedpreferences.getLong(CURRENT_TIME, 0);
-        Log.d(TAG, "Difference/60000 == " + difference / 1000);
         // TODO: Replace 1000 with 60000 after testing
         time = (int) (sharedpreferences.getInt(EST_TIME, 0) - (difference / 1000)); //1000 for sec 60000 for min
 
@@ -399,7 +396,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         }
         if (sharedpreferences.getBoolean(BOOKING, false)) {
             Log.d(TAG, "@onPause Booking True");
-//            Gson gson = new GsonBuilder().create();
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.putLong(CURRENT_TIME, System.currentTimeMillis());
             editor.putBoolean(BOOKING, true);
@@ -435,7 +431,6 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
                 while (running) {
                     try {
                         Thread.sleep(mDelay * 1000); // delay * 1000 milliseconds
-                        Log.d(TAG, "Thread Time @ Loop: " + time);
 
                         time--;
                         MainActivity.this.runOnUiThread(new Runnable() {

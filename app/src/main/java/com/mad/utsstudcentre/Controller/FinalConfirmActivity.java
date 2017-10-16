@@ -254,7 +254,7 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
                 while (running) {
                     try {
                         Thread.sleep(mDelay * 1000); // delay * 1000 milliseconds
-                        Log.d(TAG, "Count down at Final: " + time);
+//                        Log.d(TAG, "Count down at Final: " + time);
 
                         time--;
 

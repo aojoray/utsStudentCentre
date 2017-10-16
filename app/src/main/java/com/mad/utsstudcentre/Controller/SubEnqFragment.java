@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import com.mad.utsstudcentre.R;
 
@@ -174,7 +173,6 @@ public class SubEnqFragment extends Fragment {
      * @param type
      */
     private void onOptionClick(View v, CharSequence type, int index) {
-        Toast.makeText(getContext(), "selected: " + type, Toast.LENGTH_SHORT).show();
         // instantiate the fragment and commit to open
         CentreFragment subEnqFragment = CentreFragment.newInstance(type, index);
         FragmentManager fragmentManager = getFragmentManager();
