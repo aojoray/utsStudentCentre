@@ -3,6 +3,7 @@ package com.mad.utsstudcentre.Controller;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,14 @@ import com.mad.utsstudcentre.R;
 import butterknife.ButterKnife;
 
 import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.CODE_ENQ_TYPE;
-import static com.mad.utsstudcentre.Controller.SubEnqFragment.CODE_SUB_ENQ;
+import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_ASSESSMENT;
+import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_GENERAL;
+import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_GRADUATION;
+import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_IT_SUPPORT;
+import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_STUDY_PLAN;
+import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_SUbJ_ENROL;
+import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_TIMETABLE;
+import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_UTS_DOC;
 
 /**
  * HelpEnqFragment is providing Help page to the user.
@@ -25,22 +33,9 @@ public class HelpEnqFragment extends Fragment {
 
     private static final String CODE = "Caller Code";
     private static final String TYPE = "SubEnq Type";
-    private TextView mHelpTitleTv01;
-    private TextView mHelpTv01;
-    private TextView mHelpTitleTv02;
-    private TextView mHelpTv02;
-    private TextView mHelpTitleTv03;
-    private TextView mHelpTv03;
-    private TextView mHelpTitleTv04;
-    private TextView mHelpTv04;
-    private TextView mHelpTitleTv05;
-    private TextView mHelpTv05;
-    private TextView mHelpTitleTv06;
-    private TextView mHelpTv06;
-    private TextView mHelpTitleTv07;
-    private TextView mHelpTv07;
-    private TextView mHelpTitleTv08;
-    private TextView mHelpTv08;
+    private static final String TAG = "Help_TAG";
+    private String[] mItems;
+    private String[] mContents;
     private LinearLayout mHelpLayout;
     private LinearLayout mHelpContentLayout;
 
@@ -69,13 +64,12 @@ public class HelpEnqFragment extends Fragment {
      * @param type
      * @return
      */
-    public static HelpEnqFragment newInstance(String code, int type) {
+    public static HelpEnqFragment newInstance(int type, String code) {
         Bundle args = new Bundle();
         args.putString(CODE, code);
         args.putInt(TYPE, type);
         HelpEnqFragment fragment = new HelpEnqFragment();
         fragment.setArguments(args);
-
         return fragment;
     }
 
@@ -100,47 +94,66 @@ public class HelpEnqFragment extends Fragment {
 
         // check the caller then dynamically generate view accordingly
         String code = getArguments().getString(CODE);
-        switch(code){
-            case CODE_ENQ_TYPE:  //call from EnquiryActivity
-//                mHelpTitleTv01= (TextView) v.findViewById(R.id.enq_help_title_1);
-//                mHelpTv01 = (TextView) v.findViewById(R.id.enq_help_tv_1);
-//                mHelpTitleTv02= (TextView) v.findViewById(R.id.enq_help_title_2);
-//                mHelpTv02 = (TextView) v.findViewById(R.id.enq_help_tv_2);
-//                mHelpTitleTv03= (TextView) v.findViewById(R.id.enq_help_title_3);
-//                mHelpTv03 = (TextView) v.findViewById(R.id.enq_help_tv_3);
-//                mHelpTitleTv04= (TextView) v.findViewById(R.id.enq_help_title_4);
-//                mHelpTv04 = (TextView) v.findViewById(R.id.enq_help_tv_4);
-//                mHelpTitleTv05 = (TextView) v.findViewById(R.id.enq_help_title_5);
-//                mHelpTv05 = (TextView) v.findViewById(R.id.enq_help_tv_5);
-//                mHelpTitleTv06= (TextView) v.findViewById(R.id.enq_help_title_6);
-//                mHelpTv06 = (TextView) v.findViewById(R.id.enq_help_tv_6);
-//                mHelpTitleTv07= (TextView) v.findViewById(R.id.enq_help_title_7);
-//                mHelpTv07 = (TextView) v.findViewById(R.id.enq_help_tv_7);
-//                mHelpTitleTv08= (TextView) v.findViewById(R.id.enq_help_title_8);
-//                mHelpTv08 = (TextView) v.findViewById(R.id.enq_help_tv_8);
+        if (code==CODE_ENQ_TYPE){ //call from EnquiryActivity
+            mHelpContentLayout.setVisibility(View.VISIBLE);
+        } else { //call from SubEnquiryFragment
+            int type = getArguments().getInt(TYPE);
+            switch(type){
+                    case TYPE_SUbJ_ENROL:
+                        mItems = getResources().getStringArray(R.array.sub_title_01);
+                        mContents = getResources().getStringArray(R.array.sub_text_01);
+                        break;
+                    case TYPE_STUDY_PLAN:
+                        mItems = getResources().getStringArray(R.array.sub_title_02);
+                        mContents = getResources().getStringArray(R.array.sub_text_02);
+                        break;
+                    case TYPE_UTS_DOC:
+                        mItems = getResources().getStringArray(R.array.sub_title_03);
+                        mContents = getResources().getStringArray(R.array.sub_text_03);
+                        break;
+                    case TYPE_GENERAL:
+                        mItems = getResources().getStringArray(R.array.sub_title_04);
+                        mContents = getResources().getStringArray(R.array.sub_text_04);
+                        break;
+                    case TYPE_TIMETABLE:
+                        mItems = getResources().getStringArray(R.array.sub_title_05);
+                        mContents = getResources().getStringArray(R.array.sub_text_05);
+                        break;
+                    case TYPE_ASSESSMENT:
+                        mItems = getResources().getStringArray(R.array.sub_title_06);
+                        mContents = getResources().getStringArray(R.array.sub_text_06);
+                        break;
+                    case TYPE_GRADUATION:
+                        mItems = getResources().getStringArray(R.array.sub_title_07);
+                        mContents = getResources().getStringArray(R.array.sub_text_07);
+                        break;
+                    case TYPE_IT_SUPPORT:
+                        mItems = getResources().getStringArray(R.array.sub_title_08);
+                        mContents = getResources().getStringArray(R.array.sub_text_08);
+                        Log.d(TAG, "mitem" + mItems[0]);
+                        break;
+                    default:
+                        break;
+            }
 
-                mHelpContentLayout.setVisibility(View.VISIBLE);
+            for(int i = 0; i < mItems.length ; i++) {
+                // Dynamically generated views
+                TextView titleTv = new TextView(getActivity());
+                TextView contentTv = new TextView(getActivity());
 
-                break;
-            case CODE_SUB_ENQ:   //call from SubEnquiryFragment
-                        String[] items = getResources().getStringArray(R.array.sub_enrol_title_01);
-                        String[] contents = getResources().getStringArray(R.array.sub_enrol_text_01);
-                        for(int i = 0; i < items.length ; i++) {
-                            // Dynamically generated views
-                            TextView titleTv = new TextView(getActivity());
-                            TextView contentTv = new TextView(getActivity());
+                // set Text and Style
+                titleTv.setText(mItems[i]);
+                titleTv.setTextAppearance(getContext(), R.style.Help_title);
+                contentTv.setText(mContents[i]);
+                contentTv.setTextAppearance(getContext(), R.style.Help_content);
 
-                            // set Text and Style
-                            titleTv.setText(items[i]);
-                            titleTv.setTextAppearance(getContext(), R.style.Help_title);
-                            contentTv.setText(contents[i]);
-                            contentTv.setTextAppearance(getContext(), R.style.Help_content);
-
-                            // Add views to the layout
-                            mHelpLayout.addView(titleTv);
-                            mHelpLayout.addView(contentTv);
-                        }
+                // Add views to the layout
+                mHelpLayout.addView(titleTv);
+                mHelpLayout.addView(contentTv);
+            }
         }
+
+
 
         return v;
     }

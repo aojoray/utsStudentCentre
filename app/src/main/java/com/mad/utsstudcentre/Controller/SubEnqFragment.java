@@ -11,20 +11,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.mad.utsstudcentre.R;
 
 import butterknife.ButterKnife;
 
 import static android.support.v4.app.FragmentTransaction.TRANSIT_FRAGMENT_FADE;
-import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.CODE_ENQ_TYPE;
 import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.HELP_ENQUIRY_FRAGMENT;
 import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_ASSESSMENT;
 import static com.mad.utsstudcentre.Controller.EnquiryTypeActivity.TYPE_GENERAL;
@@ -46,14 +40,8 @@ public class SubEnqFragment extends Fragment {
     private static final String CENTRE_FRAGMENT = "Centre fragment";
     private static final String SUB_TYPE = "sub-type code";
     private static final String TAG = "SubEnqFragment_TAG";
-    private ImageButton mHelpBtn;
-    private LinearLayout mSubEnqBtnLayout;
     private String[] mItems;
     private int mType;
-    private FrameLayout mFrame;
-    public static final int SUB_SUbJ_ENR_ASSISTANCE = 1001;
-    public static final int SUB_SUbJ_FULL_SUBJ = 1002;
-    public static final int SUB_SUbJ_PRE_REQS = 1003;
 //    public static final int TYPE_STUDY_PLAN = 2;
 //    public static final int TYPE_UTS_DOC = 3;
 //    public static final int TYPE_GENERAL = 4;
@@ -74,6 +62,7 @@ public class SubEnqFragment extends Fragment {
     /**
      * New instance of fragment.
      * Type of the parent enquiry will be passed as an argument used for building UI
+     *
      * @param type
      * @return
      */
@@ -88,6 +77,7 @@ public class SubEnqFragment extends Fragment {
 
     /**
      * Creating / Binding to the UI elements
+     *
      * @param inflater
      * @param container
      * @param savedInstanceState
@@ -98,26 +88,61 @@ public class SubEnqFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_sub_enq, container, false);
-        if(v!=null){
+        if (v != null) {
             ButterKnife.bind(this, v);
         }
 
         mType = getArguments().getInt(TYPE);
 
-        switch(mType){
+        switch (mType) {
             case TYPE_SUbJ_ENROL:
-                mEnqList = new String[getResources().getStringArray(R.array.sub_enrol_title_01).length + 1];
-                temp = getResources().getStringArray(R.array.sub_enrol_title_01);
+                mEnqList = new String[getResources().getStringArray(R.array.sub_title_01).length + 1];
+                temp = getResources().getStringArray(R.array.sub_title_01);
                 System.arraycopy(temp, 0, mEnqList, 0, mEnqList.length - 1);
                 mEnqList[mEnqList.length - 1] = "help";
                 break;
             case TYPE_STUDY_PLAN:
+                mEnqList = new String[getResources().getStringArray(R.array.sub_title_02).length + 1];
+                temp = getResources().getStringArray(R.array.sub_title_02);
+                System.arraycopy(temp, 0, mEnqList, 0, mEnqList.length - 1);
+                mEnqList[mEnqList.length - 1] = "help";
+                break;
             case TYPE_UTS_DOC:
+                mEnqList = new String[getResources().getStringArray(R.array.sub_title_03).length + 1];
+                temp = getResources().getStringArray(R.array.sub_title_03);
+                System.arraycopy(temp, 0, mEnqList, 0, mEnqList.length - 1);
+                mEnqList[mEnqList.length - 1] = "help";
+                break;
             case TYPE_GENERAL:
+                mEnqList = new String[getResources().getStringArray(R.array.sub_title_04).length + 1];
+                temp = getResources().getStringArray(R.array.sub_title_04);
+                System.arraycopy(temp, 0, mEnqList, 0, mEnqList.length - 1);
+                mEnqList[mEnqList.length - 1] = "help";
+                break;
             case TYPE_TIMETABLE:
+                mEnqList = new String[getResources().getStringArray(R.array.sub_title_05).length + 1];
+                temp = getResources().getStringArray(R.array.sub_title_05);
+                System.arraycopy(temp, 0, mEnqList, 0, mEnqList.length - 1);
+                mEnqList[mEnqList.length - 1] = "help";
+                break;
             case TYPE_ASSESSMENT:
+                mEnqList = new String[getResources().getStringArray(R.array.sub_title_06).length + 1];
+                temp = getResources().getStringArray(R.array.sub_title_06);
+                System.arraycopy(temp, 0, mEnqList, 0, mEnqList.length - 1);
+                mEnqList[mEnqList.length - 1] = "help";
+                break;
             case TYPE_GRADUATION:
+                mEnqList = new String[getResources().getStringArray(R.array.sub_title_07).length + 1];
+                temp = getResources().getStringArray(R.array.sub_title_07);
+                System.arraycopy(temp, 0, mEnqList, 0, mEnqList.length - 1);
+                mEnqList[mEnqList.length - 1] = "help";
+                break;
             case TYPE_IT_SUPPORT:
+                mEnqList = new String[getResources().getStringArray(R.array.sub_title_08).length + 1];
+                temp = getResources().getStringArray(R.array.sub_title_08);
+                System.arraycopy(temp, 0, mEnqList, 0, mEnqList.length - 1);
+                mEnqList[mEnqList.length - 1] = "help";
+                break;
             default:
                 mEnqList = EMPTY_ARRAY;
                 temp = EMPTY_ARRAY;
@@ -134,11 +159,12 @@ public class SubEnqFragment extends Fragment {
 
     /**
      * Handles the onclick event of each sub-enquiries.
+     *
      * @param v
      * @param type
      */
     private void onOptionClick(View v, CharSequence type, int index) {
-        Toast.makeText(getContext(), "selected: " + type, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getContext(), "selected: " + type, Toast.LENGTH_SHORT).show();
         // instantiate the fragment and commit to open
         CentreFragment subEnqFragment = CentreFragment.newInstance(type, index);
         FragmentManager fragmentManager = getFragmentManager();
@@ -175,6 +201,8 @@ public class SubEnqFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             final String type = mEnquiryTypes[position];
+            mType = getArguments().getInt(TYPE);
+
             if (position == mEnquiryTypes.length - 1) {
                 // Inflate Item's layout
                 if (convertView == null) {
@@ -186,7 +214,7 @@ public class SubEnqFragment extends Fragment {
                     @Override
                     public void onClick(View v) {
                         // instantiate the fragment and commit to open
-                        HelpEnqFragment helpEnqFragment = HelpEnqFragment.newInstance(CODE_SUB_ENQ);
+                        HelpEnqFragment helpEnqFragment = HelpEnqFragment.newInstance(mType, CODE_SUB_ENQ);
 
                         FragmentManager fragmentManager = getFragmentManager();
                         fragmentManager.beginTransaction().addToBackStack(null).setTransition(TRANSIT_FRAGMENT_FADE)
@@ -202,41 +230,46 @@ public class SubEnqFragment extends Fragment {
                     TextView typeNameTv = (TextView) convertView.findViewById(R.id.typeNameTv);
                     typeNameTv.setText(type);
 
-                    mType = getArguments().getInt(TYPE);
-
-                    switch(mType){
+                    switch (mType) {
                         case TYPE_SUbJ_ENROL:
-                            mItems = getResources().getStringArray(R.array.sub_enrol_title_01);
-                            for(int i = 0; i < mItems.length ; i++){
-
-                                // index of the item in the array
-                                final int index =  1001 + i;
-
-                                //setOnclickListener
-                                typeCv.setOnClickListener(new View.OnClickListener() {
-                                    @Override
-                                    public void onClick(View v) {
-                                        onOptionClick(v, type, index);
-                                    }
-                                });
-                            }
+                            mItems = getResources().getStringArray(R.array.sub_title_01);
                             break;
                         case TYPE_STUDY_PLAN:
+                            mItems = getResources().getStringArray(R.array.sub_title_02);
                             break;
                         case TYPE_UTS_DOC:
+                            mItems = getResources().getStringArray(R.array.sub_title_03);
                             break;
                         case TYPE_GENERAL:
+                            mItems = getResources().getStringArray(R.array.sub_title_04);
                             break;
                         case TYPE_TIMETABLE:
+                            mItems = getResources().getStringArray(R.array.sub_title_05);
                             break;
                         case TYPE_ASSESSMENT:
+                            mItems = getResources().getStringArray(R.array.sub_title_06);
                             break;
                         case TYPE_GRADUATION:
+                            mItems = getResources().getStringArray(R.array.sub_title_07);
                             break;
                         case TYPE_IT_SUPPORT:
+                            mItems = getResources().getStringArray(R.array.sub_title_08);
                             break;
                         default:
                             break;
+                    }
+                    for (int i = 0; i < mItems.length; i++) {
+
+                        // index of the item in the array
+                        final int index = 1001 + i;
+
+                        //setOnclickListener
+                        typeCv.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                onOptionClick(v, type, index);
+                            }
+                        });
                     }
                 }
 

@@ -14,7 +14,7 @@
         completions."
     </string>
     <string name="logout">Logout</string>
-    <string name="please_choose_an_enquiry_type">Please Choose an Enquiry Type</string>
+    <string name="please_choose_an_enquiry_type">Choose an Enquiry Type</string>
     <string name="welcome">Welcome,</string>
     <string name="new_booking_btn">New Booking</string>
     <string name="current_booking_btn">Current Booking</string>
@@ -47,37 +47,110 @@
 
     <!--Help contents -->
     <string name="help_subject_enrolment">Enquiry regarding Enrolment Assistance, Full Subject or Pre-Requisite subjects.</string>
-
     <string name="help_study_plan">Enquiry regarding your planned or current study plan.</string>
-
     <string name="help_uts_documents">Enquiry regarding your official documents, such as enrolment form.</string>
-
     <string name="help_general">Other general enquiry not classified in the other options.</string>
-
     <string name="help_class_timetable">Enquiry regarding your class timetable.</string>
-
     <string name="help_exams_and_assessment">Enquiry regarding your exams and assessments</string>
-
     <string name="help_graduation">Enquiry regarding your graduation information and documents such as official transcript and invitation letter.</string>
-
     <string name="help_it_support">Enquiry about IT technical support or your UTS account.</string>
-
     <string name="help_1001">Advice, instruction or explanation about enrolment into subjects.</string>
-
     <string name="help_1002">Subject capacity is full.</string>
-
     <string name="help_1003">Advice or information regarding subject pre-requisities.</string>
 
-    <string-array name="sub_enrol_title_01">
+    <string-array name="sub_title_01">
         <item>Enrolment Assistance</item>
         <item>Full Subject</item>
         <item>Pre-Requisite</item>
     </string-array>
 
-    <string-array name="sub_enrol_text_01">
+    <string-array name="sub_title_02">
+        <item>Change Study Plan</item>
+        <item>Drop subject</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="sub_title_03">
+        <item>Transcript</item>
+        <item>Other certificate</item>
+        <item>Pickup My Document</item>
+    </string-array>
+
+    <string-array name="sub_title_04">
+        <item>School Life</item>
+        <item>Medical Issue</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="sub_title_05">
+        <item>Change Timetable</item>
+        <item>Others</item>
+    </string-array>
+
+
+    <string-array name="sub_title_06">
+        <item>Special Consideration</item>
+        <item>Special Assistance</item>
+        <item>Others</item>
+    </string-array>
+
+    <string-array name="sub_title_07">
+        <item>Register Graduation</item>
+        <item>Delay Graduation</item>
+        <item>Others</item>
+    </string-array>
+
+
+    <string-array name="sub_title_08">
+        <item>Wi-Fi</item>
+        <item>Computers</item>
+        <item>General Enquiry</item>
+    </string-array>
+
+    <string-array name="sub_text_01">
         <item>Enrolment Assistance - advice, instruction or explanation about enrolment into subjects.</item>
         <item>Full Subject - subject capacity is full.</item>
         <item>Pre-Requisite - advice or information regarding subject pre-requisites.</item>
+    </string-array>
+
+    <string-array name="sub_text_02">
+        <item>Change Study Plan -  Making changes in Study Plan </item>
+        <item>Drop subject - Dropping subject before/after census date</item>
+        <item>Others- All other enquiries regarding study plan</item>
+    </string-array>
+
+    <string-array name="sub_text_03">
+        <item>Transcript - Official transcript</item>
+        <item>Other certificate - Other certificate from coursework</item>
+        <item>Pickup My Document - pickup the document you booked online</item>
+    </string-array>
+
+    <string-array name="sub_text_04">
+        <item>School Life</item>
+        <item>Medical Issue</item>
+        <item>Others - All other enquiries regarding</item>
+    </string-array>
+
+    <string-array name="sub_text_05">
+        <item>Change Timetable - Making changes in timetable</item>
+        <item>Others - All other enquiries regarding timetable</item>
+    </string-array>
+
+    <string-array name="sub_text_06">
+        <item>Special Consideration - Special consideration for exam.</item>
+        <item>Special Assistance - Hearing aid and other assistance</item>
+        <item>Others - All other enquires regarding Exam and Assignment</item>
+    </string-array>
+
+    <string-array name="sub_text_07">
+        <item>Register Graduation - RSVP for your graduation ceremony</item>
+        <item>Delay Graduation - putting off graduation ceremony</item>
+        <item>Others - All other enquiries regarding graduation</item>
+    </string-array>
+    <string-array name="sub_text_08">
+        <item>Wi-Fi - Questions regarding Wi-Fi use, speed and others</item>
+        <item>Computers - Questions regarding computer use within campus, rental, etc. </item>
+        <item>General Enquiry - All other IT enquiries</item>
     </string-array>
 
     <string name="centre_greeting">Please Choose a Centre</string>
@@ -95,5 +168,7 @@
     <string name="login">Login</string>
     <string name="notification_text">Your Booking will be processed shortly!</string>
     <string name="notification_title">10 minutes left!</string>
+    <string name="choose_a_sub_enquiry_type">Choose a Sub-enquiry Type</string>
+    <string name="final_msg">You will be called shortly. Please make your way to the centre and wait for your number to be called.</string>
 
 </resources>

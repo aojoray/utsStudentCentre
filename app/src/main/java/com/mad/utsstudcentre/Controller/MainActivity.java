@@ -275,16 +275,21 @@ public class MainActivity extends AppCompatActivity implements CancelDialogue.Ca
         AlarmManager manager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         Calendar calendar = Calendar.getInstance();
-        //TODO: Change to ((time * 60000) - 600000) for 10 minutes before
-        calendar.setTimeInMillis((System.currentTimeMillis() + ((time * 1000)) - 10000)); // Alarm set to 10 sec before the booking
 
-        Log.d(TAG, "current time = " + new Date().toLocaleString());
+        // Set alarm only if the remained time is over 10 minutes
+        if (time >10 ) {
+            //TODO: Change to ((time * 60000) - 600000) for 10 minutes before
+            calendar.setTimeInMillis((System.currentTimeMillis() + ((time * 1000)) - 10000)); // Alarm set to 10 sec before the booking
+
+            Log.d(TAG, "current time = " + new Date().toLocaleString());
 //        Log.d(TAG, "current time = " + System.currentTimeMillis());
-        Log.d(TAG, "Alarm set at = " + calendar.getTime());
+            Log.d(TAG, "Alarm set at = " + calendar.getTime());
 
         /* no Repeat */
-        manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                0, pendingIntent);
+            manager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    0, pendingIntent);
+        }
+
     }
 
     /**
