@@ -84,6 +84,7 @@
 
     <string-array name="sub_title_05">
         <item>Change Timetable</item>
+        <item>Drop subject</item>
         <item>Others</item>
     </string-array>
 
@@ -133,6 +134,7 @@
 
     <string-array name="sub_text_05">
         <item>Change Timetable - Making changes in timetable</item>
+        <item>Drop subject - Dropping subjects</item>
         <item>Others - All other enquiries regarding timetable</item>
     </string-array>
 

@@ -177,17 +177,17 @@ public class CentreFragment extends Fragment {
                 wait02 = dataSnapshot.child("studentCentre")
                         .child("waitingPeople10").getValue(Integer.class);
                 // TODO: comment our testing code below
-//                wait01 = 4;
-//                wait02 = 6;
+//                wait01 = 3;
+//                wait02 = 4;
 
                 // Estimated time is calculated from wait list (1 booking per 5 minutes)
                 mEstTime01 = wait01 * 5;
                 mEstTime02 = wait02 * 5;
 
 
-                String est01 = "";
-                String est02 = "";
-
+//                String est01 = "";
+//                String est02 = "";
+//
                 //Changing minutes to hours if necessary
 //                if (mEstTime01 > 60) {
 //                    est01 = mEstTime01 / 60 + " hour " + mEstTime01 % 60 + " min";
