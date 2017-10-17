@@ -123,12 +123,9 @@ public class HelpEnqFragment extends Fragment {
 
                 break;
             case CODE_SUB_ENQ:   //call from SubEnquiryFragment
-                int type = getArguments().getInt(TYPE);
-                switch(type){
-                    case 1:
                         String[] items = getResources().getStringArray(R.array.sub_enrol_title_01);
                         String[] contents = getResources().getStringArray(R.array.sub_enrol_text_01);
-                        for(int i = 0; i < items.length ; i++){
+                        for(int i = 0; i < items.length ; i++) {
                             // Dynamically generated views
                             TextView titleTv = new TextView(getActivity());
                             TextView contentTv = new TextView(getActivity());
@@ -143,11 +140,6 @@ public class HelpEnqFragment extends Fragment {
                             mHelpLayout.addView(titleTv);
                             mHelpLayout.addView(contentTv);
                         }
-                        break;
-                    default:
-                        break;
-                }
-                break;
         }
 
         return v;

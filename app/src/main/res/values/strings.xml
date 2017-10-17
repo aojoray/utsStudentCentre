@@ -62,6 +62,12 @@
 
     <string name="help_it_support">Enquiry about IT technical support or your UTS account.</string>
 
+    <string name="help_1001">Advice, instruction or explanation about enrolment into subjects.</string>
+
+    <string name="help_1002">Subject capacity is full.</string>
+
+    <string name="help_1003">Advice or information regarding subject pre-requisities.</string>
+
     <string-array name="sub_enrol_title_01">
         <item>Enrolment Assistance</item>
         <item>Full Subject</item>
