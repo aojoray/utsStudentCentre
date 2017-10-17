@@ -13,8 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mad.utsstudcentre.Controller.MainActivity;
@@ -82,6 +85,31 @@ public class CancelDialogue extends DialogFragment {
                         DatabaseReference futureBooking = mDatabase.child("futureBooking")
                                 .child(mBooking.getEnqType()).child(mStudent.getsId());
                         futureBooking.removeValue();
+
+                        final String waitingNum;
+                        if(booking.getCentre().getCenterName().equals("Building 5"))
+                            waitingNum = "waitingPeople05";
+                        else
+                            waitingNum = "waitingPeople10";
+
+                        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                int currentWaitingNum = dataSnapshot.child("studentCentre")
+                                        .child(waitingNum).getValue(Integer.class);
+                                currentWaitingNum -= 1;
+
+                                DatabaseReference updatedReference = dataSnapshot.getRef().child("studentCentre")
+                                        .child(waitingNum);
+                                updatedReference.setValue(currentWaitingNum);
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+
+                            }
+                        });
+
                         mHost.onCancelConfirmClick(CancelDialogue.this);
                     }
                 })

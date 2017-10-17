@@ -13,8 +13,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mad.utsstudcentre.Dialogue.CancelDialogue;
@@ -205,11 +208,35 @@ public class FinalConfirmActivity extends AppCompatActivity implements CancelDia
     private void clearRecord() {
         Log.d(TAG, "Final: clear record");
         mStudent = mBooking.getStudent();
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
         DatabaseReference futureBooking = mDatabase.child("futureBooking")
                 .child(mBooking.getEnqType()).child(mStudent.getsId());
         futureBooking.removeValue();
+        final String waitingNum;
+        if(mBooking.getCentre().getCenterName().equals("Building 5"))
+            waitingNum = "waitingPeople05";
+        else
+            waitingNum = "waitingPeople10";
+
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int currentWaitingNum = dataSnapshot.child("studentCentre")
+                        .child(waitingNum).getValue(Integer.class);
+                currentWaitingNum -= 1;
+
+                DatabaseReference updatedReference = dataSnapshot.getRef().child("studentCentre")
+                        .child(waitingNum);
+                updatedReference.setValue(currentWaitingNum);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
         shutdown();
         // Clearing current booking information from sharedPreference
         SharedPreferences.Editor editor = sharedpreferences.edit();

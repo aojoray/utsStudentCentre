@@ -47,7 +47,7 @@ public class ConfirmDialogue extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         final String enqIndex = getArguments().getString(INDEX_TYPE);
         final String waitingNum = getArguments().getString(WAITING);
 
